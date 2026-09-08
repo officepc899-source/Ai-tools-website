@@ -35,6 +35,8 @@ export const videoTools: AITool[] = [
       }
     ],
     bestFor: 'Filmmakers, VFX artists, art directors, and content creators looking for cinematic video generation.',
+    targetUsers: ['Commercial Filmmakers', 'VFX Artists & Animators', 'Creative Directors', 'Music Video Producers'],
+    supportedPlatforms: ['Web Studio', 'iOS App', 'Runway API'],
     keyFeatures: [
       'Gen-3 Alpha model delivering photorealistic human emotions, lighting, and fluid physical motion',
       'Motion Brush allowing precise directional control over specific regions of an image',
@@ -50,6 +52,29 @@ export const videoTools: AITool[] = [
     cons: [
       'Free plan credits do not replenish monthly (one-time allocation)',
       'High-resolution Gen-3 video renders consume credits quickly'
+    ],
+    limitations: [
+      'Free plan credits are one-time only and do not refill every month',
+      'Clips are initially limited to 5-10 second chunks, requiring iterative extends',
+      'Complex human hand and fine anatomical movements can occasionally warp during fast pans'
+    ],
+    verdict: {
+      summary: 'Runway Gen-3 Alpha is the premier generative video studio for high-end cinematic production. With camera pan simulation and surgical Motion Brush tools, it bridges AI novelty and genuine Hollywood VFX utility.',
+      recommendation: 'Highly Recommended',
+      score: 4.8,
+      bottomLine: 'The reigning industry standard for text-to-video and image-to-video creative direction.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'Pika',
+        advantage: 'Much higher cinematic resolution, realistic physics, and precise motion brush isolation.',
+        disadvantage: 'Pika offers fun physics modifications (melt, crush) and a more generous free credit recharge.'
+      },
+      {
+        competitorName: 'HeyGen',
+        advantage: 'Unmatched cinematic environmental camera movement and atmospheric lighting.',
+        disadvantage: 'HeyGen specializes in realistic talking head business avatars and lip-syncing.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Upload Reference Image or Type Prompt', description: 'Enter a cinematic prompt detailing camera motion and lighting, or upload a still image.' },

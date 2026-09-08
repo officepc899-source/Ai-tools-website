@@ -94,6 +94,21 @@ export const Footer: React.FC = () => {
                 <span>Submit Your AI Tool</span>
               </button>
             </div>
+            <div className="pt-3 border-t border-slate-800/80 space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block">
+                Official Contact
+              </span>
+              <a
+                href="mailto:aitoolnest1@gmail.com"
+                className="text-xs text-indigo-400 hover:text-indigo-300 font-mono flex items-center gap-1.5 transition-colors font-medium"
+              >
+                <Mail className="w-3.5 h-3.5 shrink-0" />
+                <span>aitoolnest1@gmail.com</span>
+              </a>
+              <span className="text-[11px] text-slate-500 block">
+                Replies within 24–48 hours
+              </span>
+            </div>
           </div>
 
           {/* Column 2: AI Directories */}

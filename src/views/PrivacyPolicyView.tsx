@@ -41,7 +41,7 @@ export const PrivacyPolicyView: React.FC = () => {
           At <strong className="text-slate-900 dark:text-white">AIToolNest</strong> (accessible from <a href="https://aitoolnest.com" className="text-indigo-600 dark:text-indigo-400 hover:underline">https://aitoolnest.com</a>), one of our fundamental priorities is the privacy of our visitors. This Privacy Policy document outlines the types of personal and non-personal information that is collected and recorded by AIToolNest, how we use it, and how we adhere to strict international privacy regulations, including GDPR, CCPA, and Google AdSense partner guidelines.
         </p>
         <p>
-          If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact our Data Protection Officer at <a href="mailto:privacy@aitoolnest.com" className="text-indigo-600 dark:text-indigo-400 font-semibold underline">privacy@aitoolnest.com</a>.
+          If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact our Data Protection Officer at <a href="mailto:aitoolnest1@gmail.com" className="text-indigo-600 dark:text-indigo-400 font-semibold underline">aitoolnest1@gmail.com</a>.
         </p>
       </div>
 
@@ -246,7 +246,7 @@ export const PrivacyPolicyView: React.FC = () => {
           </div>
 
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us at <a href="mailto:privacy@aitoolnest.com" className="text-indigo-600 dark:text-indigo-400 font-semibold underline">privacy@aitoolnest.com</a>.
+            If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us at <a href="mailto:aitoolnest1@gmail.com" className="text-indigo-600 dark:text-indigo-400 font-semibold underline">aitoolnest1@gmail.com</a>.
           </p>
         </section>
 
@@ -266,15 +266,18 @@ export const PrivacyPolicyView: React.FC = () => {
             <span>10. Contact Information</span>
           </h2>
           <p>
-            If you have questions, feedback, or concerns regarding this Privacy Policy or our data handling practices, please contact us:
+            If you have questions, feedback, or concerns regarding this Privacy Policy or our data handling practices, please contact our team:
           </p>
           <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 text-xs sm:text-sm">
             <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold">
               <Mail className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-              <span>Data Protection Officer</span>
+              <span>Data Protection & Privacy Desk</span>
             </div>
             <p className="text-slate-600 dark:text-slate-400">
-              Email: <a href="mailto:privacy@aitoolnest.com" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">privacy@aitoolnest.com</a>
+              Primary Contact Email: <a href="mailto:aitoolnest1@gmail.com" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline font-mono">aitoolnest1@gmail.com</a>
+            </p>
+            <p className="text-slate-600 dark:text-slate-400">
+              Response Time: We usually respond within 24–48 hours.
             </p>
             <p className="text-slate-600 dark:text-slate-400">
               Website: <a href="https://aitoolnest.com" className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">https://aitoolnest.com</a>

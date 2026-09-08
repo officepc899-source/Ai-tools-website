@@ -53,6 +53,19 @@ export interface ToolFAQ {
   answer: string;
 }
 
+export interface CompetitorComparisonItem {
+  competitorName: string;
+  advantage: string;
+  disadvantage: string;
+}
+
+export interface ToolVerdict {
+  summary: string;
+  recommendation: 'Must-Have' | 'Highly Recommended' | 'Recommended with Caveats' | 'Specialized Only';
+  score: number;
+  bottomLine: string;
+}
+
 export interface AITool {
   id: string;
   slug: string;
@@ -66,10 +79,16 @@ export interface AITool {
   pricingType: PricingType;
   pricingSummary: string;
   pricingPlans: PricingPlan[];
+  pricingDetailsNotes?: string;
   bestFor: string;
+  targetUsers?: string[];
+  supportedPlatforms?: string[];
   keyFeatures: string[];
   pros: string[];
   cons: string[];
+  limitations?: string[];
+  verdict?: ToolVerdict;
+  competitorComparison?: CompetitorComparisonItem[];
   howToUse: HowToStep[];
   alternatives: string[];
   officialUrl: string;

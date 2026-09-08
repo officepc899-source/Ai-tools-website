@@ -14,7 +14,9 @@ import {
   Cpu,
   Layers,
   HeartHandshake,
-  Check
+  Check,
+  Mail,
+  Clock
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
@@ -301,6 +303,63 @@ export const AboutView: React.FC = () => {
           <p className="text-sm text-slate-300 leading-relaxed">
             AIToolNest will continue to serve as your reliable navigation beacon across every iteration of generative intelligence, agentic automation, and spatial computing.
           </p>
+        </div>
+      </section>
+
+      {/* SECTION 6: Official Contact & Editorial Office */}
+      <section className="space-y-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-100 dark:bg-indigo-950 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+            <Mail className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">Get in Touch</span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight font-['Space_Grotesk']">
+              Official Contact & Communication
+            </h2>
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            <div className="md:col-span-7 space-y-3">
+              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                Whether you are a developer with a new model, an enterprise seeking partnerships, or a user with feedback, we welcome your communication. All inquiries across our platform are routed directly to our primary desk.
+              </p>
+              <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span><strong className="text-slate-900 dark:text-white">Response Time:</strong> We usually respond within 24–48 hours.</span>
+              </div>
+            </div>
+
+            <div className="md:col-span-5 p-5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 space-y-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono block">
+                Primary Contact Email
+              </span>
+              <a
+                href="mailto:aitoolnest1@gmail.com"
+                className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-mono block"
+              >
+                aitoolnest1@gmail.com
+              </a>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                General Support • Tool Suggestions • Partnerships • Collaborations • Feedback
+              </p>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+            <div className="text-xs text-slate-500 dark:text-slate-400">
+              Need to submit detailed inquiries or bug reports? Visit our dedicated contact center.
+            </div>
+            <button
+              onClick={() => navigate('/contact')}
+              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Visit Contact Page</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </section>
 

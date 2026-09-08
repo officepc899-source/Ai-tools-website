@@ -20,7 +20,7 @@ export const ContactView: React.FC = () => {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [purpose, setPurpose] = useState('tool-submission');
+  const [purpose, setPurpose] = useState('General Support');
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [honeypot, setHoneypot] = useState('');
@@ -28,6 +28,14 @@ export const ContactView: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const businessPurposes = [
+    'General Support',
+    'AI Tool Suggestions',
+    'Partnership Inquiries',
+    'Business Collaborations',
+    'Feedback & Bug Reports'
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,43 +62,43 @@ export const ContactView: React.FC = () => {
 
     // Success
     setSubmitted(true);
-    showToast('Your message has been received! Our team will reply shortly.');
+    showToast('Your inquiry has been sent to aitoolnest1@gmail.com! We will respond within 24–48 hours.');
   };
 
   const contactFaqs = [
     {
-      q: 'How can I submit my AI tool to AIToolNest?',
-      a: 'You can submit your tool for free by clicking "Submit Your AI Tool" in the header or selecting "Tool Submission" in the contact form. Our editorial team audits and indexes legitimate AI applications weekly.'
+      q: 'How can I submit an AI tool suggestion or listing?',
+      a: 'You can submit your tool via our contact form under "AI Tool Suggestions" or email us directly at aitoolnest1@gmail.com with your product link, description, and key features.'
     },
     {
       q: 'Do you charge for tool listings or reviews?',
-      a: 'Standard directory listings and editorial audits are 100% free. We also offer optional sponsored placement and featured badges for founders who want expedited 24-hour review and top banner visibility.'
+      a: 'Standard directory listings and editorial audits are 100% free. We also offer optional sponsored placement and featured badges for founders who want expedited review and premium banner visibility.'
     },
     {
-      q: 'How long does it take for a tool to be reviewed?',
-      a: 'Free community submissions are typically reviewed within 3 to 7 business days. Sponsored expedites are processed and live within 24 hours.'
+      q: 'What is your typical response time?',
+      a: 'We usually respond within 24–48 hours to all inquiries received at aitoolnest1@gmail.com.'
     },
     {
       q: 'How do I update details or pricing for my listed tool?',
-      a: 'Simply email editorial@aitoolnest.com from your official company domain with the updated pricing table, logo, or feature notes, and we will update your profile within 48 hours.'
+      a: 'Simply email aitoolnest1@gmail.com with your tool name, updated pricing, features, or company notes, and our team will update your profile.'
     }
   ];
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
       <SEOHead
-        title="Contact Us & Support - Submit an AI Tool | AIToolNest"
-        description="Get in touch with the AIToolNest editorial team, submit an AI product for review, propose a partnership, or inquire about sponsorships."
+        title="Contact Us - Official Support & Inquiries | AIToolNest"
+        description="Get in touch with AIToolNest at aitoolnest1@gmail.com. Contact us for general support, AI tool suggestions, partnerships, business collaborations, or bug reports."
         canonicalUrl="https://aitoolnest.com/#/contact"
         schemaData={{
           '@context': 'https://schema.org',
           '@type': 'ContactPage',
           name: 'Contact AIToolNest',
-          description: 'Official contact and editorial desk for AIToolNest AI discovery directory.',
+          description: 'Official contact desk for AIToolNest AI discovery directory.',
           mainEntity: {
             '@type': 'Organization',
             name: 'AIToolNest',
-            email: 'editorial@aitoolnest.com'
+            email: 'aitoolnest1@gmail.com'
           }
         }}
       />
@@ -101,13 +109,13 @@ export const ContactView: React.FC = () => {
       <div className="text-center max-w-2xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-semibold">
           <Mail className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-          <span>Editorial & Partnership Desk</span>
+          <span>Official Support & Collaboration Desk</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight font-['Space_Grotesk']">
           Get in Touch With Our Team
         </h1>
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
-          Whether you want to submit a new AI tool, explore an advertising partnership, report an update, or simply share feedback, we’d love to hear from you.
+          Have a question, suggestion, or collaboration idea? Send us a message below or email us directly at <a href="mailto:aitoolnest1@gmail.com" className="text-indigo-600 dark:text-indigo-400 font-semibold underline">aitoolnest1@gmail.com</a>.
         </p>
       </div>
 
@@ -116,81 +124,84 @@ export const ContactView: React.FC = () => {
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-7 space-y-6 shadow-xs">
             <h3 className="text-base font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">
-              Direct Inquiries & Departments
+              Official Contact Information
             </h3>
 
             <div className="space-y-4 text-xs sm:text-sm">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+              <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50">
+                <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
-                  <strong className="block text-slate-900 dark:text-white">Editorial & Tool Reviews</strong>
-                  <a href="mailto:editorial@aitoolnest.com" className="text-indigo-600 dark:text-indigo-400 hover:underline font-mono">
-                    editorial@aitoolnest.com
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block font-mono">
+                    Primary Contact Email
+                  </span>
+                  <a
+                    href="mailto:aitoolnest1@gmail.com"
+                    className="text-base font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-mono block"
+                  >
+                    aitoolnest1@gmail.com
                   </a>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Submit new tools, corrections, or benchmark inquiries.</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                    All inquiries, support requests, and proposals are routed directly to this inbox.
+                  </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
-                  <Globe className="w-4 h-4" />
-                </div>
-                <div>
-                  <strong className="block text-slate-900 dark:text-white">Sponsorships & Advertising</strong>
-                  <a href="mailto:partners@aitoolnest.com" className="text-indigo-600 dark:text-indigo-400 hover:underline font-mono">
-                    partners@aitoolnest.com
-                  </a>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Category takeovers, featured badges, and newsletter promos.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-                  <ShieldCheck className="w-4 h-4" />
-                </div>
-                <div>
-                  <strong className="block text-slate-900 dark:text-white">Privacy & Legal Compliance</strong>
-                  <a href="mailto:privacy@aitoolnest.com" className="text-indigo-600 dark:text-indigo-400 hover:underline font-mono">
-                    privacy@aitoolnest.com
-                  </a>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">GDPR, CCPA, and copyright requests.</p>
+              <div className="space-y-2.5 pt-1">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 font-mono block">
+                  Accepted Inquiry Topics
+                </span>
+                <div className="grid grid-cols-1 gap-2">
+                  {businessPurposes.map((p) => (
+                    <div
+                      key={p}
+                      onClick={() => setPurpose(p)}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium cursor-pointer transition-colors border ${
+                        purpose === p
+                          ? 'bg-indigo-50 dark:bg-indigo-950/70 border-indigo-300 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300'
+                          : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400 shrink-0" />
+                      <span>{p}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
-              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                <Clock className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                <span>Typical Response Time: Under 24 hours</span>
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
+              <div className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300 bg-emerald-50/60 dark:bg-emerald-950/30 p-3 rounded-xl border border-emerald-200/60 dark:border-emerald-900/40">
+                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="block text-slate-900 dark:text-white">Response Time Commitment</strong>
+                  <span>We usually respond within 24–48 hours.</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                <MessageSquare className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>Operating Days: Monday - Friday (EST)</span>
+
+              <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 px-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                <span>Operating Days: Monday - Friday (Global Support)</span>
               </div>
             </div>
           </div>
 
-          {/* Social Links Box */}
-          <div className="bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">
-              Follow Our Dispatches
+          {/* Direct Email Card */}
+          <div className="bg-slate-900 text-white rounded-2xl p-5 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-400 font-mono">
+              Prefer Direct Email?
             </h4>
-            <div className="flex flex-wrap gap-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer nofollow" className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-indigo-600 transition-colors">
-                𝕏 Twitter
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer nofollow" className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-indigo-600 transition-colors">
-                LinkedIn
-              </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer nofollow" className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-indigo-600 transition-colors">
-                GitHub
-              </a>
-              <a href="https://discord.com" target="_blank" rel="noopener noreferrer nofollow" className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-indigo-600 transition-colors">
-                Discord
-              </a>
-            </div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              You can compose an email from your favorite email client directly to:
+            </p>
+            <a
+              href="mailto:aitoolnest1@gmail.com"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-mono text-xs font-bold transition-colors"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span>Email: aitoolnest1@gmail.com</span>
+            </a>
           </div>
         </div>
 
@@ -202,27 +213,27 @@ export const ContactView: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Your Full Name *
+                      Your Name *
                     </label>
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g. Sarah Jenkins"
+                      placeholder="e.g. Alex Rivera"
                       className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Work Email *
+                      Your Email Address *
                     </label>
                     <input
                       type="email"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="sarah@company.com"
+                      placeholder="you@domain.com"
                       className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
                     />
                   </div>
@@ -231,18 +242,18 @@ export const ContactView: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Inquiry Category
+                      Business Purpose *
                     </label>
                     <select
                       value={purpose}
                       onChange={(e) => setPurpose(e.target.value)}
                       className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
                     >
-                      <option value="tool-submission">Submit an AI Tool (Free)</option>
-                      <option value="advertising">Sponsorship / Advertising</option>
-                      <option value="editorial">Editorial / Content Correction</option>
-                      <option value="partnership">Affiliate / Partnership</option>
-                      <option value="other">General Feedback / Inquiries</option>
+                      {businessPurposes.map((bp) => (
+                        <option key={bp} value={bp}>
+                          {bp}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
@@ -253,7 +264,7 @@ export const ContactView: React.FC = () => {
                       type="text"
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
-                      placeholder="Brief topic summary..."
+                      placeholder="Brief topic or tool name..."
                       className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
                     />
                   </div>
@@ -261,14 +272,14 @@ export const ContactView: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                    Your Message *
+                    Your Message / Inquiry Details *
                   </label>
                   <textarea
                     rows={5}
                     required
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Provide full details, tool URLs, or any questions for our team..."
+                    placeholder="Provide full details, tool links, collaboration ideas, or feedback..."
                     className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
                   />
                 </div>
@@ -309,13 +320,18 @@ export const ContactView: React.FC = () => {
                   </div>
                 )}
 
-                <button
-                  type="submit"
-                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Send Message to Editorial Team</span>
-                </button>
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>Send Inquiry to aitoolnest1@gmail.com</span>
+                  </button>
+                  <p className="text-center text-[11px] text-slate-400 mt-2">
+                    Inquiries are transmitted to <span className="font-mono text-indigo-600 dark:text-indigo-400">aitoolnest1@gmail.com</span>. We usually respond within 24–48 hours.
+                  </p>
+                </div>
               </form>
             ) : (
               <div className="text-center py-10 space-y-4">
@@ -323,23 +339,37 @@ export const ContactView: React.FC = () => {
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">
-                  Message Dispatched Successfully!
+                  Inquiry Dispatched Successfully!
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
-                  Thank you for reaching out, <strong className="text-slate-900 dark:text-white">{name}</strong>. Our editorial desk has logged your ticket and will reply to <span className="font-mono text-indigo-600 dark:text-indigo-400">{email}</span> within 24 hours.
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+                  Thank you for contacting us, <strong className="text-slate-900 dark:text-white">{name}</strong>. Your inquiry regarding <strong className="text-slate-900 dark:text-white">{purpose}</strong> has been logged to <span className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold">aitoolnest1@gmail.com</span>.
                 </p>
-                <button
-                  onClick={() => {
-                    setSubmitted(false);
-                    setName('');
-                    setEmail('');
-                    setMessage('');
-                    setMathAnswer('');
-                  }}
-                  className="px-5 py-2 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition-colors cursor-pointer"
-                >
-                  Send Another Inquiry
-                </button>
+                <div className="p-3 bg-slate-50 dark:bg-slate-800/70 rounded-xl max-w-sm mx-auto text-xs text-slate-600 dark:text-slate-300 flex items-center justify-center gap-2">
+                  <Clock className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                  <span>We usually respond within 24–48 hours.</span>
+                </div>
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setName('');
+                      setEmail('');
+                      setMessage('');
+                      setSubject('');
+                      setMathAnswer('');
+                    }}
+                    className="px-5 py-2 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                  >
+                    Send Another Inquiry
+                  </button>
+                  <a
+                    href={`mailto:aitoolnest1@gmail.com?subject=${encodeURIComponent(`Follow-up: ${subject || purpose}`)}&body=${encodeURIComponent(message)}`}
+                    className="px-5 py-2 text-xs font-semibold rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900 transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    <span>Open in Email App</span>
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -351,7 +381,7 @@ export const ContactView: React.FC = () => {
         <div className="flex items-center gap-2">
           <HelpCircle className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">
-            Contact & Submission FAQs
+            Contact & Support FAQs
           </h2>
         </div>
 

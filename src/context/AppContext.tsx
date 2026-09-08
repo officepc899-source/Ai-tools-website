@@ -136,12 +136,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [businessIdeas] = useState<BusinessIdea[]>(INITIAL_BUSINESS_IDEAS);
   const [digitalProducts] = useState<DigitalProduct[]>(INITIAL_DIGITAL_PRODUCTS);
+  const ARTICLES_VERSION = 'v2_pub_cat_6';
   const [articles, setArticles] = useState<Article[]>(() => {
     try {
-      const saved = localStorage.getItem('nexus_articles_data');
-      if (saved) return JSON.parse(saved);
+      const savedVersion = localStorage.getItem('nexus_articles_version');
+      if (savedVersion === ARTICLES_VERSION) {
+        const saved = localStorage.getItem('nexus_articles_data');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length >= INITIAL_ARTICLES.length) return parsed;
+        }
+      }
     } catch {
       // fallback
+    }
+    try {
+      localStorage.setItem('nexus_articles_version', ARTICLES_VERSION);
+      localStorage.setItem('nexus_articles_data', JSON.stringify(INITIAL_ARTICLES));
+    } catch {
+      // ignore
     }
     return INITIAL_ARTICLES;
   });

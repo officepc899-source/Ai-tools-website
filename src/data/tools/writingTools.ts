@@ -35,6 +35,8 @@ export const writingTools: AITool[] = [
       }
     ],
     bestFor: 'General content writing, brainstorming, complex reasoning, coding support, and document summaries.',
+    targetUsers: ['Writers & Authors', 'Software Engineers', 'Students & Academics', 'Business Strategists', 'Solopreneurs'],
+    supportedPlatforms: ['Web App', 'iOS & Android', 'macOS & Windows Desktop', 'REST API'],
     keyFeatures: [
       'Multimodal input supporting documents, spreadsheets, images, and voice',
       'Advanced data analysis with sandbox Python code execution',
@@ -51,6 +53,29 @@ export const writingTools: AITool[] = [
       'Can occasionally hallucinate niche citations or facts',
       'Free tier subject to peak-hour rate limits',
       'Requires prompt iteration for nuanced brand voices'
+    ],
+    limitations: [
+      'Free tier switches to GPT-4o mini during periods of server congestion',
+      'Web browsing occasionally struggles with behind-paywall sources',
+      'Custom GPT actions require technical understanding of OpenAPI schemas'
+    ],
+    verdict: {
+      summary: 'ChatGPT remains the gold standard in conversational AI versatility. For everyday brainstorming, technical code debugging, and iterative drafting, no tool matches its ecosystem breadth and value.',
+      recommendation: 'Must-Have',
+      score: 4.9,
+      bottomLine: 'The essential Swiss Army knife for modern digital knowledge work.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'Claude',
+        advantage: 'ChatGPT offers superior voice mode, native Python sandboxing, and custom GPT storefronts.',
+        disadvantage: 'Claude delivers more nuanced human prose and has larger raw context window retention in Artifacts.'
+      },
+      {
+        competitorName: 'Perplexity',
+        advantage: 'Better for continuous creative dialogue, coding iteration, and complex agentic workflows.',
+        disadvantage: 'Perplexity provides faster cited live web search with transparent footnotes.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Create Account & Set Instructions', description: 'Sign up at chatgpt.com and configure custom instructions with your preferred writing tone.' },
@@ -108,6 +133,8 @@ export const writingTools: AITool[] = [
       }
     ],
     bestFor: 'Nuanced long-form writing, book drafting, code architecture, and multi-page research synthesis.',
+    targetUsers: ['Technical Writers & Authors', 'Full-Stack Developers', 'Legal & Policy Researchers', 'Product Designers'],
+    supportedPlatforms: ['Web App', 'macOS & Windows Desktop', 'iOS & Android', 'Anthropic API'],
     keyFeatures: [
       'Interactive Artifacts window for live code rendering and UI prototypes',
       '200K token context window capable of analyzing whole technical manuals and books',
@@ -123,6 +150,29 @@ export const writingTools: AITool[] = [
     cons: [
       'No native image generator (focuses purely on text, code, and vision)',
       'Free tier message quotas can deplete quickly during heavy coding sessions'
+    ],
+    limitations: [
+      'No native image generation engine (unlike ChatGPT DALL-E or Midjourney)',
+      'Hourly rate limits on Claude Pro during peak North American working hours',
+      'No built-in voice conversation mode on desktop'
+    ],
+    verdict: {
+      summary: 'Claude 3.5 Sonnet is arguably the best single model available today for substantive writing, code generation, and complex document analysis. The Artifacts interface turns it into an instant prototype workshop.',
+      recommendation: 'Must-Have',
+      score: 4.9,
+      bottomLine: 'The premier choice for creators and programmers who value nuanced intellect over gimmickry.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'ChatGPT',
+        advantage: 'Claude produces noticeably superior literary tone and features the Artifacts visual workbench.',
+        disadvantage: 'ChatGPT has native voice mode, integrated image generation, and custom GPT ecosystems.'
+      },
+      {
+        competitorName: 'Gemini',
+        advantage: 'Much tighter logical coherence and fewer boilerplate transition sentences in writing.',
+        disadvantage: 'Gemini provides a larger 1M-2M token context window and native Google Drive sync.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Upload Source Material', description: 'Drag and drop PDFs, manuscripts, or code files directly into Claude.' },
@@ -174,6 +224,8 @@ export const writingTools: AITool[] = [
       }
     ],
     bestFor: 'Users immersed in the Google ecosystem, multimodal media queries, and analyzing large files.',
+    targetUsers: ['Google Workspace Teams', 'Corporate Executives', 'Data Analysts', 'Researchers handling video/audio files'],
+    supportedPlatforms: ['Web App', 'Android OS native', 'iOS App', 'Google Workspace Add-ons', 'Gemini API'],
     keyFeatures: [
       'Up to 1 million token context window in Gemini Advanced',
       'Native Google Workspace extensions for Docs, Gmail, Sheets, and Drive',
@@ -189,6 +241,29 @@ export const writingTools: AITool[] = [
     cons: [
       'Prose can feel slightly more corporate than Claude',
       'Occasional over-cautious safety filters'
+    ],
+    limitations: [
+      'Google Workspace extensions require granting account-level permissions',
+      'Creative writing outputs tend toward generic corporate phrasing',
+      'Gemini Advanced requires Google One subscription bundle'
+    ],
+    verdict: {
+      summary: 'Gemini is the definitive champion for processing giant media repositories and documents thanks to its million-token context. If your daily life runs on Google Docs and Gmail, the value bundle is unbeatable.',
+      recommendation: 'Highly Recommended',
+      score: 4.8,
+      bottomLine: 'The undisputed king of document size and Google Workspace productivity.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'ChatGPT',
+        advantage: 'Massive 1M+ token context window and included 2TB Google Drive storage in paid plan.',
+        disadvantage: 'ChatGPT offers more agile code interpreter sandboxing and community GPT directories.'
+      },
+      {
+        competitorName: 'Microsoft Copilot',
+        advantage: 'Faster multimodal audio/video processing and superior integration with Android & Gmail.',
+        disadvantage: 'Copilot is more tightly woven into Microsoft Excel and PowerPoint workflows.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Sign In with Google Account', description: 'Visit gemini.google.com with any existing Google or Google Workspace profile.' },

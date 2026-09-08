@@ -171,6 +171,8 @@ export const designAndImageTools: AITool[] = [
       }
     ],
     bestFor: 'Concept artists, photographers, game designers, architects, and filmmakers desiring high visual fidelity.',
+    targetUsers: ['Concept Artists & Illustrators', 'Art Directors', 'Game Studios', 'Brand Designers', 'Architects'],
+    supportedPlatforms: ['Discord Bot', 'Web App Canvas', 'REST API (via partners)'],
     keyFeatures: [
       'v6.1 architecture delivering cinematic skin textures, lighting, and photorealism',
       'Vary (Region) and inpainting tools for surgical image modifications',
@@ -186,6 +188,29 @@ export const designAndImageTools: AITool[] = [
     cons: [
       'No free trial currently available (requires paid subscription)',
       'Complex Discord prompt syntax has a learning curve for beginners'
+    ],
+    limitations: [
+      'No permanent free tier; minimum investment is $10/month',
+      'Text rendering inside graphics is less reliable than dedicated typography engines like Ideogram',
+      'Discord onboarding can be confusing for non-technical creators'
+    ],
+    verdict: {
+      summary: 'Midjourney remains the undefeated heavyweight of AI aesthetics. For movie-grade lighting, cinematic portraits, and high-concept fantasy or architectural renders, nothing else matches its visual soul.',
+      recommendation: 'Must-Have',
+      score: 4.9,
+      bottomLine: 'The supreme visual benchmark in generative art and cinematic design.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'Adobe Firefly',
+        advantage: 'Far superior artistic flair, dramatic lighting, and natural textures.',
+        disadvantage: 'Firefly offers 100% indemnified commercial safety and native Photoshop vector tools.'
+      },
+      {
+        competitorName: 'Ideogram',
+        advantage: 'Dramatically richer cinematic photorealism and character style persistence.',
+        disadvantage: 'Ideogram is vastly superior at rendering complex text, typography, and t-shirt logos.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Subscribe & Join Discord / Web', description: 'Sign up at midjourney.com and log in through Discord or the standalone web app.' },
