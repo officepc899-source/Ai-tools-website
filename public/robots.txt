@@ -1,0 +1,8 @@
+# Robots.txt for AIToolNest
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://aitoolnest.com/sitemap.xml

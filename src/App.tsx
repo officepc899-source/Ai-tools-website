@@ -5,21 +5,40 @@ import { Footer } from './components/Footer';
 import { AffiliateDisclosureBanner } from './components/AffiliateDisclosure';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
 import { CheckoutModal } from './components/CheckoutModal';
+import { SubmitToolModal } from './components/SubmitToolModal';
+import { ScrollToTop } from './components/ScrollToTop';
+import { ErrorBoundary } from './components/ErrorBoundary';
+
+// Views
 import { HomeView } from './views/HomeView';
 import { ToolsDirectoryView } from './views/ToolsDirectoryView';
 import { ToolDetailView } from './views/ToolDetailView';
+import { FreeAIToolsView } from './views/FreeAIToolsView';
+import { AIToolsForBusinessView } from './views/AIToolsForBusinessView';
+import { AIToolsForStudentsView } from './views/AIToolsForStudentsView';
+import { AIImageGeneratorsView } from './views/AIImageGeneratorsView';
+import { ChatGPTAlternativesView } from './views/ChatGPTAlternativesView';
+import { AIPromptsView } from './views/AIPromptsView';
 import { BusinessIdeasView } from './views/BusinessIdeasView';
 import { BusinessIdeaDetailView } from './views/BusinessIdeaDetailView';
 import { DigitalProductsView } from './views/DigitalProductsView';
 import { BlogView } from './views/BlogView';
 import { ArticleDetailView } from './views/ArticleDetailView';
 import { PinterestLandingView } from './views/PinterestLandingView';
+import { NotFoundView } from './views/NotFoundView';
 import {
+  AboutView,
+  ContactView,
   PrivacyPolicyView,
   TermsView,
   DisclaimerView,
-  ContactView,
-  AboutView,
+  CookiePolicyView,
+  EditorialPolicyView,
+  DMCAPolicyView,
+  WriteForUsView,
+  AdvertiseView,
+  AffiliateDisclosureView,
+  AIEthicsView,
   SitemapView
 } from './views/LegalViews';
 import { AdminView } from './views/AdminView';
@@ -33,15 +52,39 @@ const AppContent: React.FC = () => {
   }, [currentPath]);
 
   const renderRoute = () => {
-    // Strip query parameters for basic routing match
-    const cleanPath = currentPath.split('?')[0];
+    // Strip query parameters for routing match
+    const cleanPath = currentPath.split('?')[0].replace(/\/$/, '') || '/';
 
-    if (cleanPath === '' || cleanPath === '/') {
+    if (cleanPath === '/') {
       return <HomeView />;
     }
 
     if (cleanPath === '/tools' || cleanPath === '/ai-tools') {
       return <ToolsDirectoryView />;
+    }
+
+    if (cleanPath === '/free-ai-tools') {
+      return <FreeAIToolsView />;
+    }
+
+    if (cleanPath === '/ai-tools-for-business') {
+      return <AIToolsForBusinessView />;
+    }
+
+    if (cleanPath === '/ai-tools-for-students') {
+      return <AIToolsForStudentsView />;
+    }
+
+    if (cleanPath === '/ai-image-generators') {
+      return <AIImageGeneratorsView />;
+    }
+
+    if (cleanPath === '/chatgpt-alternatives') {
+      return <ChatGPTAlternativesView />;
+    }
+
+    if (cleanPath === '/ai-prompts') {
+      return <AIPromptsView />;
     }
 
     if (cleanPath.startsWith('/category/') || cleanPath.startsWith('/ai-tools/category/')) {
@@ -85,11 +128,20 @@ const AppContent: React.FC = () => {
       return <PinterestLandingView slug={slug} />;
     }
 
-    if (cleanPath === '/privacy-policy') {
+    // Essential Pages
+    if (cleanPath === '/about' || cleanPath === '/about-us') {
+      return <AboutView />;
+    }
+
+    if (cleanPath === '/contact' || cleanPath === '/contact-us' || cleanPath === '/support') {
+      return <ContactView />;
+    }
+
+    if (cleanPath === '/privacy' || cleanPath === '/privacy-policy') {
       return <PrivacyPolicyView />;
     }
 
-    if (cleanPath === '/terms') {
+    if (cleanPath === '/terms' || cleanPath === '/terms-and-conditions' || cleanPath === '/terms-of-service') {
       return <TermsView />;
     }
 
@@ -97,28 +149,48 @@ const AppContent: React.FC = () => {
       return <DisclaimerView />;
     }
 
-    if (cleanPath === '/contact') {
-      return <ContactView />;
+    if (cleanPath === '/cookie-policy' || cleanPath === '/cookies') {
+      return <CookiePolicyView />;
     }
 
-    if (cleanPath === '/about') {
-      return <AboutView />;
+    if (cleanPath === '/editorial-policy' || cleanPath === '/editorial') {
+      return <EditorialPolicyView />;
+    }
+
+    if (cleanPath === '/dmca-policy' || cleanPath === '/dmca') {
+      return <DMCAPolicyView />;
+    }
+
+    if (cleanPath === '/write-for-us' || cleanPath === '/contribute') {
+      return <WriteForUsView />;
+    }
+
+    if (cleanPath === '/advertise' || cleanPath === '/advertise-with-us') {
+      return <AdvertiseView />;
+    }
+
+    if (cleanPath === '/affiliate-disclosure') {
+      return <AffiliateDisclosureView />;
+    }
+
+    if (cleanPath === '/ai-ethics' || cleanPath === '/ethics') {
+      return <AIEthicsView />;
+    }
+
+    if (cleanPath === '/sitemap' || cleanPath === '/sitemap.xml') {
+      return <SitemapView />;
     }
 
     if (cleanPath === '/admin') {
       return <AdminView />;
     }
 
-    if (cleanPath === '/sitemap.xml' || cleanPath === '/robots.txt') {
-      return <SitemapView />;
-    }
-
-    // Default Fallback
-    return <HomeView />;
+    // 404 fallback
+    return <NotFoundView />;
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-900">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 transition-colors">
       {/* FTC Affiliate Compliance Banner */}
       <AffiliateDisclosureBanner />
 
@@ -136,11 +208,15 @@ const AppContent: React.FC = () => {
       {/* Global Interactive Modals */}
       <GlobalSearchModal />
       <CheckoutModal />
+      <SubmitToolModal />
+
+      {/* Floating Scroll to Top */}
+      <ScrollToTop />
 
       {/* Toast Alert Notification */}
       {toast && (
-        <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-700 text-xs sm:text-sm font-medium animate-fadeIn flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+        <div className="fixed bottom-5 right-5 z-50 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-2xl border border-slate-700 dark:border-slate-200 text-xs sm:text-sm font-medium animate-fadeIn flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 dark:bg-emerald-600" />
           <span>{toast}</span>
         </div>
       )}
@@ -150,8 +226,10 @@ const AppContent: React.FC = () => {
 
 export default function App() {
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <AppContent />
+      </AppProvider>
+    </ErrorBoundary>
   );
 }

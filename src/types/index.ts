@@ -1,5 +1,16 @@
 export type ToolCategory =
+  // Official 9 Core Categories + Free
+  | 'ai-writing'
+  | 'ai-image-generation'
+  | 'ai-video'
+  | 'ai-audio'
+  | 'ai-marketing'
+  | 'ai-coding'
+  | 'ai-productivity'
+  | 'ai-business'
+  | 'ai-education'
   | 'free-ai-tools'
+  // Legacy & Alias Category Keys
   | 'ai-writing-tools'
   | 'ai-design-tools'
   | 'ai-business-tools'
@@ -9,7 +20,9 @@ export type ToolCategory =
   | 'ai-image-tools'
   | 'ai-video-tools'
   | 'ai-research-tools'
-  // Backward compatibility alias keys
+  | 'ai-audio-tools'
+  | 'ai-coding-tools'
+  | 'ai-education-tools'
   | 'free'
   | 'writing'
   | 'design'
@@ -71,6 +84,7 @@ export interface AITool {
   logoUrl?: string;
   verifiedDate: string;
   useCases: string[];
+  tags?: string[];
   faqs?: ToolFAQ[];
 }
 
@@ -168,14 +182,18 @@ export interface Article {
     name: string;
     role: string;
     avatar: string;
+    bio?: string;
   };
   featuredImage: string;
   excerpt: string;
   introduction: string;
+  keyTakeaways?: string[];
   headings: ArticleHeading[];
+  conclusion?: string;
   faqs: ArticleFAQ[];
   relatedArticleSlugs: string[];
   relatedToolSlugs: string[];
+  tags?: string[];
   metaTitle: string;
   metaDescription: string;
 }

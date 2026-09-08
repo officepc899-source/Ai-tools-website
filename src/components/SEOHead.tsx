@@ -5,7 +5,8 @@ interface SEOHeadProps {
   description: string;
   canonicalUrl?: string;
   ogType?: 'website' | 'article' | 'product';
-  schemaData?: Record<string, unknown>;
+  ogImage?: string;
+  schemaData?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 export const SEOHead: React.FC<SEOHeadProps> = ({
@@ -13,6 +14,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   description,
   canonicalUrl,
   ogType = 'website',
+  ogImage = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
   schemaData
 }) => {
   useEffect(() => {
@@ -20,17 +22,19 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     const fullTitle = `${title} | AIToolNest`;
     document.title = fullTitle;
 
-    // Update meta description
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.setAttribute('name', 'description');
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.setAttribute('content', description);
+    // Helper to update or create standard name meta tags
+    const updateOrCreateMetaName = (name: string, content: string) => {
+      let meta = document.querySelector(`meta[name="${name}"]`);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', content);
+    };
 
-    // Update Open Graph tags
-    const updateOrCreateMeta = (property: string, content: string) => {
+    // Helper to update or create property meta tags (OG)
+    const updateOrCreateMetaProperty = (property: string, content: string) => {
       let meta = document.querySelector(`meta[property="${property}"]`);
       if (!meta) {
         meta = document.createElement('meta');
@@ -40,11 +44,35 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       meta.setAttribute('content', content);
     };
 
-    updateOrCreateMeta('og:title', fullTitle);
-    updateOrCreateMeta('og:description', description);
-    updateOrCreateMeta('og:type', ogType);
+    // Standard meta tags
+    updateOrCreateMetaName('description', description);
+
+    // Open Graph tags
+    updateOrCreateMetaProperty('og:site_name', 'AIToolNest');
+    updateOrCreateMetaProperty('og:title', fullTitle);
+    updateOrCreateMetaProperty('og:description', description);
+    updateOrCreateMetaProperty('og:type', ogType);
+    updateOrCreateMetaProperty('og:image', ogImage);
     if (canonicalUrl) {
-      updateOrCreateMeta('og:url', canonicalUrl);
+      updateOrCreateMetaProperty('og:url', canonicalUrl);
+    }
+
+    // Twitter Card tags
+    updateOrCreateMetaName('twitter:card', 'summary_large_image');
+    updateOrCreateMetaName('twitter:site', '@AIToolNest');
+    updateOrCreateMetaName('twitter:title', fullTitle);
+    updateOrCreateMetaName('twitter:description', description);
+    updateOrCreateMetaName('twitter:image', ogImage);
+
+    // Update canonical link
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalUrl) {
+      if (!canonicalLink) {
+        canonicalLink = document.createElement('link');
+        canonicalLink.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalLink);
+      }
+      canonicalLink.setAttribute('href', canonicalUrl);
     }
 
     // Structured JSON-LD Schema
@@ -53,21 +81,40 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       existingScript.remove();
     }
 
-    if (schemaData) {
-      const script = document.createElement('script');
-      script.id = 'json-ld-schema';
-      script.type = 'application/ld+json';
-      script.textContent = JSON.stringify(schemaData);
-      document.head.appendChild(script);
-    }
+    // Combine custom schema with default Organization schema
+    const orgSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'AIToolNest',
+      url: 'https://aitoolnest.com',
+      logo: 'https://aitoolnest.com/logo.png',
+      description: 'The premier AI tools discovery directory, digital products, and business automation hub.',
+      sameAs: [
+        'https://twitter.com/AIToolNest',
+        'https://linkedin.com/company/aitoolnest',
+        'https://github.com/aitoolnest'
+      ]
+    };
+
+    const finalSchema = schemaData
+      ? Array.isArray(schemaData)
+        ? [orgSchema, ...schemaData]
+        : [orgSchema, schemaData]
+      : orgSchema;
+
+    const script = document.createElement('script');
+    script.id = 'json-ld-schema';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(finalSchema);
+    document.head.appendChild(script);
 
     return () => {
-      const script = document.getElementById('json-ld-schema');
-      if (script) {
-        script.remove();
+      const s = document.getElementById('json-ld-schema');
+      if (s) {
+        s.remove();
       }
     };
-  }, [title, description, canonicalUrl, ogType, schemaData]);
+  }, [title, description, canonicalUrl, ogType, ogImage, schemaData]);
 
   return null;
 };

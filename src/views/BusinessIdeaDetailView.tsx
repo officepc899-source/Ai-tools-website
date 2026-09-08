@@ -140,7 +140,7 @@ export const BusinessIdeaDetailView: React.FC<BusinessIdeaDetailViewProps> = ({ 
             <span>Target Audience & Ideal Clients</span>
           </div>
           <p className="text-sm text-slate-700 leading-relaxed font-medium">
-            {idea.targetAudience}
+            {idea.targetMarket}
           </p>
         </div>
 
@@ -170,23 +170,22 @@ export const BusinessIdeaDetailView: React.FC<BusinessIdeaDetailViewProps> = ({ 
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {idea.techStack.map((tech, idx) => {
-            const matchedTool = tools.find((t) => t.name.toLowerCase() === tech.toolName.toLowerCase());
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {idea.techStack.map((techName, idx) => {
+            const matchedTool = tools.find(
+              (t) => t.name.toLowerCase() === techName.toLowerCase() || t.slug.toLowerCase() === techName.toLowerCase().replace(/\s+/g, '-')
+            );
             return (
               <div key={idx} className="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col justify-between">
                 <div>
-                  <div className="font-bold text-slate-900 text-sm">{tech.toolName}</div>
-                  <div className="text-xs text-indigo-600 font-medium mt-0.5">{tech.role}</div>
-                  <div className="text-xs font-mono text-slate-500 mt-2 bg-white px-2 py-0.5 rounded border border-slate-200 inline-block">
-                    {tech.cost}
-                  </div>
+                  <div className="font-bold text-slate-900 text-sm">{techName}</div>
+                  <div className="text-xs text-indigo-600 font-medium mt-0.5">Core Software</div>
                 </div>
 
                 {matchedTool && (
                   <button
                     onClick={() => navigate(`/tool/${matchedTool.slug}`)}
-                    className="mt-3 text-xs font-semibold text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1 pt-2 border-t border-slate-200"
+                    className="mt-3 text-xs font-semibold text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1 pt-2 border-t border-slate-200 cursor-pointer"
                   >
                     <span>View Tool Profile</span>
                     <ArrowRight className="w-3 h-3" />
@@ -209,7 +208,7 @@ export const BusinessIdeaDetailView: React.FC<BusinessIdeaDetailViewProps> = ({ 
             Step-by-Step Launch Roadmap
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Follow this 4-phase sequential checklist to de-risk your launch.
+            Follow this sequential checklist to de-risk your launch.
           </p>
         </div>
 
@@ -231,9 +230,11 @@ export const BusinessIdeaDetailView: React.FC<BusinessIdeaDetailViewProps> = ({ 
                 </div>
               </div>
 
-              <div className="shrink-0 sm:text-right text-xs text-slate-500 font-mono bg-white px-3 py-1.5 rounded-lg border border-slate-200">
-                Timeline: {item.timeline}
-              </div>
+              {item.toolsRecommended && item.toolsRecommended.length > 0 && (
+                <div className="shrink-0 sm:text-right text-xs text-slate-500 font-mono bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                  Tools: {item.toolsRecommended.join(', ')}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -249,17 +250,18 @@ export const BusinessIdeaDetailView: React.FC<BusinessIdeaDetailViewProps> = ({ 
             Monetization & Pricing Strategy
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            How to structure high-converting offers with zero downward pricing pressure.
+            How to structure high-converting offers with predictable recurring cash flow.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {idea.monetizationStreams.map((stream, idx) => (
+          {idea.monetizationMethods.map((method, idx) => (
             <div key={idx} className="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col justify-between">
               <div>
-                <h4 className="font-bold text-slate-900 text-base mb-1">{stream.model}</h4>
-                <div className="text-base font-black text-emerald-600 mb-3">{stream.pricing}</div>
-                <p className="text-xs text-slate-600 leading-relaxed">{stream.details}</p>
+                <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs mb-3">
+                  #{idx + 1}
+                </div>
+                <h4 className="font-bold text-slate-900 text-sm leading-snug">{method}</h4>
               </div>
             </div>
           ))}

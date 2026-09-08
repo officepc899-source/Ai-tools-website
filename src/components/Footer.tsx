@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Sparkles, Mail, ShieldCheck, ArrowRight, Check, Pin } from 'lucide-react';
+import { Sparkles, Mail, ShieldCheck, ArrowRight, Check, PlusCircle } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const Footer: React.FC = () => {
-  const { navigate, showToast } = useApp();
+  const { navigate, showToast, setSubmitToolModalOpen } = useApp();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -18,20 +18,20 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 pt-16 pb-12 text-sm">
+    <footer className="bg-slate-950 text-slate-300 border-t border-slate-800/80 pt-16 pb-12 text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Newsletter Signup Banner */}
-        <div className="bg-gradient-to-br from-indigo-900/60 to-slate-800 border border-indigo-500/20 rounded-2xl p-6 sm:p-10 mb-16 shadow-xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-indigo-950/80 via-slate-900 to-slate-900 border border-indigo-500/20 rounded-3xl p-6 sm:p-10 mb-16 shadow-2xl relative overflow-hidden">
           <div className="max-w-2xl relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold mb-3">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Weekly AI & Online Business Dispatch</span>
+              <span>Weekly AI Tools & Innovation Dispatch</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-['Space_Grotesk']">
-              Get the Top AI Tools & High-Margin Business Blueprints
+              Stay Updated With The Latest AI Tools
             </h3>
             <p className="text-slate-300 text-sm mt-2 mb-6 leading-relaxed">
-              Join 42,000+ creators, indie founders, and solopreneurs receiving our Friday breakdown of verified tools, prompts, and case studies. Zero spam.
+              Join 45,000+ founders, marketers, and developers getting our weekly AI digest with top new tools, prompts, and tutorials.
             </p>
 
             {!subscribed ? (
@@ -51,7 +51,7 @@ export const Footer: React.FC = () => {
                   type="submit"
                   className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm rounded-xl transition-colors shrink-0 shadow-md inline-flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Join 42,000+ Readers</span>
+                  <span>Subscribe Free</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </form>
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
           {/* Column 1: Brand & Trust */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+              <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white">
                 <Sparkles className="w-4 h-4" />
               </div>
               <span className="font-extrabold text-white text-base tracking-tight font-['Space_Grotesk']">
@@ -79,122 +79,125 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              The premier destination for discovering curated AI tools, scalable online business blueprints, and commercial digital product assets.
+              The premier destination for discovering vetted AI tools, curated prompt libraries, and scalable business workflows.
             </p>
             <div className="flex items-center gap-2 text-xs text-emerald-400">
               <ShieldCheck className="w-4 h-4" />
               <span>Independently Researched</span>
             </div>
+            <div>
+              <button
+                onClick={() => setSubmitToolModalOpen(true)}
+                className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-semibold cursor-pointer"
+              >
+                <PlusCircle className="w-3.5 h-3.5" />
+                <span>Submit Your AI Tool</span>
+              </button>
+            </div>
           </div>
 
-          {/* Column 2: AI Tools */}
+          {/* Column 2: AI Directories */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3 font-mono">
               AI Tools
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button onClick={() => navigate('/tools?category=free')} className="hover:text-white transition-colors">
-                  Free AI Tools
+                <button onClick={() => navigate('/ai-tools')} className="hover:text-white transition-colors">
+                  All 10,000+ AI Tools
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/tools?category=writing')} className="hover:text-white transition-colors">
-                  AI Writing Tools
+                <button onClick={() => navigate('/free-ai-tools')} className="hover:text-white transition-colors text-emerald-400">
+                  100% Free AI Tools
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/tools?category=design')} className="hover:text-white transition-colors">
-                  AI Design Tools
+                <button onClick={() => navigate('/ai-tools-for-business')} className="hover:text-white transition-colors">
+                  AI Tools for Business
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/tools?category=business')} className="hover:text-white transition-colors">
-                  AI for Business
+                <button onClick={() => navigate('/ai-tools-for-students')} className="hover:text-white transition-colors">
+                  AI Tools for Students
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/tools?category=students')} className="hover:text-white transition-colors">
-                  AI for Students
+                <button onClick={() => navigate('/ai-image-generators')} className="hover:text-white transition-colors">
+                  AI Image Generators
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/tools?category=productivity')} className="hover:text-white transition-colors">
-                  AI Productivity
+                <button onClick={() => navigate('/chatgpt-alternatives')} className="hover:text-white transition-colors">
+                  ChatGPT Alternatives
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Business Ideas */}
+          {/* Column 3: Resources */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3 font-mono">
-              Business Ideas
+              AI Resources
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button onClick={() => navigate('/business-ideas?category=online-business')} className="hover:text-white transition-colors">
-                  Online Business Ideas
+                <button onClick={() => navigate('/ai-prompts')} className="hover:text-white transition-colors">
+                  Prompt Library (5,000+)
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/business-ideas?category=ai-business')} className="hover:text-white transition-colors">
-                  AI Business Models
+                <button onClick={() => navigate('/blog')} className="hover:text-white transition-colors">
+                  AI Guides & Tutorials
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/business-ideas?category=side-hustle')} className="hover:text-white transition-colors">
-                  Side Hustles
-                </button>
-              </li>
-              <li>
-                <button onClick={() => navigate('/business-ideas?category=small-business')} className="hover:text-white transition-colors">
-                  Small Business Automation
+                <button onClick={() => navigate('/business-ideas')} className="hover:text-white transition-colors">
+                  AI Business Ideas
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/digital-products')} className="hover:text-white transition-colors">
-                  Digital Product Ideas
+                  Digital Products & Kits
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Pinterest Landing Hubs */}
+          {/* Column 4: Categories */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400 mb-3 font-mono flex items-center gap-1">
-              <Pin className="w-3 h-3" />
-              <span>Pinterest Hubs</span>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3 font-mono">
+              Top Categories
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button onClick={() => navigate('/landing/free-ai-tools')} className="hover:text-white transition-colors">
-                  Free AI Tools Hub
+                <button onClick={() => navigate('/category/ai-writing-tools')} className="hover:text-white transition-colors">
+                  AI Writing
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/landing/online-business-ideas')} className="hover:text-white transition-colors">
-                  Online Business Ideas
+                <button onClick={() => navigate('/category/ai-design-tools')} className="hover:text-white transition-colors">
+                  AI Design & Visuals
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/landing/ai-writing-tools')} className="hover:text-white transition-colors">
-                  AI Writing Tools Hub
+                <button onClick={() => navigate('/category/ai-video-tools')} className="hover:text-white transition-colors">
+                  AI Video Tools
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/landing/ai-design-tools')} className="hover:text-white transition-colors">
-                  AI Design Tools Hub
+                <button onClick={() => navigate('/category/ai-marketing-tools')} className="hover:text-white transition-colors">
+                  AI Marketing
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/landing/digital-product-ideas')} className="hover:text-white transition-colors">
-                  Digital Products Hub
+                <button onClick={() => navigate('/category/ai-productivity-tools')} className="hover:text-white transition-colors">
+                  AI Productivity
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/landing/best-ai-websites')} className="hover:text-white transition-colors">
-                  Best AI Websites Hub
+                <button onClick={() => navigate('/category/ai-business-tools')} className="hover:text-white transition-colors">
+                  AI Automation
                 </button>
               </li>
             </ul>
@@ -203,41 +206,67 @@ export const Footer: React.FC = () => {
           {/* Column 5: Trust & Legal */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3 font-mono">
-              Trust & Legal
+              Company & Legal
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-1.5 text-xs">
               <li>
-                <button onClick={() => navigate('/about')} className="hover:text-white transition-colors">
-                  About Us & Editorial Standards
+                <button onClick={() => navigate('/about')} className="hover:text-white transition-colors cursor-pointer">
+                  About AIToolNest
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/contact')} className="hover:text-white transition-colors">
-                  Contact & Submit Tool
+                <button onClick={() => navigate('/contact')} className="hover:text-white transition-colors cursor-pointer">
+                  Contact Support
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/privacy-policy')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('/privacy-policy')} className="hover:text-white transition-colors cursor-pointer">
                   Privacy Policy
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/terms')} className="hover:text-white transition-colors">
-                  Terms and Conditions
+                <button onClick={() => navigate('/terms')} className="hover:text-white transition-colors cursor-pointer">
+                  Terms of Service
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/disclaimer')} className="hover:text-white transition-colors">
-                  Affiliate & Earnings Disclaimer
+                <button onClick={() => navigate('/affiliate-disclosure')} className="hover:text-white transition-colors cursor-pointer">
+                  Affiliate Disclosure
                 </button>
               </li>
-              <li className="pt-2 border-t border-slate-800">
-                <button onClick={() => navigate('/sitemap.xml')} className="text-slate-500 hover:text-slate-300">
-                  XML Sitemap
+              <li>
+                <button onClick={() => navigate('/cookie-policy')} className="hover:text-white transition-colors cursor-pointer">
+                  Cookie Policy
                 </button>
-                <span className="text-slate-600 mx-1.5">•</span>
-                <button onClick={() => navigate('/robots.txt')} className="text-slate-500 hover:text-slate-300">
-                  robots.txt
+              </li>
+              <li>
+                <button onClick={() => navigate('/editorial-policy')} className="hover:text-white transition-colors cursor-pointer">
+                  Editorial Policy
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/dmca-policy')} className="hover:text-white transition-colors cursor-pointer">
+                  DMCA Policy
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/ai-ethics')} className="hover:text-white transition-colors cursor-pointer">
+                  AI Ethics Statement
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/write-for-us')} className="hover:text-white transition-colors cursor-pointer text-indigo-400">
+                  Write For Us
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/advertise')} className="hover:text-white transition-colors cursor-pointer text-indigo-400">
+                  Advertise With Us
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/sitemap')} className="hover:text-white transition-colors cursor-pointer text-slate-500">
+                  HTML Sitemap
                 </button>
               </li>
             </ul>
@@ -247,7 +276,7 @@ export const Footer: React.FC = () => {
         {/* FTC Affiliate Disclaimer & Copyright */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p className="text-center md:text-left max-w-2xl leading-relaxed">
-            <strong>FTC Affiliate Disclosure:</strong> AIToolNest is an independent review and research resource. We may receive financial compensation when you purchase software or services through links on this site. This helps support our independent testing and maintenance at no extra cost to you.
+            <strong>Disclosure:</strong> AIToolNest is reader-supported. When you purchase software through links on our site, we may earn an affiliate commission at no extra cost to you.
           </p>
           <div className="text-slate-500 text-center md:text-right shrink-0">
             © 2026 AIToolNest. All rights reserved.

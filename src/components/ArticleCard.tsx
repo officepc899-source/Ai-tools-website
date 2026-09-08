@@ -13,7 +13,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
 
   if (layout === 'horizontal') {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col sm:flex-row group">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs hover:shadow-md transition-shadow overflow-hidden flex flex-col sm:flex-row group">
         <div className="sm:w-2/5 relative h-48 sm:h-auto overflow-hidden">
           <img
             src={article.featuredImage}
@@ -31,7 +31,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
 
         <div className="sm:w-3/5 p-5 sm:p-6 flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-3 text-xs text-slate-400 mb-2">
+            <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500 mb-2">
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 text-slate-400" />
                 <span>{article.readTime}</span>
@@ -45,17 +45,17 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
 
             <button
               onClick={() => navigate(`/blog/${article.slug}`)}
-              className="text-left font-bold text-slate-900 text-base sm:text-lg group-hover:text-indigo-600 transition-colors line-clamp-2 mb-2"
+              className="text-left font-bold text-slate-900 dark:text-white text-base sm:text-lg group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2 mb-2 cursor-pointer font-['Space_Grotesk']"
             >
               {article.title}
             </button>
 
-            <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 mb-4">
               {article.excerpt}
             </p>
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-slate-100 mt-auto">
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 mt-auto">
             <div className="flex items-center gap-2">
               <img
                 src={article.author.avatar}
@@ -63,12 +63,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
                 className="w-5 h-5 rounded-full object-cover"
                 referrerPolicy="no-referrer"
               />
-              <span className="text-xs font-medium text-slate-600">{article.author.name}</span>
+              <span className="text-xs font-medium text-slate-600 dark:text-slate-400">{article.author.name}</span>
             </div>
 
             <button
               onClick={() => navigate(`/blog/${article.slug}`)}
-              className="text-xs font-bold text-indigo-600 hover:text-indigo-700 inline-flex items-center gap-1"
+              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 inline-flex items-center gap-1 cursor-pointer"
             >
               <span>Read Guide</span>
               <ArrowRight className="w-3 h-3" />
@@ -80,8 +80,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col justify-between group">
-      <div className="relative h-40 overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs hover:shadow-md transition-shadow overflow-hidden flex flex-col justify-between group">
+      <div className="relative h-44 overflow-hidden">
         <img
           src={article.featuredImage}
           alt={article.title}
@@ -98,7 +98,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
 
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          <div className="flex items-center gap-3 text-xs text-slate-400 mb-2">
+          <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500 mb-2">
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3 text-slate-400" />
               <span>{article.readTime}</span>
@@ -109,17 +109,17 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
 
           <button
             onClick={() => navigate(`/blog/${article.slug}`)}
-            className="text-left font-bold text-slate-900 text-base group-hover:text-indigo-600 transition-colors line-clamp-2 mb-2"
+            className="text-left font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2 mb-2 cursor-pointer font-['Space_Grotesk']"
           >
             {article.title}
           </button>
 
-          <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-4">
+          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 mb-4">
             {article.excerpt}
           </p>
         </div>
 
-        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+        <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-2">
             <img
               src={article.author.avatar}
@@ -127,12 +127,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
               className="w-5 h-5 rounded-full object-cover"
               referrerPolicy="no-referrer"
             />
-            <span className="text-xs text-slate-600 font-medium">{article.author.name}</span>
+            <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">{article.author.name}</span>
           </div>
 
           <button
             onClick={() => navigate(`/blog/${article.slug}`)}
-            className="text-xs font-bold text-indigo-600 hover:text-indigo-700 inline-flex items-center gap-1"
+            className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 inline-flex items-center gap-1 cursor-pointer"
           >
             <span>Read</span>
             <ArrowRight className="w-3 h-3" />

@@ -74,10 +74,10 @@ export const GlobalSearchModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 md:p-20 bg-slate-900/60 backdrop-blur-xs">
-      <div className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[85vh] animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 sm:p-6 md:p-20 bg-slate-950/70 backdrop-blur-xs">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[85vh] animate-fadeIn">
         {/* Search Input Bar */}
-        <div className="p-4 border-b border-slate-100 flex items-center gap-3">
+        <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
           <Search className="w-5 h-5 text-slate-400 shrink-0" />
           <input
             ref={inputRef}
@@ -85,27 +85,27 @@ export const GlobalSearchModal: React.FC = () => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search AI tools, business ideas, templates, articles..."
-            className="w-full text-slate-900 placeholder-slate-400 text-sm sm:text-base focus:outline-none bg-transparent"
+            className="w-full text-slate-900 dark:text-white placeholder-slate-400 text-sm sm:text-base focus:outline-none bg-transparent"
           />
           {query && (
-            <button onClick={() => setQuery('')} className="text-slate-400 hover:text-slate-600 p-1">
+            <button onClick={() => setQuery('')} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
               <X className="w-4 h-4" />
             </button>
           )}
           <button
             onClick={() => setIsSearchOpen(false)}
-            className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded font-mono"
+            className="text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded font-mono"
           >
             ESC
           </button>
         </div>
 
         {/* Tab Filters */}
-        <div className="flex items-center gap-1.5 px-4 py-2 border-b border-slate-100 bg-slate-50/50 text-xs overflow-x-auto">
+        <div className="flex items-center gap-1.5 px-4 py-2 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 text-xs overflow-x-auto">
           <button
             onClick={() => setActiveTab('all')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
-              activeTab === 'all' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-200'
+              activeTab === 'all' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
             }`}
           >
             All Results
@@ -113,7 +113,7 @@ export const GlobalSearchModal: React.FC = () => {
           <button
             onClick={() => setActiveTab('tools')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
-              activeTab === 'tools' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-200'
+              activeTab === 'tools' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
             }`}
           >
             AI Tools ({filteredTools.length})
@@ -121,7 +121,7 @@ export const GlobalSearchModal: React.FC = () => {
           <button
             onClick={() => setActiveTab('business')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
-              activeTab === 'business' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-200'
+              activeTab === 'business' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
             }`}
           >
             Business Ideas ({filteredBusiness.length})
@@ -129,7 +129,7 @@ export const GlobalSearchModal: React.FC = () => {
           <button
             onClick={() => setActiveTab('products')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
-              activeTab === 'products' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-200'
+              activeTab === 'products' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
             }`}
           >
             Digital Products ({filteredProducts.length})
@@ -137,7 +137,7 @@ export const GlobalSearchModal: React.FC = () => {
           <button
             onClick={() => setActiveTab('articles')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
-              activeTab === 'articles' ? 'bg-indigo-600 text-white' : 'text-slate-600 hover:bg-slate-200'
+              activeTab === 'articles' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
             }`}
           >
             Articles ({filteredArticles.length})
@@ -145,12 +145,12 @@ export const GlobalSearchModal: React.FC = () => {
         </div>
 
         {/* Results Body */}
-        <div className="p-4 overflow-y-auto space-y-5 divide-y divide-slate-100">
+        <div className="p-4 overflow-y-auto space-y-5 divide-y divide-slate-100 dark:divide-slate-800">
           {/* AI Tools Section */}
           {(activeTab === 'all' || activeTab === 'tools') && filteredTools.length > 0 && (
             <div className="pt-2 first:pt-0">
               <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                <Bot className="w-3.5 h-3.5 text-indigo-600" />
+                <Bot className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
                 <span>AI Tools</span>
               </div>
               <div className="space-y-1.5">
@@ -158,20 +158,20 @@ export const GlobalSearchModal: React.FC = () => {
                   <button
                     key={tool.id}
                     onClick={() => handleSelect(`/ai-tools/${tool.slug}`)}
-                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200"
+                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
                   >
                     <div className="flex items-center gap-3">
                       <div className={`w-8 h-8 rounded-lg ${tool.iconBg} text-white flex items-center justify-center shrink-0`}>
                         <Bot className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="font-semibold text-sm text-slate-900 group-hover:text-indigo-600">
+                        <div className="font-semibold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
                           {tool.name}
                         </div>
-                        <div className="text-xs text-slate-500 line-clamp-1">{tool.description}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">{tool.description}</div>
                       </div>
                     </div>
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 capitalize">
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 capitalize">
                       {tool.pricingType}
                     </span>
                   </button>
@@ -192,15 +192,15 @@ export const GlobalSearchModal: React.FC = () => {
                   <button
                     key={idea.id}
                     onClick={() => handleSelect(`/business-idea/${idea.slug}`)}
-                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200"
+                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
                   >
                     <div>
-                      <div className="font-semibold text-sm text-slate-900 group-hover:text-indigo-600">
+                      <div className="font-semibold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
                         {idea.title}
                       </div>
-                      <div className="text-xs text-slate-500 line-clamp-1">{idea.summary}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">{idea.summary}</div>
                     </div>
-                    <span className="text-xs font-bold text-emerald-600 whitespace-nowrap ml-2">
+                    <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap ml-2">
                       {idea.earningPotential.split('/')[0]}
                     </span>
                   </button>
@@ -221,15 +221,15 @@ export const GlobalSearchModal: React.FC = () => {
                   <button
                     key={prod.id}
                     onClick={() => handleSelect(`/digital-products`)}
-                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200"
+                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
                   >
                     <div>
-                      <div className="font-semibold text-sm text-slate-900 group-hover:text-indigo-600">
+                      <div className="font-semibold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
                         {prod.title}
                       </div>
-                      <div className="text-xs text-slate-500 line-clamp-1">{prod.description}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">{prod.description}</div>
                     </div>
-                    <span className="text-sm font-bold text-slate-900 ml-2">${prod.price}</span>
+                    <span className="text-sm font-bold text-slate-900 dark:text-white ml-2">${prod.price}</span>
                   </button>
                 ))}
               </div>
@@ -248,13 +248,13 @@ export const GlobalSearchModal: React.FC = () => {
                   <button
                     key={art.id}
                     onClick={() => handleSelect(`/blog/${art.slug}`)}
-                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200"
+                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
                   >
                     <div>
-                      <div className="font-semibold text-sm text-slate-900 group-hover:text-indigo-600">
+                      <div className="font-semibold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
                         {art.title}
                       </div>
-                      <div className="text-xs text-slate-500 line-clamp-1">{art.excerpt}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">{art.excerpt}</div>
                     </div>
                     <span className="text-xs text-slate-400 whitespace-nowrap ml-2">{art.readTime}</span>
                   </button>
@@ -269,7 +269,7 @@ export const GlobalSearchModal: React.FC = () => {
             filteredArticles.length === 0 && (
               <div className="py-12 text-center text-slate-400">
                 <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                <p className="text-sm font-medium">No results found for &ldquo;{query}&rdquo;</p>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">No results found for &ldquo;{query}&rdquo;</p>
                 <p className="text-xs text-slate-400 mt-1">Try searching for keywords like &ldquo;free&rdquo;, &ldquo;writing&rdquo;, or &ldquo;prompts&rdquo;</p>
               </div>
             )}

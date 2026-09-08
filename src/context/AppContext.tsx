@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { AITool, BusinessIdea, DigitalProduct, Article } from '../types';
+import { AITool, BusinessIdea, DigitalProduct, Article, PinterestLandingTopic } from '../types';
 import { INITIAL_AI_TOOLS } from '../data/toolsData';
 import { INITIAL_BUSINESS_IDEAS } from '../data/businessIdeasData';
 import { INITIAL_DIGITAL_PRODUCTS } from '../data/digitalProductsData';
 import { INITIAL_ARTICLES } from '../data/articlesData';
+import { PINTEREST_LANDINGS } from '../data/pinterestLandingsData';
 
 interface CheckoutModalData {
   isOpen: boolean;
@@ -17,6 +18,8 @@ interface AppContextType {
   setSearchQuery: (query: string) => void;
   isSearchOpen: boolean;
   setIsSearchOpen: (open: boolean) => void;
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
   bookmarks: string[];
   toggleBookmark: (toolSlug: string) => void;
   isBookmarked: (toolSlug: string) => boolean;
@@ -30,14 +33,19 @@ interface AppContextType {
   articles: Article[];
   updateArticle: (updated: Article) => void;
   adsEnabled: boolean;
+  setAdsEnabled: (enabled: boolean) => void;
   toggleAds: () => void;
+  pinterestLandings: PinterestLandingTopic[];
   checkoutModal: CheckoutModalData;
   openCheckout: (product: DigitalProduct) => void;
   closeCheckout: () => void;
   toastMessage: string | null;
+  toast: string | null;
   showToast: (msg: string) => void;
   affiliateModalOpen: boolean;
   setAffiliateModalOpen: (open: boolean) => void;
+  submitToolModalOpen: boolean;
+  setSubmitToolModalOpen: (open: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -52,9 +60,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentPath, setCurrentPath] = useState<string>(getPathFromHash);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [submitToolModalOpen, setSubmitToolModalOpen] = useState<boolean>(false);
   const [adsEnabled, setAdsEnabled] = useState<boolean>(true);
   const [affiliateModalOpen, setAffiliateModalOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Theme support (light / dark)
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    try {
+      const saved = localStorage.getItem('aitoolnest_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+      // Default to light or check system preference
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch {
+      return 'light';
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('aitoolnest_theme', theme);
+    } catch {
+      // ignore
+    }
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
   const [checkoutModal, setCheckoutModal] = useState<CheckoutModalData>({
     isOpen: false,
     product: null
@@ -245,14 +284,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         articles,
         updateArticle,
         adsEnabled,
+        setAdsEnabled,
         toggleAds,
+        pinterestLandings: PINTEREST_LANDINGS,
         checkoutModal,
         openCheckout,
         closeCheckout,
         toastMessage,
+        toast: toastMessage,
         showToast,
         affiliateModalOpen,
         setAffiliateModalOpen,
+        theme,
+        toggleTheme,
+        submitToolModalOpen,
+        setSubmitToolModalOpen,
       }}
     >
       {children}
