@@ -30,7 +30,13 @@ import {
   Monitor,
   CheckCircle,
   Tag,
-  DollarSign
+  DollarSign,
+  Users,
+  AlertTriangle,
+  Scale,
+  BadgeCheck,
+  TrendingUp,
+  Laptop
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
@@ -137,7 +143,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
         '@id': `https://aitoolnest.com/#/ai-tools/${tool.slug}#software`,
         name: tool.name,
         applicationCategory: tool.categoryLabel,
-        operatingSystem: 'Web, macOS, Windows, iOS, Android',
+        operatingSystem: tool.supportedPlatforms && tool.supportedPlatforms.length > 0 ? tool.supportedPlatforms.join(', ') : 'Web, macOS, Windows, iOS, Android',
         description: tool.fullDescription,
         url: tool.officialUrl,
         offers: {
@@ -240,16 +246,21 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
     }
   };
 
-  const navSections = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'features', label: 'Key Features' },
-    { id: 'how-it-works', label: 'How It Works' },
-    { id: 'use-cases', label: 'Use Cases' },
-    { id: 'pros-cons', label: 'Pros & Cons' },
-    { id: 'pricing', label: 'Pricing' },
-    { id: 'alternatives', label: 'Alternatives' },
-    { id: 'faqs', label: 'FAQs' }
-  ];
+  const navSections = useMemo(() => {
+    const list: { id: string; label: string }[] = [{ id: 'overview', label: 'Overview' }];
+    if (tool.verdict) list.push({ id: 'verdict', label: 'Our Verdict' });
+    if (tool.targetUsers && tool.targetUsers.length > 0) list.push({ id: 'target-users', label: 'Who Should Use This' });
+    if (tool.keyFeatures && tool.keyFeatures.length > 0) list.push({ id: 'features', label: 'Key Features' });
+    if (tool.limitations && tool.limitations.length > 0) list.push({ id: 'limitations', label: 'Limitations' });
+    if (tool.howToUse && tool.howToUse.length > 0) list.push({ id: 'how-it-works', label: 'How It Works' });
+    if (tool.useCases && tool.useCases.length > 0) list.push({ id: 'use-cases', label: 'Use Cases' });
+    if ((tool.pros && tool.pros.length > 0) || (tool.cons && tool.cons.length > 0)) list.push({ id: 'pros-cons', label: 'Pros & Cons' });
+    if (tool.competitorComparison && tool.competitorComparison.length > 0) list.push({ id: 'comparison', label: 'Competitor Comparison' });
+    if (tool.pricingPlans && tool.pricingPlans.length > 0) list.push({ id: 'pricing', label: 'Pricing' });
+    if (tool.alternatives && tool.alternatives.length > 0) list.push({ id: 'alternatives', label: 'Alternatives' });
+    if (tool.faqs && tool.faqs.length > 0) list.push({ id: 'faqs', label: 'FAQs' });
+    return list;
+  }, [tool]);
 
   const firstLetter = tool.name.charAt(0).toUpperCase();
 
@@ -435,12 +446,12 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
         <div className="lg:col-span-8 space-y-8">
           {/* SECTION: Overview & Best For */}
           <section id="overview" className="space-y-6">
-            {/* Best For Hero Pill */}
+            {/* "Best For" Hero Section */}
             {tool.bestFor && (
               <div className="bg-gradient-to-r from-indigo-50/90 via-purple-50/70 to-sky-50/90 dark:from-indigo-950/40 dark:via-purple-950/30 dark:to-sky-950/40 border border-indigo-200/80 dark:border-indigo-800/60 rounded-2xl p-6 shadow-2xs">
                 <div className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 font-mono mb-1.5 flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                  <span>Ideal Target Audience & Best For</span>
+                  <span>Best For</span>
                 </div>
                 <p className="text-slate-800 dark:text-slate-200 text-base sm:text-lg font-semibold leading-relaxed">
                   {tool.bestFor}
@@ -456,7 +467,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                 </div>
                 <div>
                   <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
-                    Deep Dive
+                    Overview
                   </div>
                   <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
                     What is {tool.name}?
@@ -466,226 +477,386 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
 
               <div className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 pt-2">
                 <p>{tool.fullDescription || tool.description}</p>
-                <p>
-                  As AI technology advances, {tool.name} distinguishes itself through targeted workflows, prompt handling, and direct export options designed to eliminate friction for modern teams.
-                </p>
               </div>
+
+              {/* Supported Platforms Tags */}
+              {tool.supportedPlatforms && tool.supportedPlatforms.length > 0 && (
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 font-mono block mb-2">
+                    Supported Platforms & Environments
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {tool.supportedPlatforms.map((plat, pidx) => (
+                      <span
+                        key={pidx}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700"
+                      >
+                        <Laptop className="w-3 h-3 text-indigo-500" />
+                        <span>{plat}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </section>
+
+          {/* SECTION: Editorial Verdict ("Our Verdict") */}
+          {tool.verdict && (
+            <section
+              id="verdict"
+              className="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-md relative overflow-hidden border border-indigo-700/50"
+            >
+              <div className="relative z-10 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-indigo-800/80 pb-4">
+                  <div className="flex items-center gap-2">
+                    <BadgeCheck className="w-6 h-6 text-emerald-400" />
+                    <div>
+                      <span className="text-[11px] font-mono uppercase tracking-widest text-indigo-300 font-bold block">
+                        Editorial Assessment
+                      </span>
+                      <h2 className="text-xl sm:text-2xl font-black text-white font-['Space_Grotesk']">
+                        Our Verdict on {tool.name}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 bg-indigo-800/60 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-indigo-600/50">
+                    <span className="text-xs text-indigo-200 font-medium">Verdict:</span>
+                    <span className="text-xs font-extrabold text-emerald-300 uppercase tracking-wider">
+                      {tool.verdict.recommendation}
+                    </span>
+                    <span className="text-slate-400">•</span>
+                    <span className="text-sm font-black text-white">{tool.verdict.score}/5.0</span>
+                  </div>
+                </div>
+
+                <p className="text-sm sm:text-base text-indigo-100 leading-relaxed font-sans">
+                  {tool.verdict.summary}
+                </p>
+
+                <div className="bg-white/10 rounded-2xl p-4 border border-white/15 backdrop-blur-xs flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm">
+                    <strong className="text-white font-bold block mb-0.5">Bottom Line:</strong>
+                    <span className="text-indigo-100">{tool.verdict.bottomLine}</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* SECTION: Who Should Use This Tool */}
+          {tool.targetUsers && tool.targetUsers.length > 0 && (
+            <section
+              id="target-users"
+              className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
+                    Ideal Personas
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
+                    Who Should Use {tool.name}?
+                  </h2>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {tool.targetUsers.map((user, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-center gap-3.5"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold text-xs flex items-center justify-center shrink-0">
+                      <Check className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">
+                        {user}
+                      </h3>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                        Tailored workflows specifically designed for this profile.
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* SECTION: Key Features */}
-          <section
-            id="features"
-            className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6"
-          >
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                <Zap className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
-                  Capabilities Matrix
+          {tool.keyFeatures && tool.keyFeatures.length > 0 && (
+            <section
+              id="features"
+              className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                  <Zap className="w-5 h-5" />
                 </div>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
-                  Key Features of {tool.name}
-                </h2>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
+                    Core Capabilities
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
+                    Key Features of {tool.name}
+                  </h2>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {tool.keyFeatures.map((feat, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-start gap-3"
-                >
-                  <div className="p-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
-                    <Check className="w-3.5 h-3.5" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {tool.keyFeatures.map((feat, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-start gap-3"
+                  >
+                    <div className="p-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-snug">
+                        {feat}
+                      </h3>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-snug">
-                      {feat}
-                    </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                      Optimized for high-throughput production workloads and tested in our laboratory.
-                    </p>
-                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* SECTION: Limitations & Bottlenecks */}
+          {tool.limitations && tool.limitations.length > 0 && (
+            <section
+              id="limitations"
+              className="bg-white dark:bg-slate-900 rounded-3xl border border-amber-200 dark:border-amber-900/60 p-6 sm:p-8 shadow-xs space-y-5"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+                  <AlertTriangle className="w-5 h-5" />
                 </div>
-              ))}
-            </div>
-          </section>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 font-mono">
+                    User Trust & Transparency
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
+                    Limitations & What to Consider
+                  </h2>
+                </div>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                To help you make an informed decision, our editorial audit flags these specific constraints before you invest time or money:
+              </p>
+
+              <div className="space-y-2.5">
+                {tool.limitations.map((limit, lidx) => (
+                  <div
+                    key={lidx}
+                    className="p-3.5 rounded-2xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/70 dark:border-amber-900/40 flex items-start gap-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300"
+                  >
+                    <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                    <span className="leading-snug">{limit}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* SECTION: How It Works (Step-by-Step) */}
-          <section
-            id="how-it-works"
-            className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6"
-          >
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                <Terminal className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
-                  Quick Start Guide
+          {tool.howToUse && tool.howToUse.length > 0 && (
+            <section
+              id="how-it-works"
+              className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                  <Terminal className="w-5 h-5" />
                 </div>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
-                  How {tool.name} Works in 3 Steps
-                </h2>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
+                    Quick Start Guide
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
+                    How to Get Started with {tool.name}
+                  </h2>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {tool.howToUse.map((step) => (
-                <div
-                  key={step.step}
-                  className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700/80 rounded-2xl p-5 relative flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center mb-3 shadow-xs">
-                      0{step.step}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {tool.howToUse.map((step) => (
+                  <div
+                    key={step.step}
+                    className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700/80 rounded-2xl p-5 relative flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center mb-3 shadow-xs">
+                        0{step.step}
+                      </div>
+                      <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-1.5">
+                        {step.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        {step.description}
+                      </p>
                     </div>
-                    <h3 className="font-bold text-slate-900 dark:text-white text-sm mb-1.5">
-                      {step.title}
-                    </h3>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                      {step.description}
-                    </p>
                   </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Interactive Workspace Mockup */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 text-slate-100 overflow-hidden shadow-md mt-6">
-              <div className="bg-slate-900 px-4 py-2.5 flex items-center justify-between border-b border-slate-800 text-xs text-slate-400">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
-                  <span className="ml-2 font-mono text-[11px] text-slate-300">workspace/{tool.slug}.app</span>
-                </div>
-                <div className="flex items-center gap-3 font-mono text-[10px]">
-                  <span>Status: Operational</span>
-                  <span>Latency: ~140ms</span>
-                </div>
+                ))}
               </div>
-
-              <div className="p-5 sm:p-6 space-y-4 font-mono text-xs">
-                <div className="flex items-start gap-3 text-slate-300">
-                  <span className="px-2 py-0.5 rounded bg-indigo-600/60 text-indigo-200 font-bold text-[10px] shrink-0 uppercase tracking-wider">
-                    Input Prompt
-                  </span>
-                  <p className="text-slate-200 leading-relaxed font-sans text-xs sm:text-sm">
-                    &ldquo;Execute automated workflow analysis for {tool.name}, optimize output quality parameters, and summarize key benefits.&rdquo;
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 space-y-2">
-                  <div className="flex items-center justify-between text-[11px] text-indigo-400 font-sans font-bold">
-                    <span className="flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                      <span>{tool.name} Output Stream</span>
-                    </span>
-                    <span className="text-slate-500">Laboratory Quality Index: {tool.rating}/5.0</span>
-                  </div>
-                  <p className="text-xs text-slate-300 font-sans leading-relaxed">
-                    {tool.fullDescription.slice(0, 240)}...
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* SECTION: Use Cases */}
-          <section
-            id="use-cases"
-            className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6"
-          >
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                <Layers className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
-                  Applications
+          {tool.useCases && tool.useCases.length > 0 && (
+            <section
+              id="use-cases"
+              className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                  <Layers className="w-5 h-5" />
                 </div>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
-                  Real-World Use Cases for {tool.name}
-                </h2>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
+                    Applications
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
+                    Real-World Use Cases for {tool.name}
+                  </h2>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              {tool.useCases.map((uc, i) => (
-                <div
-                  key={i}
-                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-start gap-3"
-                >
-                  <div className="w-6 h-6 rounded-lg bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
-                    {i + 1}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {tool.useCases.map((uc, i) => (
+                  <div
+                    key={i}
+                    className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-start gap-3"
+                  >
+                    <div className="w-6 h-6 rounded-lg bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
+                      {i + 1}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">
+                        {uc}
+                      </h3>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">
-                      {uc}
-                    </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
-                      Proven time savings and automated delivery for active teams.
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* SECTION: Pros and Cons */}
-          <section id="pros-cons" className="space-y-6">
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                <ThumbsUp className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
-                  Honest Assessment
+          {((tool.pros && tool.pros.length > 0) || (tool.cons && tool.cons.length > 0)) && (
+            <section id="pros-cons" className="space-y-6">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                  <ThumbsUp className="w-5 h-5" />
                 </div>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
-                  Pros & Cons of {tool.name}
-                </h2>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Pros Card */}
-              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-emerald-200 dark:border-emerald-800/80 p-6 sm:p-7 shadow-xs space-y-4">
-                <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-base">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                  <span>Key Strengths & Pros</span>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
+                    Honest Assessment
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
+                    Pros & Cons of {tool.name}
+                  </h2>
                 </div>
-                <ul className="space-y-3 text-sm text-slate-700 dark:text-slate-300">
-                  {tool.pros.map((pro, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span className="leading-snug">{pro}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
 
-              {/* Cons Card */}
-              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-rose-200 dark:border-rose-800/80 p-6 sm:p-7 shadow-xs space-y-4">
-                <div className="flex items-center gap-2 text-rose-700 dark:text-rose-400 font-bold text-base">
-                  <X className="w-5 h-5 text-rose-600 dark:text-rose-400" />
-                  <span>Limitations & Cons</span>
-                </div>
-                <ul className="space-y-3 text-sm text-slate-700 dark:text-slate-300">
-                  {tool.cons.map((con, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
-                      <X className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                      <span className="leading-snug">{con}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Pros Card */}
+                {tool.pros && tool.pros.length > 0 && (
+                  <div className="bg-white dark:bg-slate-900 rounded-3xl border border-emerald-200 dark:border-emerald-800/80 p-6 sm:p-7 shadow-xs space-y-4">
+                    <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-base">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                      <span>Key Strengths & Pros</span>
+                    </div>
+                    <ul className="space-y-3 text-sm text-slate-700 dark:text-slate-300">
+                      {tool.pros.map((pro, i) => (
+                        <li key={i} className="flex items-start gap-2.5">
+                          <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                          <span className="leading-snug">{pro}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Cons Card */}
+                {tool.cons && tool.cons.length > 0 && (
+                  <div className="bg-white dark:bg-slate-900 rounded-3xl border border-rose-200 dark:border-rose-800/80 p-6 sm:p-7 shadow-xs space-y-4">
+                    <div className="flex items-center gap-2 text-rose-700 dark:text-rose-400 font-bold text-base">
+                      <X className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+                      <span>Drawbacks & Cons</span>
+                    </div>
+                    <ul className="space-y-3 text-sm text-slate-700 dark:text-slate-300">
+                      {tool.cons.map((con, i) => (
+                        <li key={i} className="flex items-start gap-2.5">
+                          <X className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                          <span className="leading-snug">{con}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
-            </div>
-          </section>
+            </section>
+          )}
+
+          {/* SECTION: Competitor Head-to-Head Comparison */}
+          {tool.competitorComparison && tool.competitorComparison.length > 0 && (
+            <section
+              id="comparison"
+              className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                  <Scale className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
+                    Market Matchup
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
+                    How {tool.name} Compares to Rivals
+                  </h2>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {tool.competitorComparison.map((comp, cidx) => (
+                  <div
+                    key={cidx}
+                    className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-900 dark:text-white text-base">
+                        {tool.name} vs. {comp.competitorName}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                      <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50">
+                        <span className="font-bold text-emerald-800 dark:text-emerald-300 block mb-1">
+                          {tool.name} Advantage:
+                        </span>
+                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{comp.advantage}</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-750 border border-slate-200 dark:border-slate-700">
+                        <span className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                          {comp.competitorName} Advantage:
+                        </span>
+                        <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{comp.disadvantage}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* SECTION: Audited Performance Benchmarks */}
           <section className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6">
@@ -960,7 +1131,11 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                   <Monitor className="w-3.5 h-3.5 text-slate-400" />
                   <span>Platforms</span>
                 </span>
-                <span className="font-semibold text-slate-800 dark:text-slate-200">Web, API, Cloud</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[170px] text-right">
+                  {tool.supportedPlatforms && tool.supportedPlatforms.length > 0
+                    ? tool.supportedPlatforms.join(', ')
+                    : 'Web, Cloud'}
+                </span>
               </div>
 
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800">

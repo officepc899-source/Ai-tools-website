@@ -244,6 +244,8 @@ export const codingAndAudioTools: AITool[] = [
       }
     ],
     bestFor: 'Software developers, frontend engineers, full-stack builders, and solo founders building web/mobile applications.',
+    targetUsers: ['Full-Stack Engineers', 'Frontend Developers', 'Solo Founders & Indie Hackers', 'DevOps & Backend Teams'],
+    supportedPlatforms: ['macOS Native Desktop', 'Windows Native Desktop', 'Linux AppImage/Deb', 'Remote SSH / WSL'],
     keyFeatures: [
       'Composer multi-file generation creating and updating multiple files across your project',
       'Cursor Tab predictive completions that autocomplete multiple lines and edits ahead of time',
@@ -259,6 +261,29 @@ export const codingAndAudioTools: AITool[] = [
     cons: [
       'High-volume Composer usage can exhaust fast requests before month end',
       'Requires basic familiarity with command-line development and Git'
+    ],
+    limitations: [
+      'Fast request quota (500/mo) switches to queued slow requests once depleted',
+      'Large monorepos with hundreds of thousands of files require careful indexing configuration',
+      'Requires running locally as a desktop app rather than a browser sandbox'
+    ],
+    verdict: {
+      summary: 'Cursor has definitively outpaced standard editor extensions. By embedding multi-file reasoning and predictive Tab completion directly into a familiar VS Code shell, it offers an indispensable 3x productivity boost for serious coders.',
+      recommendation: 'Must-Have',
+      score: 4.9,
+      bottomLine: 'The single most impactful developer tool created in the generative AI era.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'GitHub Copilot',
+        advantage: 'Far deeper repository-wide multi-file editing (Composer) and superior Claude 3.5 Sonnet intelligence.',
+        disadvantage: 'GitHub Copilot has native enterprise compliance integration and direct Visual Studio support.'
+      },
+      {
+        competitorName: 'Windsurf',
+        advantage: 'Massive developer ecosystem with seamless 100% VS Code extension compatibility.',
+        disadvantage: 'Windsurf offers deep Cascade agentic flows that some developers prefer for autonomous terminal tasks.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Install & Import VS Code Settings', description: 'Download Cursor and click "Import" to bring over all your current VS Code extensions and settings in one click.' },

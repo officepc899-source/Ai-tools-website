@@ -456,6 +456,8 @@ export const writingTools: AITool[] = [
       }
     ],
     bestFor: 'Marketing teams, agencies, and e-commerce brands needing unified brand voice across dozens of channels.',
+    targetUsers: ['Enterprise Content Marketers', 'Performance Ad Copywriters', 'Digital Agencies', 'Brand Managers', 'E-commerce Teams'],
+    supportedPlatforms: ['Web Studio App', 'Chrome Extension', 'Google Docs Add-on', 'REST API'],
     keyFeatures: [
       'Brand Voice engine learning tone from uploaded websites and style guides',
       'End-to-end Campaign generator producing blogs, emails, and social ads from a single brief',
@@ -471,6 +473,29 @@ export const writingTools: AITool[] = [
     cons: [
       'No permanent free tier (7-day free trial requires credit card)',
       'Higher pricing threshold compared to general conversational models'
+    ],
+    limitations: [
+      'Requires entering a credit card to activate the 7-day trial',
+      'Entry Creator plan ($39/mo) only allows a single user seat and 1 brand voice profile',
+      'Surfer SEO integration requires a separate paid Surfer subscription'
+    ],
+    verdict: {
+      summary: 'Jasper is tailor-made for commercial marketing departments that need brand voice uniformity across multiple copywriters. While general chat tools are cheaper, Jasper’s campaign brief workflows and knowledge grounding save significant editorial review time.',
+      recommendation: 'Highly Recommended',
+      score: 4.7,
+      bottomLine: 'A serious enterprise content copilot for marketing teams that have outgrown raw ChatGPT prompts.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'Copy.ai',
+        advantage: 'Deeper Brand Voice adherence and seamless integration with Surfer SEO audits.',
+        disadvantage: 'Copy.ai has a permanent free plan and richer programmatic GTM automations.'
+      },
+      {
+        competitorName: 'ChatGPT Plus',
+        advantage: 'Pre-engineered marketing templates and coordinated multi-asset campaign generators.',
+        disadvantage: 'ChatGPT is much less expensive ($20/mo vs $39-$59/mo) and handles broader coding/reasoning tasks.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Upload Brand Guidelines', description: 'Feed your website URL, product sheets, and style rules into Jasper Brand Voice.' },

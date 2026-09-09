@@ -50,6 +50,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://aitoolnest.com/#/blog</loc>
     <lastmod>2026-03-08</lastmod>
     <changefreq>daily</changefreq>
@@ -166,5 +172,103 @@
     <lastmod>2026-03-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+
+  <!-- AI Gadgets & Hardware Reviews -->
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/ray-ban-meta-smart-glasses</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/rabbit-r1-ai-pocket-companion</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/humane-ai-pin-wearable</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/emo-ai-desktop-pet-robot</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/plaud-note-ai-voice-recorder</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/benq-screenbar-halo-ai-lightbar</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/logitech-mx-master-3s-smart-mouse</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/autonomous-smartdesk-pro-ai-workstation</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/insta360-link-2-ai-4k-webcam</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/hollyland-lark-m2-ai-wireless-mic</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/obsbot-tail-air-4k-ai-ndi-camera</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/loupedeck-live-s-streaming-console</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/roborock-s8-pro-ultra-ai-robot-vacuum</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/aqara-smart-video-doorbell-g4</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/ecobee-smart-thermostat-premium-ai</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://aitoolnest.com/#/ai-gadgets/switchbot-curtain-3-smart-automation</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

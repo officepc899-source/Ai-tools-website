@@ -22,6 +22,8 @@ import { AIPromptsView } from './views/AIPromptsView';
 import { BusinessIdeasView } from './views/BusinessIdeasView';
 import { BusinessIdeaDetailView } from './views/BusinessIdeaDetailView';
 import { DigitalProductsView } from './views/DigitalProductsView';
+import { GadgetsView } from './views/GadgetsView';
+import { GadgetDetailView } from './views/GadgetDetailView';
 import { BlogView } from './views/BlogView';
 import { ArticleDetailView } from './views/ArticleDetailView';
 import { PinterestLandingView } from './views/PinterestLandingView';
@@ -112,6 +114,25 @@ const AppContent: React.FC = () => {
 
     if (cleanPath === '/digital-products') {
       return <DigitalProductsView />;
+    }
+
+    if (cleanPath === '/ai-gadgets' || cleanPath === '/gadgets') {
+      return <GadgetsView />;
+    }
+
+    if (cleanPath.startsWith('/ai-gadgets/')) {
+      const slug = cleanPath.replace('/ai-gadgets/', '');
+      return <GadgetDetailView slug={slug} />;
+    }
+
+    if (cleanPath.startsWith('/gadget/')) {
+      const slug = cleanPath.replace('/gadget/', '');
+      return <GadgetDetailView slug={slug} />;
+    }
+
+    if (cleanPath.startsWith('/gadgets/')) {
+      const slug = cleanPath.replace('/gadgets/', '');
+      return <GadgetDetailView slug={slug} />;
     }
 
     if (cleanPath === '/blog') {

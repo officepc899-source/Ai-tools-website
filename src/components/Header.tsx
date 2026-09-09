@@ -89,6 +89,16 @@ export const Header: React.FC = () => {
               Prompt Library
             </button>
 
+            <button
+              onClick={() => handleNav('/ai-gadgets')}
+              className={`transition-colors cursor-pointer py-1.5 inline-flex items-center gap-1 ${
+                currentPath === '/ai-gadgets' || currentPath === '/gadgets' ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'hover:text-indigo-600 dark:hover:text-white'
+              }`}
+            >
+              <span>AI Gadgets</span>
+              <span className="text-[9px] px-1.5 py-0.2 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-bold uppercase">Deals</span>
+            </button>
+
             {/* Explore Hubs Dropdown */}
             <div className="relative">
               <button
@@ -237,6 +247,15 @@ export const Header: React.FC = () => {
             }`}
           >
             Prompt Library
+          </button>
+          <button
+            onClick={() => handleNav('/ai-gadgets')}
+            className={`w-full text-left px-3 py-2 rounded-xl font-medium flex items-center justify-between ${
+              currentPath === '/ai-gadgets' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+            }`}
+          >
+            <span>AI Gadgets & Hardware</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-bold uppercase">Deals</span>
           </button>
           <button
             onClick={() => handleNav('/chatgpt-alternatives')}

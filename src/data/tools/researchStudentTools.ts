@@ -29,6 +29,8 @@ export const researchStudentTools: AITool[] = [
       }
     ],
     bestFor: 'Academic researchers, students, journalists, financial analysts, and knowledge workers seeking citation-backed answers.',
+    targetUsers: ['Academic Researchers', 'Journalists & Writers', 'College Students', 'Investment Analysts', 'Curious Knowledge Seekers'],
+    supportedPlatforms: ['Web App', 'iOS & Android Mobile', 'Chrome Extension', 'Mac Menubar App', 'Sonar API'],
     keyFeatures: [
       'Inline Citations linking every factual sentence directly to primary sources',
       'Focus Modes restricting searches to Academic papers, YouTube, Reddit, or Computational data',
@@ -44,6 +46,29 @@ export const researchStudentTools: AITool[] = [
     cons: [
       'Occasional niche web sources can require cross-examination',
       'Free plan restricts deep multi-step Pro searches'
+    ],
+    limitations: [
+      'Free plan only offers 5 Pro (multi-step) queries every 4 hours',
+      'Web citations occasionally draw from unvetted forums if Focus Mode is left on "All"',
+      'Cannot execute custom Python code or live terminal binaries directly'
+    ],
+    verdict: {
+      summary: 'Perplexity has fundamentally transformed web search from blue-link scrolling into an intelligent citation-grounded research dialog. For students, writers, and analysts, it is faster and cleaner than Google or standard ChatGPT.',
+      recommendation: 'Must-Have',
+      score: 4.9,
+      bottomLine: 'The single best AI answer engine for verified, cited information on the web.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'Google Search',
+        advantage: 'Zero ad banners, zero SEO fluff sites, and concise synthesized answers with immediate footnotes.',
+        disadvantage: 'Google has broader localized real-time map listings and merchant stock data.'
+      },
+      {
+        competitorName: 'ChatGPT',
+        advantage: 'Faster live multi-source retrieval with direct transparent footnotes on every claim.',
+        disadvantage: 'ChatGPT offers superior voice mode and sandbox Python data analysis.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Choose Focus Mode', description: 'Select "Academic" for peer-reviewed papers or "All" for broad web research.' },
@@ -88,6 +113,8 @@ export const researchStudentTools: AITool[] = [
       }
     ],
     bestFor: 'College students, graduate researchers, legal analysts, and historians reviewing extensive collections of documents.',
+    targetUsers: ['College & Graduate Students', 'Academic Researchers', 'Legal Counsel & Paralegals', 'Non-fiction Authors', 'Podcast Listeners'],
+    supportedPlatforms: ['Web Browser (Desktop & Mobile optimized)', 'Google Workspace Integration'],
     keyFeatures: [
       'Grounded Responses answering questions exclusively from your uploaded documents without external hallucinations',
       'Audio Overview turning uploaded reading lists into an engaging, two-host audio discussion you can listen to on the go',
@@ -103,6 +130,29 @@ export const researchStudentTools: AITool[] = [
     cons: [
       'Cannot browse the open live web (relies exclusively on user-provided sources)',
       'Audio Overview host voices are not yet directly customizable'
+    ],
+    limitations: [
+      'Strictly grounded: will not synthesize information outside of the files you manually attach',
+      'Audio Overview length and host personality cannot be steered with custom prompts yet',
+      'No native mobile app store package (accessible through mobile web browser)'
+    ],
+    verdict: {
+      summary: 'NotebookLM is Google’s secret weapon for serious students and researchers. By grounding Gemini 1.5 Pro exclusively in your uploaded source files, it virtually eradicates hallucinations, and its viral Audio Overview podcasts make dense reading addictive.',
+      recommendation: 'Must-Have',
+      score: 4.9,
+      bottomLine: 'The single most effective study and source-synthesis tool currently available for free.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'Perplexity',
+        advantage: '100% grounded in your own private reading files with zero hallucination and conversational audio podcasts.',
+        disadvantage: 'Perplexity searches the open live internet for breaking news and unindexed websites.'
+      },
+      {
+        competitorName: 'ChatPDF',
+        advantage: 'Supports 50 diverse sources simultaneously (including YouTube lectures and Google Docs) completely free.',
+        disadvantage: 'ChatPDF is simpler for single quick PDF queries without requiring Google login.'
+      }
     ],
     howToUse: [
       { step: 1, title: 'Upload Sources', description: 'Upload up to 50 PDFs, Google Docs, copied text, or YouTube lecture links.' },
