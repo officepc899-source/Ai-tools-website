@@ -6,7 +6,7 @@ import { businessProductivityTools } from './tools/businessProductivityTools';
 import { researchStudentTools } from './tools/researchStudentTools';
 import { codingAndAudioTools } from './tools/codingAndAudioTools';
 
-const rawTools: AITool[] = [
+const allRawTools: AITool[] = [
   ...writingTools,
   ...designAndImageTools,
   ...videoTools,
@@ -14,6 +14,17 @@ const rawTools: AITool[] = [
   ...researchStudentTools,
   ...codingAndAudioTools,
 ];
+
+// Ensure no duplicate IDs or slugs exist across categories
+const seenToolIds = new Set<string>();
+const rawTools: AITool[] = allRawTools.filter((tool) => {
+  if (seenToolIds.has(tool.id) || seenToolIds.has(tool.slug)) {
+    return false;
+  }
+  seenToolIds.add(tool.id);
+  seenToolIds.add(tool.slug);
+  return true;
+});
 
 // Helper to guarantee every tool has consistent tags, clean category matching, and badges
 export const INITIAL_AI_TOOLS: AITool[] = rawTools.map((tool) => {

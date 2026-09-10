@@ -11,7 +11,7 @@ export const codingAndAudioTools: AITool[] = [
     fullDescription: 'ElevenLabs is the undisputed leader in synthetic voice generation and voice cloning. Utilizing deep generative voice models, ElevenLabs renders spoken audio with human-like breathing, pacing, inflection, and emotional tone. Creators, game developers, audiobook publishers, and video editors worldwide rely on ElevenLabs for studio-grade voiceovers.',
     category: 'ai-audio',
     categoryLabel: 'AI Audio',
-    categories: ['ai-audio', 'free-ai-tools', 'ai-video'],
+    categories: ['ai-audio', 'free-ai-tools', 'ai-video', 'ai-video-tools', 'ai-productivity-tools'],
     pricingType: 'freemium',
     pricingSummary: 'Free plan with 10,000 characters/month; Starter plan starts at $5/month ($2.50 first month).',
     pricingPlans: [
@@ -316,7 +316,7 @@ export const codingAndAudioTools: AITool[] = [
     fullDescription: 'GitHub Copilot is the enterprise benchmark in developer autocomplete and workspace intelligence. Trained on billions of lines of public code, Copilot assists millions of programmers by predicting next lines, converting comments into working functions, generating pull request summaries, and fixing security vulnerabilities directly in the IDE.',
     category: 'ai-coding',
     categoryLabel: 'AI Coding',
-    categories: ['ai-coding', 'ai-productivity'],
+    categories: ['ai-coding', 'ai-productivity', 'ai-productivity-tools', 'ai-tools-for-students', 'free-ai-tools'],
     pricingType: 'paid',
     pricingSummary: '30-day free trial; Individual plan costs $10/month or $100/year (Free for students & OSS maintainers).',
     pricingPlans: [
