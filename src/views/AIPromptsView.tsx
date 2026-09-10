@@ -4,6 +4,7 @@ import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { AI_PROMPTS, AIPrompt } from '../data/promptsData';
+import { copyToClipboard } from '../utils/clipboard';
 
 export const AIPromptsView: React.FC = () => {
   const { showToast } = useApp();
@@ -25,13 +26,17 @@ export const AIPromptsView: React.FC = () => {
     return matchesSearch && matchesCategory && matchesModel;
   });
 
-  const handleCopy = (prompt: AIPrompt) => {
-    navigator.clipboard.writeText(prompt.promptText);
-    setCopiedId(prompt.id);
-    showToast(`Copied prompt: "${prompt.title}" to clipboard!`);
-    setTimeout(() => {
-      setCopiedId(null);
-    }, 2000);
+  const handleCopy = async (prompt: AIPrompt) => {
+    const success = await copyToClipboard(prompt.promptText);
+    if (success) {
+      setCopiedId(prompt.id);
+      showToast(`Copied prompt: "${prompt.title}" to clipboard!`);
+      setTimeout(() => {
+        setCopiedId(null);
+      }, 2000);
+    } else {
+      showToast('Unable to copy to clipboard');
+    }
   };
 
   const faqSchema = {

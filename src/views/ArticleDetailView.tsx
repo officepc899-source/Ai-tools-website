@@ -23,14 +23,20 @@ import {
   Copy,
   BookOpen,
   Eye,
-  Award
+  Award,
+  Pin,
+  ChevronLeft,
+  ChevronRight,
+  Globe,
+  Tag
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
+import { copyToClipboard } from '../utils/clipboard';
 import { ArticleCard } from '../components/ArticleCard';
 import { AdBanner } from '../components/AdBanner';
-import { getArticleBySlug } from '../data/articlesData';
+import { getArticleBySlug, getRelatedArticles, getPreviousAndNextArticles } from '../data/articlesData';
 
 interface ArticleDetailViewProps {
   slug: string;
@@ -41,6 +47,7 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [copiedLink, setCopiedLink] = useState(false);
   const [activeHeadingId, setActiveHeadingId] = useState<string>('');
+  const [readingProgress, setReadingProgress] = useState(0);
 
   const article = useMemo(() => {
     return getArticleBySlug(slug) || articles.find((a) => a.slug === slug);
@@ -48,10 +55,27 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
 
   const relatedArticles = useMemo(() => {
     if (!article) return [];
-    return articles
-      .filter((a) => a.id !== article.id && (a.category === article.category || (article.relatedArticleSlugs && article.relatedArticleSlugs.includes(a.slug))))
-      .slice(0, 3);
-  }, [articles, article]);
+    return getRelatedArticles(article, 3);
+  }, [article]);
+
+  const { previous: prevArticle, next: nextArticle } = useMemo(() => {
+    if (!article) return { previous: null, next: null };
+    return getPreviousAndNextArticles(article.slug);
+  }, [article]);
+
+  // Track reading scroll progress
+  useEffect(() => {
+    const handleScrollProgress = () => {
+      const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollTotal > 0) {
+        const progress = (window.scrollY / scrollTotal) * 100;
+        setReadingProgress(Math.min(100, Math.max(0, progress)));
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollProgress, { passive: true });
+    return () => window.removeEventListener('scroll', handleScrollProgress);
+  }, []);
 
   // Track active section for Table of Contents
   useEffect(() => {
@@ -93,12 +117,14 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
 
   const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://aitoolnest.com/#/blog/${article.slug}`;
 
-  const handleCopyLink = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(currentUrl);
+  const handleCopyLink = async () => {
+    const success = await copyToClipboard(currentUrl);
+    if (success) {
       setCopiedLink(true);
       showToast('Article link copied to clipboard!');
       setTimeout(() => setCopiedLink(false), 2500);
+    } else {
+      showToast('Unable to copy link to clipboard');
     }
   };
 
@@ -110,6 +136,11 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
 
   const handleShareLinkedIn = () => {
     const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+    window.open(shareUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleSharePinterest = () => {
+    const shareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(currentUrl)}&media=${encodeURIComponent(article.featuredImage)}&description=${encodeURIComponent(article.title)}`;
     window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -270,7 +301,16 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
   const combinedSchema = [articleSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])];
 
   return (
-    <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <>
+      {/* Sticky Top Reading Progress Bar */}
+      <div className="fixed top-0 left-0 right-0 h-1 bg-slate-200/40 dark:bg-slate-800/40 z-50">
+        <div
+          className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-rose-500 transition-all duration-150 ease-out"
+          style={{ width: `${readingProgress}%` }}
+        />
+      </div>
+
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       <SEOHead
         title={`${article.metaTitle || article.title} | AIToolNest Publication`}
         description={article.metaDescription || article.excerpt}
@@ -375,6 +415,15 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
             >
               <Linkedin className="w-3.5 h-3.5 text-blue-600" />
               <span>Share</span>
+            </button>
+
+            <button
+              onClick={handleSharePinterest}
+              title="Pin on Pinterest"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50/60 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 text-xs font-semibold transition-colors cursor-pointer"
+            >
+              <Pin className="w-3.5 h-3.5 text-rose-600 fill-rose-600" />
+              <span>Pinterest</span>
             </button>
 
             <button
@@ -564,21 +613,46 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
         </section>
       )}
 
+      {/* Article Categories & Tags */}
+      <section className="pt-6 pb-2 border-t border-slate-200 dark:border-slate-800 space-y-3">
+        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <Tag className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+          <span>Filed Under Topics &amp; Keywords</span>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => navigate('/blog')}
+            className="px-3 py-1 rounded-xl text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/50 hover:bg-indigo-100 dark:hover:bg-indigo-900 cursor-pointer transition-colors"
+          >
+            Category: {article.category}
+          </button>
+          {article.tags && article.tags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => navigate('/blog')}
+              className="px-2.5 py-1 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 cursor-pointer transition-colors"
+            >
+              #{tag}
+            </button>
+          ))}
+        </div>
+      </section>
+
       {/* Author Biography Box */}
-      <section className="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center sm:items-start gap-5">
+      <section className="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-xs">
         <img
           src={article.author.avatar}
           alt={article.author.name}
           className="w-16 h-16 rounded-2xl object-cover border-2 border-indigo-600/30 dark:border-indigo-400/30 shrink-0 shadow-sm"
           referrerPolicy="no-referrer"
         />
-        <div className="space-y-2 text-center sm:text-left">
+        <div className="space-y-3 text-center sm:text-left flex-1">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <h4 className="text-base font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">
               About {article.author.name}
             </h4>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
-              Staff Contributor
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200/50">
+              Verified Contributor
             </span>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{article.author.role}</p>
@@ -586,6 +660,39 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
             {article.author.bio ||
               'Researcher and analyst covering generative AI models, productivity tools, and computational workflows for AIToolNest.'}
           </p>
+
+          {/* Author Socials & Directory */}
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-1 text-xs">
+            {article.author.social?.twitter && (
+              <a
+                href={article.author.social.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition-colors"
+              >
+                <Twitter className="w-3.5 h-3.5 text-sky-500" />
+                <span>Twitter / X</span>
+              </a>
+            )}
+            {article.author.social?.linkedin && (
+              <a
+                href={article.author.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition-colors"
+              >
+                <Linkedin className="w-3.5 h-3.5 text-blue-600" />
+                <span>LinkedIn</span>
+              </a>
+            )}
+            <button
+              onClick={() => navigate('/blog')}
+              className="inline-flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 font-semibold hover:underline cursor-pointer sm:ml-auto"
+            >
+              <span>Explore All Dispatches</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </section>
 
@@ -743,6 +850,66 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
         </div>
       </section>
 
+      {/* Previous & Next Articles Navigation */}
+      {(prevArticle || nextArticle) && (
+        <section className="pt-8 border-t border-slate-200 dark:border-slate-800 space-y-4">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            Read Next In AIToolNest Intelligence
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {prevArticle ? (
+              <div
+                onClick={() => {
+                  navigate(`/blog/${prevArticle.slug}`);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-indigo-500/50 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-2"
+              >
+                <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold">
+                  <ChevronLeft className="w-4 h-4 text-indigo-600 group-hover:-translate-x-1 transition-transform" />
+                  <span>Previous Article</span>
+                </div>
+                <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 line-clamp-1">
+                  {prevArticle.category}
+                </span>
+                <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                  {prevArticle.title}
+                </h4>
+              </div>
+            ) : (
+              <div className="hidden sm:flex rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 p-5 items-center justify-center text-xs text-slate-400">
+                You are reading the earliest publication in this cycle
+              </div>
+            )}
+
+            {nextArticle ? (
+              <div
+                onClick={() => {
+                  navigate(`/blog/${nextArticle.slug}`);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-indigo-500/50 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between space-y-2 sm:text-right"
+              >
+                <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold sm:justify-end">
+                  <span>Next Article</span>
+                  <ChevronRight className="w-4 h-4 text-indigo-600 group-hover:translate-x-1 transition-transform" />
+                </div>
+                <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 line-clamp-1">
+                  {nextArticle.category}
+                </span>
+                <h4 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                  {nextArticle.title}
+                </h4>
+              </div>
+            ) : (
+              <div className="hidden sm:flex rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 p-5 items-center justify-center text-xs text-slate-400">
+                You are reading our latest publication
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* Related Articles Section */}
       {relatedArticles.length > 0 && (
         <section className="pt-8 border-t border-slate-200 dark:border-slate-800 space-y-6">
@@ -766,5 +933,6 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
         </section>
       )}
     </article>
+    </>
   );
 };

@@ -43,6 +43,7 @@ import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { ToolCard } from '../components/ToolCard';
 import { AdBanner } from '../components/AdBanner';
+import { copyToClipboard } from '../utils/clipboard';
 
 interface ToolDetailViewProps {
   slug: string;
@@ -106,12 +107,14 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
   const targetUrl = tool.hasAffiliate ? tool.affiliateUrl : tool.officialUrl;
   const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://aitoolnest.com/#/ai-tools/${tool.slug}`;
 
-  const handleCopyLink = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(currentUrl);
+  const handleCopyLink = async () => {
+    const success = await copyToClipboard(currentUrl);
+    if (success) {
       setCopied(true);
       showToast('Tool review URL copied to clipboard!');
       setTimeout(() => setCopied(false), 2000);
+    } else {
+      showToast('Unable to copy link to clipboard');
     }
   };
 

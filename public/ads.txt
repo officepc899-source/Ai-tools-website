@@ -1,0 +1,8 @@
+# ads.txt for AIToolNest (https://aitoolnest.com)
+# Google AdSense Publisher Identification File
+# Replace pub-XXXXXXXXXXXXXXXX with your Google AdSense Publisher ID
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+
+# Additional Affiliate & Ad Networks (Ready for expansion)
+# amazon.com, your-amazon-publisher-id, DIRECT
+# aliexpress.com, your-aliexpress-id, DIRECT

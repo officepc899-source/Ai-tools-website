@@ -136,7 +136,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [businessIdeas] = useState<BusinessIdea[]>(INITIAL_BUSINESS_IDEAS);
   const [digitalProducts] = useState<DigitalProduct[]>(INITIAL_DIGITAL_PRODUCTS);
-  const ARTICLES_VERSION = 'v2_pub_cat_6';
+  const ARTICLES_VERSION = 'v3_20_seo_articles';
   const [articles, setArticles] = useState<Article[]>(() => {
     try {
       const savedVersion = localStorage.getItem('nexus_articles_version');

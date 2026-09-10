@@ -43,7 +43,8 @@ import { ToolCardSkeleton } from '../components/ToolCardSkeleton';
 import { ArticleCard } from '../components/ArticleCard';
 import { AI_PROMPTS } from '../data/promptsData';
 import { INITIAL_ARTICLES } from '../data/articlesData';
-import { AI_GADGETS_DATA } from '../data/gadgetsData';
+import { AI_GADGETS_DATA, getFeaturedGadgets } from '../data/gadgetsData';
+import { copyToClipboard } from '../utils/clipboard';
 
 export const HomeView: React.FC = () => {
   const { tools, navigate, setIsSearchOpen, setSubmitToolModalOpen, showToast } = useApp();
@@ -1014,7 +1015,7 @@ export const HomeView: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {AI_GADGETS_DATA.slice(0, 3).map((gadget) => (
+          {getFeaturedGadgets(3).map((gadget) => (
             <div
               key={gadget.id}
               className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col justify-between group"
@@ -1025,8 +1026,8 @@ export const HomeView: React.FC = () => {
                   className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-950 cursor-pointer"
                 >
                   <img
-                    src={gadget.imageUrl}
-                    alt={gadget.name}
+                    src={gadget.image || gadget.imageUrl}
+                    alt={gadget.title || gadget.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     decoding="async"
@@ -1055,16 +1056,16 @@ export const HomeView: React.FC = () => {
                   <div className="flex items-center gap-1.5 text-xs text-amber-500 font-semibold">
                     <Star className="w-3.5 h-3.5 fill-current" />
                     <span>{gadget.rating.toFixed(1)}</span>
-                    <span className="text-slate-400 font-normal">({gadget.reviewsCount.toLocaleString()})</span>
+                    <span className="text-slate-400 font-normal">({(gadget.reviews || gadget.reviewsCount || 0).toLocaleString()})</span>
                   </div>
                   <h3
                     onClick={() => navigate(`/ai-gadgets/${gadget.slug}`)}
                     className="font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1 cursor-pointer"
                   >
-                    {gadget.name}
+                    {gadget.title || gadget.name}
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                    {gadget.shortReview}
+                    {gadget.description || gadget.shortReview}
                   </p>
                 </div>
               </div>
@@ -1078,9 +1079,9 @@ export const HomeView: React.FC = () => {
                     View Specs
                   </button>
                   <a
-                    href={gadget.affiliateUrl}
+                    href={gadget.affiliateLink || gadget.affiliateUrl}
                     target="_blank"
-                    rel="nofollow sponsored"
+                    rel="nofollow sponsored noopener"
                     className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition-colors inline-flex items-center gap-1.5 shadow-xs"
                   >
                     <span>Check Price</span>
@@ -1197,9 +1198,13 @@ export const HomeView: React.FC = () => {
                 </div>
                 <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
                   <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(item.promptText);
-                      showToast('Copied prompt to clipboard!');
+                    onClick={async () => {
+                      const success = await copyToClipboard(item.promptText);
+                      if (success) {
+                        showToast('Copied prompt to clipboard!');
+                      } else {
+                        showToast('Unable to copy to clipboard');
+                      }
                     }}
                     className="inline-flex items-center gap-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer"
                   >

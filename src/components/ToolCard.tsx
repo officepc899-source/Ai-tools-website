@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { AITool } from '../types';
 import { useApp } from '../context/AppContext';
+import { copyToClipboard } from '../utils/clipboard';
 
 interface ToolCardProps {
   tool: AITool;
@@ -144,14 +145,16 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, featured = false }) =>
     }
   };
 
-  const handleShare = (e: React.MouseEvent) => {
+  const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
     const shareUrl = `${window.location.origin}/#/ai-tools/${tool.slug}`;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(shareUrl);
+    const success = await copyToClipboard(shareUrl);
+    if (success) {
       setCopied(true);
       showToast(`Link to ${tool.name} copied to clipboard!`);
       setTimeout(() => setCopied(false), 2000);
+    } else {
+      showToast('Unable to copy link to clipboard');
     }
   };
 

@@ -1,8 +1,36 @@
-# Robots.txt for AIToolNest
+# Robots.txt for AIToolNest (https://aitoolnest.com)
+# Optimized for Google Search Console, Bing Webmaster Tools & Major Search Engines
+
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api/
+Disallow: /checkout
+Disallow: /*?*preview=true
 
-# Sitemaps
+# Search Engine Crawlers Specific Rules
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Pinterestbot
+Allow: /
+
+# Host
+Host: https://aitoolnest.com
+
+# Sitemaps and Feeds
 Sitemap: https://aitoolnest.com/sitemap.xml
+Sitemap: https://aitoolnest.com/feed.xml

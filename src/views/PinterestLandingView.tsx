@@ -20,6 +20,7 @@ import { ToolCard } from '../components/ToolCard';
 import { BusinessIdeaCard } from '../components/BusinessIdeaCard';
 import { DigitalProductCard } from '../components/DigitalProductCard';
 import { AdBanner } from '../components/AdBanner';
+import { copyToClipboard } from '../utils/clipboard';
 
 interface PinterestLandingViewProps {
   slug: string;
@@ -50,10 +51,12 @@ export const PinterestLandingView: React.FC<PinterestLandingViewProps> = ({ slug
     );
   }
 
-  const handleSharePin = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
+  const handleSharePin = async () => {
+    const success = await copyToClipboard(window.location.href);
+    if (success) {
       showToast('Pinterest Hub link copied to clipboard!');
+    } else {
+      showToast('Unable to copy link to clipboard');
     }
   };
 

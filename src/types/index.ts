@@ -202,6 +202,11 @@ export interface Article {
     role: string;
     avatar: string;
     bio?: string;
+    social?: {
+      twitter?: string;
+      linkedin?: string;
+      website?: string;
+    };
   };
   featuredImage: string;
   excerpt: string;
@@ -233,3 +238,5 @@ export interface PinterestLandingTopic {
   metaTitle: string;
   metaDescription: string;
 }
+
+export * from './product';

@@ -166,3 +166,6 @@ export const AI_DIRECTORY_CATEGORIES = DIRECTORY_CATEGORIES.map((cat) => ({
   ...cat,
   title: cat.name,
 }));
+
+export const findCategoryBySlugOrId = getCategoryBySlug;
+

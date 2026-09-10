@@ -18,6 +18,7 @@ import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { BusinessIdeaCard } from '../components/BusinessIdeaCard';
 import { AdBanner } from '../components/AdBanner';
+import { copyToClipboard } from '../utils/clipboard';
 
 interface BusinessIdeaDetailViewProps {
   slug: string;
@@ -48,10 +49,12 @@ export const BusinessIdeaDetailView: React.FC<BusinessIdeaDetailViewProps> = ({ 
     );
   }
 
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
+  const handleShare = async () => {
+    const success = await copyToClipboard(window.location.href);
+    if (success) {
       showToast('Blueprint link copied to clipboard!');
+    } else {
+      showToast('Unable to copy link to clipboard');
     }
   };
 

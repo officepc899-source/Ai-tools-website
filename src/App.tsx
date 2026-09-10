@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { AffiliateDisclosureBanner } from './components/AffiliateDisclosure';
+import { AffiliateDisclosureBanner, AffiliateDisclosureModal } from './components/AffiliateDisclosure';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
 import { CheckoutModal } from './components/CheckoutModal';
 import { SubmitToolModal } from './components/SubmitToolModal';
 import { ScrollToTop } from './components/ScrollToTop';
+import { CookieConsent } from './components/CookieConsent';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Views
@@ -24,6 +25,8 @@ import { BusinessIdeaDetailView } from './views/BusinessIdeaDetailView';
 import { DigitalProductsView } from './views/DigitalProductsView';
 import { GadgetsView } from './views/GadgetsView';
 import { GadgetDetailView } from './views/GadgetDetailView';
+import { AffiliateProductPortalView } from './views/AffiliateProductPortalView';
+import { AffiliateProductDetailView } from './views/AffiliateProductDetailView';
 import { BlogView } from './views/BlogView';
 import { ArticleDetailView } from './views/ArticleDetailView';
 import { PinterestLandingView } from './views/PinterestLandingView';
@@ -116,6 +119,21 @@ const AppContent: React.FC = () => {
       return <DigitalProductsView />;
     }
 
+    // Affiliate Product Portal Routes
+    if (cleanPath === '/products' || cleanPath === '/affiliate-products') {
+      return <AffiliateProductPortalView />;
+    }
+
+    if (cleanPath.startsWith('/products/')) {
+      const slug = cleanPath.replace('/products/', '');
+      return <AffiliateProductDetailView slug={slug} />;
+    }
+
+    if (cleanPath.startsWith('/product/')) {
+      const slug = cleanPath.replace('/product/', '');
+      return <AffiliateProductDetailView slug={slug} />;
+    }
+
     if (cleanPath === '/ai-gadgets' || cleanPath === '/gadgets') {
       return <GadgetsView />;
     }
@@ -190,7 +208,12 @@ const AppContent: React.FC = () => {
       return <AdvertiseView />;
     }
 
-    if (cleanPath === '/affiliate-disclosure') {
+    if (
+      cleanPath === '/affiliate-disclosure' ||
+      cleanPath === '/affiliate-policy' ||
+      cleanPath === '/affiliates' ||
+      cleanPath === '/affiliate'
+    ) {
       return <AffiliateDisclosureView />;
     }
 
@@ -230,9 +253,13 @@ const AppContent: React.FC = () => {
       <GlobalSearchModal />
       <CheckoutModal />
       <SubmitToolModal />
+      <AffiliateDisclosureModal />
 
       {/* Floating Scroll to Top */}
       <ScrollToTop />
+
+      {/* GDPR / CCPA Cookie Consent Bar */}
+      <CookieConsent />
 
       {/* Toast Alert Notification */}
       {toast && (

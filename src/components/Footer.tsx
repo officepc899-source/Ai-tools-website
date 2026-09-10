@@ -172,6 +172,11 @@ export const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
+                <button onClick={() => navigate('/products')} className="hover:text-white transition-colors text-orange-400 font-semibold">
+                  Affiliate Products Portal
+                </button>
+              </li>
+              <li>
                 <button onClick={() => navigate('/ai-gadgets')} className="hover:text-white transition-colors text-amber-400 font-semibold">
                   AI Gadgets & Deals
                 </button>

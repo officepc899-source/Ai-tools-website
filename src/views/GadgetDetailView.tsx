@@ -24,12 +24,17 @@ import {
   ThumbsUp,
   Tag,
   Copy,
-  CheckCheck
+  CheckCheck,
+  ShoppingBag
 } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { getGadgetBySlug, getRelatedGadgets, AIGadget } from '../data/gadgetsData';
+import { copyToClipboard } from '../utils/clipboard';
 import { useApp } from '../context/AppContext';
+import { AdBanner } from '../components/AdBanner';
+import { TrustScoreBadge } from '../components/TrustScoreBadge';
+import { trackAffiliateClick } from '../utils/analytics';
 
 interface GadgetDetailViewProps {
   slug: string;
@@ -75,9 +80,9 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
 
   const relatedGadgets = getRelatedGadgets(gadget.id, gadget.category, 3);
   const currentUrl = `https://aitoolnest.com/#/ai-gadgets/${gadget.slug}`;
-  const shareTitle = encodeURIComponent(`${gadget.name} Review & Deals`);
+  const shareTitle = encodeURIComponent(`${gadget.title || gadget.name} Review & Deals`);
   const shareUrl = encodeURIComponent(currentUrl);
-  const shareMedia = encodeURIComponent(gadget.imageUrl);
+  const shareMedia = encodeURIComponent(gadget.image || gadget.imageUrl || '');
 
   // Social Share Handlers
   const shareOnTwitter = () => {
@@ -112,11 +117,15 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
     );
   };
 
-  const copyPageLink = () => {
-    navigator.clipboard.writeText(currentUrl);
-    setIsCopied(true);
-    showToast('Product link copied to clipboard!');
-    setTimeout(() => setIsCopied(false), 2500);
+  const copyPageLink = async () => {
+    const success = await copyToClipboard(currentUrl);
+    if (success) {
+      setIsCopied(true);
+      showToast('Product link copied to clipboard!');
+      setTimeout(() => setIsCopied(false), 2500);
+    } else {
+      showToast('Unable to copy link to clipboard');
+    }
   };
 
   const toggleFaq = (index: number) => {
@@ -129,9 +138,9 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
   const productSchema = {
     '@context': 'https://schema.org/',
     '@type': 'Product',
-    name: gadget.name,
-    image: gadget.galleryImages && gadget.galleryImages.length > 0 ? gadget.galleryImages : [gadget.imageUrl],
-    description: gadget.shortReview,
+    name: gadget.title || gadget.name,
+    image: (gadget.gallery && gadget.gallery.length > 0) ? gadget.gallery : (gadget.galleryImages && gadget.galleryImages.length > 0 ? gadget.galleryImages : [gadget.image || gadget.imageUrl]),
+    description: gadget.description || gadget.shortReview,
     brand: {
       '@type': 'Brand',
       name: gadget.brand
@@ -141,15 +150,15 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: gadget.rating,
-      reviewCount: gadget.reviewsCount,
+      reviewCount: gadget.reviews || gadget.reviewsCount,
       bestRating: '5',
       worstRating: '1'
     },
     offers: {
       '@type': 'Offer',
-      url: gadget.affiliateUrl,
+      url: gadget.affiliateLink || gadget.affiliateUrl,
       priceCurrency: 'USD',
-      price: gadget.numericPrice.toString(),
+      price: (gadget.numericPrice || parseFloat(String(gadget.price || '').replace(/[^0-9.]/g, '')) || 49.99).toFixed(2),
       priceValidUntil: '2026-12-31',
       itemCondition: 'https://schema.org/NewCondition',
       availability: 'https://schema.org/InStock',
@@ -160,15 +169,15 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
     }
   };
 
-  const imagesList = gadget.galleryImages && gadget.galleryImages.length > 0
-    ? gadget.galleryImages
-    : [gadget.imageUrl];
+  const imagesList = (gadget.gallery && gadget.gallery.length > 0)
+    ? gadget.gallery
+    : (gadget.galleryImages && gadget.galleryImages.length > 0 ? gadget.galleryImages : [gadget.image || gadget.imageUrl || '']);
 
   return (
     <div className="space-y-12 pb-24">
       <SEOHead
-        title={`${gadget.name} Review & Live Deals (2026) | AIToolNest`}
-        description={`${gadget.shortReview} In-depth hands-on review, pros & cons, full specifications, and verified deals on ${gadget.merchant}.`}
+        title={`${gadget.title || gadget.name} Review & Live Deals (2026) | AIToolNest`}
+        description={`${gadget.description || gadget.shortReview} In-depth hands-on review, pros & cons, full specifications, and verified deals on ${gadget.merchant}.`}
         canonicalUrl={currentUrl}
         schemaData={productSchema}
       />
@@ -263,28 +272,28 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
                 <Battery className="w-4 h-4 mx-auto text-indigo-500 mb-1" />
                 <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">Battery</span>
                 <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">
-                  {gadget.specs.batteryLife.split('(')[0].trim()}
+                  {(gadget.specifications?.['Battery Life'] || gadget.specs?.batteryLife || 'Standard').split('(')[0].trim()}
                 </span>
               </div>
               <div className="p-3 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md text-center">
                 <Cpu className="w-4 h-4 mx-auto text-indigo-500 mb-1" />
                 <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">AI Processor</span>
                 <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">
-                  {gadget.specs.aiChipset.split(' ')[0]}
+                  {(gadget.specifications?.['AI Chipset'] || gadget.specs?.aiChipset || 'AI Co-Processor').split(' ')[0]}
                 </span>
               </div>
               <div className="p-3 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md text-center">
                 <Wifi className="w-4 h-4 mx-auto text-indigo-500 mb-1" />
                 <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">Wireless</span>
                 <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">
-                  {gadget.specs.connectivity.split(',')[0]}
+                  {(gadget.specifications?.['Connectivity'] || gadget.specs?.connectivity || 'Wireless').split(',')[0]}
                 </span>
               </div>
               <div className="p-3 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md text-center">
                 <Smartphone className="w-4 h-4 mx-auto text-indigo-500 mb-1" />
                 <span className="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">System</span>
                 <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">
-                  {gadget.specs.compatibility.split(' ')[0]}
+                  {(gadget.specifications?.['Compatibility'] || gadget.specs?.compatibility || 'Multi-platform').split(' ')[0]}
                 </span>
               </div>
             </div>
@@ -300,7 +309,7 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
               </div>
 
               <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white font-['Space_Grotesk'] leading-tight tracking-tight">
-                {gadget.name}
+                {gadget.title || gadget.name}
               </h1>
 
               {/* Rating stars & verified review counts */}
@@ -321,7 +330,7 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
                   {gadget.rating.toFixed(1)} / 5.0
                 </span>
                 <span className="text-xs text-slate-400">
-                  ({gadget.reviewsCount.toLocaleString()} verified customer reviews)
+                  ({(gadget.reviews || gadget.reviewsCount || 0).toLocaleString()} verified customer reviews)
                 </span>
               </div>
             </div>
@@ -362,11 +371,20 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
               {/* Primary "Check Price" Affiliate Link Button */}
               <div className="space-y-2">
                 <a
-                  href={gadget.affiliateUrl}
+                  href={gadget.affiliateLink || gadget.affiliateUrl}
                   target="_blank"
-                  rel="nofollow sponsored"
-                  className="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99] text-white font-black text-base rounded-2xl shadow-lg shadow-indigo-600/25 transition-all flex items-center justify-center gap-3 cursor-pointer group text-center"
+                  rel="nofollow sponsored noopener"
+                  onClick={() =>
+                    trackAffiliateClick(
+                      gadget.title || gadget.name,
+                      gadget.merchant || 'AliExpress',
+                      gadget.affiliateLink || gadget.affiliateUrl,
+                      gadget.price
+                    )
+                  }
+                  className="w-full py-4 px-6 bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 active:scale-[0.99] text-white font-black text-base rounded-2xl shadow-xl shadow-orange-600/25 transition-all flex items-center justify-center gap-3 cursor-pointer group text-center"
                 >
+                  <ShoppingBag className="w-5 h-5" />
                   <span>Check Live Price on {gadget.merchant}</span>
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </a>
@@ -374,11 +392,14 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
                 <div className="flex items-center justify-between text-[11px] text-slate-400 px-1 pt-1">
                   <span className="flex items-center gap-1">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                    Official merchant warranty included
+                    AliExpress Buyer Protection Included
                   </span>
-                  <span>Fast shipping available</span>
+                  <span>Tracked Global Shipping</span>
                 </div>
               </div>
+
+              {/* Trust Score Compact Pill */}
+              <TrustScoreBadge variant="product-card" className="mt-2" />
 
               {/* Social Share & Pinterest Share Suite */}
               <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
@@ -533,78 +554,19 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <tbody>
-                <tr className="border-b border-slate-100 dark:border-slate-800">
-                  <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/3">
-                    Connectivity
-                  </th>
-                  <td className="py-3.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
-                    {gadget.specs.connectivity}
-                  </td>
-                </tr>
-                <tr className="border-b border-slate-100 dark:border-slate-800">
-                  <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Battery Runtime
-                  </th>
-                  <td className="py-3.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
-                    {gadget.specs.batteryLife}
-                  </td>
-                </tr>
-                <tr className="border-b border-slate-100 dark:border-slate-800">
-                  <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    AI Chipset / Processor
-                  </th>
-                  <td className="py-3.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
-                    {gadget.specs.aiChipset}
-                  </td>
-                </tr>
-                <tr className="border-b border-slate-100 dark:border-slate-800">
-                  <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Platform Compatibility
-                  </th>
-                  <td className="py-3.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
-                    {gadget.specs.compatibility}
-                  </td>
-                </tr>
-                {gadget.specs.weight && (
-                  <tr className="border-b border-slate-100 dark:border-slate-800">
-                    <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                      Weight
+                {Object.entries(gadget.specifications || gadget.specs || {}).map(([key, value], sIdx, arr) => (
+                  <tr
+                    key={key}
+                    className={sIdx < arr.length - 1 ? 'border-b border-slate-100 dark:border-slate-800' : ''}
+                  >
+                    <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider w-1/3">
+                      {key}
                     </th>
                     <td className="py-3.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
-                      {gadget.specs.weight}
+                      {value}
                     </td>
                   </tr>
-                )}
-                {gadget.specs.dimensions && (
-                  <tr className="border-b border-slate-100 dark:border-slate-800">
-                    <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                      Dimensions
-                    </th>
-                    <td className="py-3.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
-                      {gadget.specs.dimensions}
-                    </td>
-                  </tr>
-                )}
-                {gadget.specs.sensors && (
-                  <tr className="border-b border-slate-100 dark:border-slate-800">
-                    <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                      Integrated Sensors
-                    </th>
-                    <td className="py-3.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
-                      {gadget.specs.sensors}
-                    </td>
-                  </tr>
-                )}
-                {gadget.specs.warranty && (
-                  <tr>
-                    <th className="py-3.5 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                      Manufacturer Warranty
-                    </th>
-                    <td className="py-3.5 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">
-                      {gadget.specs.warranty}
-                    </td>
-                  </tr>
-                )}
+                ))}
               </tbody>
             </table>
           </div>
@@ -651,9 +613,9 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
 
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
               <a
-                href={gadget.affiliateUrl}
+                href={gadget.affiliateLink || gadget.affiliateUrl}
                 target="_blank"
-                rel="nofollow sponsored"
+                rel="nofollow sponsored noopener"
                 className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition-colors inline-flex items-center justify-center gap-2 cursor-pointer text-center"
               >
                 <span>Check Availability & Color Options</span>
@@ -665,11 +627,11 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
       </section>
 
       {/* Frequently Asked Questions (FAQ Accordions) */}
-      {gadget.faqs && gadget.faqs.length > 0 && (
+      {((gadget.FAQ && gadget.FAQ.length > 0) || (gadget.faqs && gadget.faqs.length > 0)) && (
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
-              Frequently Asked Questions About The {gadget.brand} {gadget.name}
+              Frequently Asked Questions About The {gadget.brand} {gadget.title || gadget.name}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
               Real answers to common buyer questions regarding battery, subscriptions, and compatibility.
@@ -677,7 +639,7 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
           </div>
 
           <div className="space-y-3">
-            {gadget.faqs.map((faq, idx) => {
+            {(gadget.FAQ || gadget.faqs || []).map((faq, idx) => {
               const isOpen = openFaqIndices.includes(idx);
               return (
                 <div
@@ -718,7 +680,7 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
                 Related AI Gadgets & Hardware
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                Explore similar devices in {gadget.categoryLabel} and adjacent categories.
+                Explore similar devices in {gadget.categoryLabel || 'same'} and adjacent categories.
               </p>
             </div>
             <button
@@ -742,8 +704,8 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
                     className="relative aspect-[16/10] overflow-hidden bg-slate-950 cursor-pointer"
                   >
                     <img
-                      src={item.imageUrl}
-                      alt={item.name}
+                      src={item.image || item.imageUrl}
+                      alt={item.title || item.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                       referrerPolicy="no-referrer"
@@ -766,16 +728,16 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
                     <div className="flex items-center gap-1.5 text-xs text-amber-500 font-semibold">
                       <Star className="w-3.5 h-3.5 fill-current" />
                       <span>{item.rating.toFixed(1)}</span>
-                      <span className="text-slate-400 font-normal">({item.reviewsCount})</span>
+                      <span className="text-slate-400 font-normal">({(item.reviews || item.reviewsCount || 0).toLocaleString()})</span>
                     </div>
                     <h4
                       onClick={() => navigate(`/ai-gadgets/${item.slug}`)}
                       className="font-bold text-slate-900 dark:text-white text-sm group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1 cursor-pointer"
                     >
-                      {item.name}
+                      {item.title || item.name}
                     </h4>
                     <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
-                      {item.shortReview}
+                      {item.description || item.shortReview}
                     </p>
                   </div>
                 </div>
@@ -789,9 +751,9 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
                       View Specs
                     </button>
                     <a
-                      href={item.affiliateUrl}
+                      href={item.affiliateLink || item.affiliateUrl}
                       target="_blank"
-                      rel="nofollow sponsored"
+                      rel="nofollow sponsored noopener"
                       className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition-colors inline-flex items-center gap-1 shadow-xs"
                     >
                       <span>Check Price</span>
@@ -814,11 +776,20 @@ export const GadgetDetailView: React.FC<GadgetDetailViewProps> = ({ slug }) => {
           </span>
         </div>
         <a
-          href={gadget.affiliateUrl}
+          href={gadget.affiliateLink || gadget.affiliateUrl}
           target="_blank"
-          rel="nofollow sponsored"
-          className="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-md inline-flex items-center gap-2 cursor-pointer"
+          rel="nofollow sponsored noopener"
+          onClick={() =>
+            trackAffiliateClick(
+              gadget.title || gadget.name,
+              gadget.merchant || 'AliExpress',
+              gadget.affiliateLink || gadget.affiliateUrl,
+              gadget.price
+            )
+          }
+          className="py-2.5 px-5 bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white font-bold text-xs rounded-xl shadow-md inline-flex items-center gap-2 cursor-pointer"
         >
+          <ShoppingBag className="w-3.5 h-3.5" />
           <span>Check Price on {gadget.merchant}</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>

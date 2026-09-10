@@ -7,6 +7,10 @@ interface SEOHeadProps {
   ogType?: 'website' | 'article' | 'product';
   ogImage?: string;
   schemaData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  keywords?: string[] | string;
+  author?: string;
+  twitterCreator?: string;
+  robots?: string;
 }
 
 export const SEOHead: React.FC<SEOHeadProps> = ({
@@ -15,11 +19,15 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   canonicalUrl,
   ogType = 'website',
   ogImage = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
-  schemaData
+  schemaData,
+  keywords,
+  author,
+  twitterCreator = '@AIToolNest',
+  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 }) => {
   useEffect(() => {
     // Update document title
-    const fullTitle = `${title} | AIToolNest`;
+    const fullTitle = title.includes('AIToolNest') ? title : `${title} | AIToolNest`;
     document.title = fullTitle;
 
     // Helper to update or create standard name meta tags
@@ -46,6 +54,20 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 
     // Standard meta tags
     updateOrCreateMetaName('description', description);
+    updateOrCreateMetaName('robots', robots);
+    updateOrCreateMetaName('googlebot', robots);
+
+    if (author) {
+      updateOrCreateMetaName('author', author);
+    }
+
+    if (keywords) {
+      const kwString = Array.isArray(keywords) ? keywords.join(', ') : keywords;
+      updateOrCreateMetaName('keywords', kwString);
+    }
+
+    const currentUrl =
+      canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://aitoolnest.com/');
 
     // Open Graph tags
     updateOrCreateMetaProperty('og:site_name', 'AIToolNest');
@@ -53,27 +75,25 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     updateOrCreateMetaProperty('og:description', description);
     updateOrCreateMetaProperty('og:type', ogType);
     updateOrCreateMetaProperty('og:image', ogImage);
-    if (canonicalUrl) {
-      updateOrCreateMetaProperty('og:url', canonicalUrl);
-    }
+    updateOrCreateMetaProperty('og:url', currentUrl);
+    updateOrCreateMetaProperty('og:locale', 'en_US');
 
     // Twitter Card tags
     updateOrCreateMetaName('twitter:card', 'summary_large_image');
     updateOrCreateMetaName('twitter:site', '@AIToolNest');
+    updateOrCreateMetaName('twitter:creator', twitterCreator);
     updateOrCreateMetaName('twitter:title', fullTitle);
     updateOrCreateMetaName('twitter:description', description);
     updateOrCreateMetaName('twitter:image', ogImage);
 
     // Update canonical link
     let canonicalLink = document.querySelector('link[rel="canonical"]');
-    if (canonicalUrl) {
-      if (!canonicalLink) {
-        canonicalLink = document.createElement('link');
-        canonicalLink.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalLink);
-      }
-      canonicalLink.setAttribute('href', canonicalUrl);
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
     }
+    canonicalLink.setAttribute('href', currentUrl);
 
     // Structured JSON-LD Schema
     const existingScript = document.getElementById('json-ld-schema');
@@ -81,7 +101,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       existingScript.remove();
     }
 
-    // Combine custom schema with default Organization schema
+    // Combine custom schema with default Organization and WebSite schema
     const orgSchema = {
       '@context': 'https://schema.org',
       '@type': 'Organization',
@@ -92,15 +112,28 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       sameAs: [
         'https://twitter.com/AIToolNest',
         'https://linkedin.com/company/aitoolnest',
+        'https://pinterest.com/aitoolnest',
         'https://github.com/aitoolnest'
       ]
     };
 
+    const webSiteSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'AIToolNest',
+      url: 'https://aitoolnest.com',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: 'https://aitoolnest.com/#/tools?q={search_term_string}',
+        'query-input': 'required name=search_term_string'
+      }
+    };
+
     const finalSchema = schemaData
       ? Array.isArray(schemaData)
-        ? [orgSchema, ...schemaData]
-        : [orgSchema, schemaData]
-      : orgSchema;
+        ? [orgSchema, webSiteSchema, ...schemaData]
+        : [orgSchema, webSiteSchema, schemaData]
+      : [orgSchema, webSiteSchema];
 
     const script = document.createElement('script');
     script.id = 'json-ld-schema';
@@ -114,7 +147,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
         s.remove();
       }
     };
-  }, [title, description, canonicalUrl, ogType, ogImage, schemaData]);
+  }, [title, description, canonicalUrl, ogType, ogImage, schemaData, keywords, author, twitterCreator, robots]);
 
   return null;
 };

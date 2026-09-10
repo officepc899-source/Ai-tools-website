@@ -24,7 +24,7 @@ import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { ToolCard } from '../components/ToolCard';
 import { AdBanner } from '../components/AdBanner';
-import { AI_DIRECTORY_CATEGORIES } from '../data/categoriesData';
+import { AI_DIRECTORY_CATEGORIES, findCategoryBySlugOrId } from '../data/categoriesData';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -40,13 +40,17 @@ export const ToolsDirectoryView: React.FC = () => {
   // Support /category/:slug or /ai-tools/category/:slug
   const routeCategory = useMemo(() => {
     const cleanPath = currentPath.split('?')[0];
+    let rawCategory = 'all';
     if (cleanPath.startsWith('/category/')) {
-      return cleanPath.replace('/category/', '');
+      rawCategory = cleanPath.replace('/category/', '');
+    } else if (cleanPath.startsWith('/ai-tools/category/')) {
+      rawCategory = cleanPath.replace('/ai-tools/category/', '');
+    } else {
+      rawCategory = queryParams.get('category') || 'all';
     }
-    if (cleanPath.startsWith('/ai-tools/category/')) {
-      return cleanPath.replace('/ai-tools/category/', '');
-    }
-    return queryParams.get('category') || 'all';
+    if (rawCategory === 'all') return 'all';
+    const normalized = findCategoryBySlugOrId(rawCategory);
+    return normalized ? normalized.id : rawCategory;
   }, [currentPath, queryParams]);
 
   const initialPricing = queryParams.get('pricing') || 'all';
@@ -89,7 +93,12 @@ export const ToolsDirectoryView: React.FC = () => {
         if (cat.id === 'free-ai-tools') {
           return t.pricingType === 'free' || t.categories?.includes('free-ai-tools') || t.category === 'free-ai-tools';
         }
-        return t.category === cat.id || (t.categories && t.categories.includes(cat.id));
+        const toolNormalized = findCategoryBySlugOrId(t.category)?.id;
+        return (
+          t.category === cat.id ||
+          (t.categories && t.categories.includes(cat.id)) ||
+          toolNormalized === cat.id
+        );
       }).length;
     });
     return counts;
@@ -131,8 +140,12 @@ export const ToolsDirectoryView: React.FC = () => {
           const isFree = tool.pricingType === 'free' || tool.categories?.includes('free-ai-tools') || tool.category === 'free-ai-tools';
           if (!isFree) return false;
         } else {
-          const matchesDirect = tool.category === selectedCategory;
-          const matchesMulti = tool.categories && tool.categories.includes(selectedCategory as any);
+          const toolNormalized = findCategoryBySlugOrId(tool.category)?.id;
+          const matchesDirect = tool.category === selectedCategory || toolNormalized === selectedCategory;
+          const matchesMulti = tool.categories && (
+            tool.categories.includes(selectedCategory as any) ||
+            tool.categories.some((c) => findCategoryBySlugOrId(c)?.id === selectedCategory)
+          );
           if (!matchesDirect && !matchesMulti) return false;
         }
       }

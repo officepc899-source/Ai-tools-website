@@ -27,12 +27,16 @@ import {
 import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import {
-  AI_GADGETS_DATA,
+  getAllGadgets,
   GADGET_CATEGORIES,
   AIGadget,
   GadgetCategory
 } from '../data/gadgetsData';
 import { useApp } from '../context/AppContext';
+import { AdBanner } from '../components/AdBanner';
+import { TrustScoreBadge } from '../components/TrustScoreBadge';
+import { AffiliateBadge } from '../components/AffiliateDisclosure';
+import { trackAffiliateClick } from '../utils/analytics';
 
 export const GadgetsView: React.FC = () => {
   const { navigate, showToast } = useApp();
@@ -51,8 +55,10 @@ export const GadgetsView: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState<number>(ITEMS_PER_PAGE);
 
   // Filtered & Sorted Gadgets
+  const allGadgetsList = useMemo(() => getAllGadgets(), []);
+
   const filteredGadgets = useMemo(() => {
-    return AI_GADGETS_DATA.filter((item) => {
+    return allGadgetsList.filter((item) => {
       // Category filter
       if (selectedCategory !== 'all' && item.category !== selectedCategory) {
         return false;
@@ -75,20 +81,21 @@ export const GadgetsView: React.FC = () => {
       // Search Query filter
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
-        const inName = item.name.toLowerCase().includes(q);
-        const inBrand = item.brand.toLowerCase().includes(q);
-        const inReview = item.shortReview.toLowerCase().includes(q);
-        const inFeatures = item.features.some((f) => f.toLowerCase().includes(q));
+        const inName = (item.title || item.name || '').toLowerCase().includes(q);
+        const inBrand = (item.brand || '').toLowerCase().includes(q);
+        const inReview = (item.description || item.shortReview || '').toLowerCase().includes(q);
+        const inFeatures = (item.features || []).some((f) => f.toLowerCase().includes(q));
         if (!inName && !inBrand && !inReview && !inFeatures) return false;
       }
 
       return true;
     }).sort((a, b) => {
       if (sortBy === 'rating-desc') return b.rating - a.rating;
-      if (sortBy === 'price-asc') return a.numericPrice - b.numericPrice;
-      if (sortBy === 'price-desc') return b.numericPrice - a.numericPrice;
-      if (sortBy === 'reviews-desc') return b.reviewsCount - a.reviewsCount;
+      if (sortBy === 'price-asc') return (a.numericPrice || 0) - (b.numericPrice || 0);
+      if (sortBy === 'price-desc') return (b.numericPrice || 0) - (a.numericPrice || 0);
+      if (sortBy === 'reviews-desc') return (b.reviews || b.reviewsCount || 0) - (a.reviews || a.reviewsCount || 0);
       // Default: 'featured'
+      if (b.featured !== a.featured) return b.featured ? 1 : -1;
       return 0;
     });
   }, [selectedCategory, searchQuery, priceFilter, badgeFilter, minRating, sortBy]);
@@ -126,9 +133,9 @@ export const GadgetsView: React.FC = () => {
       position: index + 1,
       item: {
         '@type': 'Product',
-        name: g.name,
-        image: g.imageUrl,
-        description: g.shortReview,
+        name: g.title || g.name,
+        image: g.image || g.imageUrl,
+        description: g.description || g.shortReview,
         brand: {
           '@type': 'Brand',
           name: g.brand
@@ -136,15 +143,15 @@ export const GadgetsView: React.FC = () => {
         aggregateRating: {
           '@type': 'AggregateRating',
           ratingValue: g.rating,
-          reviewCount: g.reviewsCount,
+          reviewCount: g.reviews || g.reviewsCount,
           bestRating: '5'
         },
         offers: {
           '@type': 'Offer',
           priceCurrency: 'USD',
-          price: g.numericPrice.toString(),
+          price: (g.numericPrice || 0).toString(),
           availability: 'https://schema.org/InStock',
-          url: g.affiliateUrl,
+          url: g.affiliateLink || g.affiliateUrl,
           seller: {
             '@type': 'Organization',
             name: g.merchant
@@ -228,8 +235,8 @@ export const GadgetsView: React.FC = () => {
           {GADGET_CATEGORIES.map((cat) => {
             const isActive = selectedCategory === cat.id;
             const count = cat.id === 'all'
-              ? AI_GADGETS_DATA.length
-              : AI_GADGETS_DATA.filter((g) => g.category === cat.id).length;
+              ? allGadgetsList.length
+              : allGadgetsList.filter((g) => g.category === cat.id).length;
 
             return (
               <button
@@ -409,8 +416,8 @@ export const GadgetsView: React.FC = () => {
                   className="relative aspect-[16/10] bg-slate-950 overflow-hidden cursor-pointer"
                 >
                   <img
-                    src={gadget.imageUrl}
-                    alt={gadget.name}
+                    src={gadget.image || gadget.imageUrl}
+                    alt={gadget.title || gadget.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     decoding="async"
@@ -498,7 +505,7 @@ export const GadgetsView: React.FC = () => {
                         {gadget.rating.toFixed(1)}
                       </span>
                       <span className="text-slate-400 font-normal">
-                        ({gadget.reviewsCount.toLocaleString()})
+                        ({(gadget.reviews || gadget.reviewsCount || 0).toLocaleString()})
                       </span>
                     </div>
 
@@ -512,12 +519,12 @@ export const GadgetsView: React.FC = () => {
                     onClick={() => navigate(`/ai-gadgets/${gadget.slug}`)}
                     className="font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1 cursor-pointer leading-snug"
                   >
-                    {gadget.name}
+                    {gadget.title || gadget.name}
                   </h3>
 
                   {/* Short Review */}
                   <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2">
-                    {gadget.shortReview}
+                    {gadget.description || gadget.shortReview}
                   </p>
 
                   {/* Pros Snapshot */}
@@ -535,13 +542,13 @@ export const GadgetsView: React.FC = () => {
                     <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
                       <span className="text-slate-400 block text-[10px] font-medium">Battery</span>
                       <span className="font-semibold text-slate-800 dark:text-slate-200 truncate block">
-                        {gadget.specs.batteryLife.split('(')[0].trim()}
+                        {(gadget.specifications?.['Battery Life'] || gadget.specs?.batteryLife || 'Standard').split('(')[0].trim()}
                       </span>
                     </div>
                     <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
                       <span className="text-slate-400 block text-[10px] font-medium">AI Chip</span>
                       <span className="font-semibold text-slate-800 dark:text-slate-200 truncate block">
-                        {gadget.specs.aiChipset.split(' ')[0]}
+                        {(gadget.specifications?.['AI Chipset'] || gadget.specs?.aiChipset || 'AI Co-Processor').split(' ')[0]}
                       </span>
                     </div>
                   </div>
@@ -556,22 +563,31 @@ export const GadgetsView: React.FC = () => {
                       onClick={() => navigate(`/ai-gadgets/${gadget.slug}`)}
                       className="flex-1 py-2.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl transition-colors text-center cursor-pointer"
                     >
-                      View Review & Specs
+                      View Review &amp; Specs
                     </button>
                     <a
-                      href={gadget.affiliateUrl}
+                      href={gadget.affiliateLink || gadget.affiliateUrl}
                       target="_blank"
-                      rel="nofollow sponsored"
-                      className="flex-1 py-2.5 px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-md transition-colors inline-flex items-center justify-center gap-1.5 cursor-pointer text-center"
+                      rel="nofollow sponsored noopener"
+                      onClick={() =>
+                        trackAffiliateClick(
+                          gadget.title || gadget.name,
+                          gadget.merchant || 'AliExpress',
+                          gadget.affiliateLink || gadget.affiliateUrl,
+                          gadget.price
+                        )
+                      }
+                      className="flex-1 py-2.5 px-3 bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white font-bold text-xs rounded-xl shadow-md transition-all inline-flex items-center justify-center gap-1.5 cursor-pointer text-center"
                     >
+                      <ShoppingBag className="w-3.5 h-3.5" />
                       <span>Check Price</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
 
-                  <div className="flex items-center justify-between text-[10px] text-slate-400 px-0.5">
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 px-0.5 pt-1">
                     <span>✓ In stock on {gadget.merchant}</span>
-                    <span className="font-mono">Sponsored</span>
+                    <AffiliateBadge merchant={gadget.merchant} />
                   </div>
                 </div>
               </div>
@@ -613,6 +629,12 @@ export const GadgetsView: React.FC = () => {
             </p>
           </div>
         )}
+        {/* Trust Score & Buyer Protection Guarantee */}
+        <TrustScoreBadge className="my-8" />
+
+        {/* AdSense Ready Leaderboard Placement */}
+        <AdBanner format="horizontal-leaderboard" title="Curated AI Tech, Wearables & Desk Peripherals on AliExpress" />
+
       </div>
 
       {/* General AI Gadgets FAQ Section */}
