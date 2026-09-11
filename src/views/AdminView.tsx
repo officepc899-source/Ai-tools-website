@@ -20,7 +20,8 @@ import {
   ExternalLink,
   Cpu,
   Layers,
-  FileSpreadsheet
+  FileSpreadsheet,
+  LogOut
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
@@ -36,7 +37,12 @@ import {
 } from '../utils/productManager';
 import { getAllGadgets, AIGadget } from '../data/gadgetsData';
 
-export const AdminView: React.FC = () => {
+interface AdminViewProps {
+  onLogout?: () => void;
+  adminEmail?: string;
+}
+
+export const AdminView: React.FC<AdminViewProps> = ({ onLogout, adminEmail }) => {
   const { tools, updateTool, addTool, adsEnabled, setAdsEnabled, showToast, navigate } = useApp();
   const [activeTab, setActiveTab] = useState<'aliexpress' | 'tools' | 'monetization'>('aliexpress');
 
@@ -236,14 +242,21 @@ export const AdminView: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+          {adminEmail && (
+            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-300">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+              <span className="truncate max-w-[180px]">{adminEmail}</span>
+            </div>
+          )}
+
           {/* Display Ads Toggle */}
           <button
             onClick={() => {
               setAdsEnabled(!adsEnabled);
               showToast(adsEnabled ? 'Display Ads disabled across all views' : 'Display Ads enabled');
             }}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold border flex items-center gap-2 cursor-pointer transition-colors ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-semibold border flex items-center gap-2 cursor-pointer transition-colors ${
               adsEnabled
                 ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
                 : 'bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400'
@@ -252,6 +265,18 @@ export const AdminView: React.FC = () => {
             {adsEnabled ? <ToggleRight className="w-5 h-5 text-emerald-600" /> : <ToggleLeft className="w-5 h-5 text-slate-400" />}
             <span>Display Ads: {adsEnabled ? 'Active' : 'Hidden'}</span>
           </button>
+
+          {/* Admin Logout Button */}
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold border border-rose-200 dark:border-rose-900/50 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 flex items-center gap-1.5 cursor-pointer shadow-sm transition-all active:scale-95"
+              title="End admin session"
+            >
+              <LogOut className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
+              <span>Log Out</span>
+            </button>
+          )}
         </div>
       </div>
 

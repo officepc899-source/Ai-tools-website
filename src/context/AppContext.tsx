@@ -48,16 +48,64 @@ interface AppContextType {
   setSubmitToolModalOpen: (open: boolean) => void;
 }
 
+// Helper to determine if a given path or browser location corresponds to the admin route
+export const isAdminPath = (path?: string): boolean => {
+  if (typeof window !== 'undefined') {
+    const p = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+    const h = window.location.hash.toLowerCase().replace(/^#\/?/, '').replace(/\/+$/, '');
+    if (p === '/admin' || p.startsWith('/admin/')) return true;
+    if (h === 'admin' || h.startsWith('admin/')) return true;
+  }
+  if (path) {
+    const clean = path.toLowerCase().split('?')[0].replace(/\/+$/, '') || '/';
+    if (clean === '/admin' || clean.startsWith('/admin/') || clean === 'admin' || clean.startsWith('admin/')) {
+      return true;
+    }
+  }
+  return false;
+};
+
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Hash-based routing for robust browser back/forward and deep linking in SPA
-  const getPathFromHash = () => {
-    const hash = window.location.hash.replace(/^#/, '');
-    return hash || '/';
+  // Dual hash and pathname routing for browser back/forward, deep linking, and direct URLs
+  const getPathFromLocation = (): string => {
+    // 1. Always prioritize checking for /admin route
+    if (isAdminPath()) {
+      return '/admin';
+    }
+
+    // 2. Check window.location.hash first (e.g., #/tools)
+    const rawHash = window.location.hash.replace(/^#/, '').split('?')[0].trim();
+    if (rawHash && rawHash !== '/') {
+      return rawHash.startsWith('/') ? rawHash : `/${rawHash}`;
+    }
+
+    // 3. Fall back to standard browser pathname (e.g., /tools)
+    const pathname = window.location.pathname.split('?')[0].trim();
+    if (pathname && pathname !== '/') {
+      return pathname.replace(/\/$/, '') || '/';
+    }
+
+    return '/';
   };
 
-  const [currentPath, setCurrentPath] = useState<string>(getPathFromHash);
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    const initial = getPathFromLocation();
+    // If visited directly via pathname (e.g., /admin) without hash, sync hash for SPA state
+    if (initial !== '/' && !window.location.hash) {
+      try {
+        if (initial === '/admin') {
+          window.history.replaceState(null, '', '/admin');
+        } else {
+          window.history.replaceState(null, '', `#${initial}`);
+        }
+      } catch {
+        window.location.hash = initial;
+      }
+    }
+    return initial;
+  });
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [submitToolModalOpen, setSubmitToolModalOpen] = useState<boolean>(false);
@@ -159,20 +207,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return INITIAL_ARTICLES;
   });
 
-  // Keep path in sync with browser hash
+  // Keep path in sync with browser hash and history popstate
   useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentPath(getPathFromHash());
+    const handleLocationChange = () => {
+      setCurrentPath(getPathFromLocation());
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    window.addEventListener('popstate', handleLocationChange);
+    return () => {
+      window.removeEventListener('hashchange', handleLocationChange);
+      window.removeEventListener('popstate', handleLocationChange);
+    };
   }, []);
 
   const navigate = (path: string) => {
     const formatted = path.startsWith('/') ? path : `/${path}`;
-    window.location.hash = formatted;
+    try {
+      if (formatted === '/admin') {
+        window.history.pushState(null, '', '/admin');
+      } else if (formatted === '/') {
+        if (window.location.pathname !== '/') {
+          window.history.pushState(null, '', '/');
+        } else {
+          window.location.hash = '';
+        }
+      } else if (window.location.pathname !== '/' && window.location.pathname !== '') {
+        window.history.pushState(null, '', `/#${formatted}`);
+      } else {
+        window.location.hash = formatted;
+      }
+    } catch {
+      window.location.hash = formatted;
+    }
     setCurrentPath(formatted);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AppProvider, useApp } from './context/AppContext';
+import { AppProvider, useApp, isAdminPath } from './context/AppContext';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { AffiliateDisclosureBanner, AffiliateDisclosureModal } from './components/AffiliateDisclosure';
@@ -46,7 +46,7 @@ import {
   AIEthicsView,
   SitemapView
 } from './views/LegalViews';
-import { AdminView } from './views/AdminView';
+import { AdminRouteGuard } from './components/AdminRouteGuard';
 
 const AppContent: React.FC = () => {
   const { currentPath, toast } = useApp();
@@ -56,9 +56,37 @@ const AppContent: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPath]);
 
+  // CRITICAL: Check /admin BEFORE any public routing or fallback logic
+  const isTargetingAdmin = isAdminPath(currentPath);
+
+  if (isTargetingAdmin) {
+    return (
+      <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 transition-colors">
+        <Header />
+        <main className="flex-1">
+          <AdminRouteGuard />
+        </main>
+        <Footer />
+        <ScrollToTop />
+        <CookieConsent />
+        {toast && (
+          <div className="fixed bottom-5 right-5 z-50 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-2xl border border-slate-700 dark:border-slate-200 text-xs sm:text-sm font-medium animate-fadeIn flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 dark:bg-emerald-600" />
+            <span>{toast}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   const renderRoute = () => {
     // Strip query parameters for routing match
     const cleanPath = currentPath.split('?')[0].replace(/\/$/, '') || '/';
+
+    // Secondary safety: Admin Portal Route Guard
+    if (isAdminPath(cleanPath)) {
+      return <AdminRouteGuard />;
+    }
 
     if (cleanPath === '/') {
       return <HomeView />;
@@ -223,10 +251,6 @@ const AppContent: React.FC = () => {
 
     if (cleanPath === '/sitemap' || cleanPath === '/sitemap.xml') {
       return <SitemapView />;
-    }
-
-    if (cleanPath === '/admin') {
-      return <AdminView />;
     }
 
     // 404 fallback
