@@ -49,17 +49,19 @@ export const AdminLoginView: React.FC<AdminLoginViewProps> = ({ onLoginSuccess }
         })
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => null);
 
       if (!response.ok) {
-        setErrorMessage(data.error || 'Invalid credentials. Please verify your admin details and try again.');
+        setErrorMessage(data?.error || 'Invalid credentials. Please verify your admin details and try again.');
         setIsLoading(false);
         return;
       }
 
       // Success
-      if (data.user) {
+      if (data?.user) {
         onLoginSuccess(data.user);
+      } else {
+        setErrorMessage('Authentication response was invalid. Please try again.');
       }
     } catch (err) {
       setErrorMessage('Network error connecting to the secure authentication server. Please try again.');

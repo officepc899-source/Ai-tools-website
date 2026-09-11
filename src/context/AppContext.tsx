@@ -50,17 +50,15 @@ interface AppContextType {
 
 // Helper to determine if a given path or browser location corresponds to the admin route
 export const isAdminPath = (path?: string): boolean => {
+  if (path !== undefined && path !== null) {
+    const clean = path.toLowerCase().split('?')[0].replace(/\/+$/, '') || '/';
+    return clean === '/admin' || clean.startsWith('/admin/') || clean === 'admin' || clean.startsWith('admin/');
+  }
   if (typeof window !== 'undefined') {
     const p = window.location.pathname.toLowerCase().replace(/\/+$/, '');
     const h = window.location.hash.toLowerCase().replace(/^#\/?/, '').replace(/\/+$/, '');
     if (p === '/admin' || p.startsWith('/admin/')) return true;
     if (h === 'admin' || h.startsWith('admin/')) return true;
-  }
-  if (path) {
-    const clean = path.toLowerCase().split('?')[0].replace(/\/+$/, '') || '/';
-    if (clean === '/admin' || clean.startsWith('/admin/') || clean === 'admin' || clean.startsWith('admin/')) {
-      return true;
-    }
   }
   return false;
 };
@@ -70,21 +68,26 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Dual hash and pathname routing for browser back/forward, deep linking, and direct URLs
   const getPathFromLocation = (): string => {
-    // 1. Always prioritize checking for /admin route
-    if (isAdminPath()) {
-      return '/admin';
-    }
-
-    // 2. Check window.location.hash first (e.g., #/tools)
-    const rawHash = window.location.hash.replace(/^#/, '').split('?')[0].trim();
+    // 1. Check window.location.hash first (e.g. #/admin or #/tools)
+    const rawHash = (typeof window !== 'undefined' ? window.location.hash : '')
+      .replace(/^#/, '')
+      .split('?')[0]
+      .trim();
     if (rawHash && rawHash !== '/') {
-      return rawHash.startsWith('/') ? rawHash : `/${rawHash}`;
+      const formattedHash = rawHash.startsWith('/') ? rawHash : `/${rawHash}`;
+      return formattedHash;
     }
 
-    // 3. Fall back to standard browser pathname (e.g., /tools)
-    const pathname = window.location.pathname.split('?')[0].trim();
-    if (pathname && pathname !== '/') {
-      return pathname.replace(/\/$/, '') || '/';
+    // 2. Check window.location.pathname
+    if (typeof window !== 'undefined') {
+      const pathname = window.location.pathname.split('?')[0].trim();
+      const cleanPath = pathname.replace(/\/+$/, '') || '/';
+      if (cleanPath === '/admin' || cleanPath.startsWith('/admin/')) {
+        return '/admin';
+      }
+      if (cleanPath !== '/') {
+        return cleanPath;
+      }
     }
 
     return '/';

@@ -67,6 +67,10 @@ const AppContent: React.FC = () => {
           <AdminRouteGuard />
         </main>
         <Footer />
+        <GlobalSearchModal />
+        <CheckoutModal />
+        <SubmitToolModal />
+        <AffiliateDisclosureModal />
         <ScrollToTop />
         <CookieConsent />
         {toast && (

@@ -13,6 +13,10 @@ export const AdminRouteGuard: React.FC = () => {
   // Check admin session with the server
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, 4000);
 
     async function verifySession() {
       try {
@@ -21,29 +25,31 @@ export const AdminRouteGuard: React.FC = () => {
           headers: {
             'Accept': 'application/json'
           },
-          credentials: 'include' // Send HttpOnly cookie
+          credentials: 'include', // Send HttpOnly cookie
+          signal: controller.signal
         });
 
         if (!isMounted) return;
 
         if (response.ok) {
-          const data = await response.json();
-          if (data.authenticated && data.user && data.user.role === 'admin') {
-            setIsAuthenticated(true);
-            setAdminUser(data.user);
-          } else {
-            setIsAuthenticated(false);
-            setAdminUser(null);
+          const contentType = response.headers.get('content-type') || '';
+          if (contentType.includes('application/json')) {
+            const data = await response.json().catch(() => null);
+            if (data && data.authenticated && data.user && data.user.role === 'admin') {
+              setIsAuthenticated(true);
+              setAdminUser(data.user);
+              return;
+            }
           }
-        } else {
-          setIsAuthenticated(false);
-          setAdminUser(null);
         }
-      } catch (err) {
+        setIsAuthenticated(false);
+        setAdminUser(null);
+      } catch {
         if (!isMounted) return;
         setIsAuthenticated(false);
         setAdminUser(null);
       } finally {
+        clearTimeout(timeoutId);
         if (isMounted) {
           setChecking(false);
         }
@@ -54,6 +60,8 @@ export const AdminRouteGuard: React.FC = () => {
 
     return () => {
       isMounted = false;
+      clearTimeout(timeoutId);
+      controller.abort();
     };
   }, []);
 
