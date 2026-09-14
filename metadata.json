@@ -1,6 +1,6 @@
 {
   "name": "AIToolNest",
-  "description": "Discover curated AI tools, profitable online business ideas, digital products, and in-depth guides for digital entrepreneurs on AIToolNest.",
+  "description": "Discover curated AI tools, software platforms, profitable AI business blueprints, and in-depth guides for digital entrepreneurs and creators on AIToolNest.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

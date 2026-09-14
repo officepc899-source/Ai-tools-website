@@ -536,7 +536,7 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
 
       {/* Introduction Paragraph */}
       <section className="text-base sm:text-lg text-slate-800 dark:text-slate-200 leading-relaxed font-normal space-y-4">
-        <p className="first-letter:text-4xl first-letter:font-black first-letter:text-indigo-600 dark:first-letter:text-indigo-400 first-letter:mr-2 first-letter:float-left first-letter:font-['Space_Grotesk']">
+        <p className="first-letter:text-4xl first-letter:font-black first-letter:text-indigo-600 dark:first-letter:text-indigo-400 first-letter:mr-2 first-letter:float-left first-letter:font-['Space_Grotesk'] whitespace-pre-line">
           {article.introduction}
         </p>
       </section>
@@ -558,7 +558,7 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
                   {heading.title}
                 </h2>
 
-                <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
                   {heading.content}
                 </p>
 
@@ -607,7 +607,7 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight">
             Editorial Verdict & Next Steps
           </h2>
-          <div className="p-6 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-200/60 dark:border-indigo-900/40 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+          <div className="p-6 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-200/60 dark:border-indigo-900/40 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
             {article.conclusion}
           </div>
         </section>

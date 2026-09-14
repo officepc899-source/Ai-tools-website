@@ -146,35 +146,6 @@ export interface BusinessIdea {
   };
 }
 
-export type DigitalProductCategory =
-  | 'prompt-packs'
-  | 'templates'
-  | 'ebooks'
-  | 'notion-templates'
-  | 'canva-templates';
-
-export interface DigitalProduct {
-  id: string;
-  slug: string;
-  title: string;
-  category: DigitalProductCategory;
-  categoryLabel: string;
-  price: number;
-  originalPrice: number;
-  description: string;
-  fullOverview: string;
-  previewBadge: string;
-  format: string;
-  rating: number;
-  reviewsCount: number;
-  salesCount: number;
-  downloadIncludes: string[];
-  sampleItems: string[];
-  buyUrl: string;
-  badgeText?: string;
-  colorScheme: string;
-}
-
 export interface ArticleHeading {
   id: string;
   title: string;
@@ -230,7 +201,7 @@ export interface PinterestLandingTopic {
   heroBadge: string;
   subtitle: string;
   categoryFilter?: ToolCategory;
-  categoryType: 'tools' | 'business' | 'products';
+  categoryType: 'tools' | 'business';
   curatedToolSlugs: string[];
   keyHighlights: string[];
   checklistItems: string[];
@@ -238,5 +209,3 @@ export interface PinterestLandingTopic {
   metaTitle: string;
   metaDescription: string;
 }
-
-export * from './product';

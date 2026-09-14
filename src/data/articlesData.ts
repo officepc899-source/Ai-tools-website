@@ -1,11 +1,15 @@
 import { Article } from '../types';
+import { NEW_ESSENTIAL_ARTICLES } from './articles/newEssentialArticles';
+import { NEW_TECH_AND_CREATIVE_ARTICLES } from './articles/newTechnicalAndCreativeArticles';
 import { CORE_ARTICLES } from './articles/coreArticles';
 import { DEV_AND_MEDIA_ARTICLES } from './articles/devAndMediaArticles';
 import { MARKETING_AND_BUSINESS_ARTICLES } from './articles/marketingAndBusinessArticles';
 import { ADVANCED_TECH_ARTICLES } from './articles/advancedTechArticles';
 
-// Aggregate all 20 unique, production-grade SEO articles
+// Aggregate all 30 unique, production-grade SEO articles
 export const INITIAL_ARTICLES: Article[] = [
+  ...NEW_ESSENTIAL_ARTICLES,
+  ...NEW_TECH_AND_CREATIVE_ARTICLES,
   ...CORE_ARTICLES,
   ...DEV_AND_MEDIA_ARTICLES,
   ...MARKETING_AND_BUSINESS_ARTICLES,
@@ -25,23 +29,38 @@ export function getArticleBySlug(slug: string): Article | undefined {
   // Backward compatibility alias redirects
   const aliases: Record<string, string> = {
     '25-best-free-ai-tools': 'best-ai-tools-in-2026',
-    'best-ai-productivity-tools': 'best-ai-tools-in-2026',
-    '20-ai-tools-for-students': 'top-free-ai-tools-for-students',
-    'free-ai-tools-for-students': 'top-free-ai-tools-for-students',
-    'how-to-make-money-with-ai-tools': 'best-ai-tools-for-business',
+    'best-ai-productivity-tools': 'ai-productivity-tools',
+    'productivity-tools': 'ai-productivity-tools',
+    '20-ai-tools-for-students': 'best-ai-tools-for-students',
+    'free-ai-tools-for-students': 'best-ai-tools-for-students',
+    'ai-tools-for-students': 'best-ai-tools-for-students',
+    'ai-tools-for-small-business': 'best-ai-tools-for-small-businesses',
+    'small-business-ai': 'best-ai-tools-for-small-businesses',
+    'how-to-make-money-with-ai-tools': 'how-to-use-ai-for-online-business',
+    'ai-for-online-business': 'how-to-use-ai-for-online-business',
     '7-chatgpt-alternatives-better-than-gpt4': 'chatgpt-alternatives',
     'chatgpt-vs-claude-vs-gemini': 'chatgpt-alternatives',
-    'best-ai-video-tools-content-creators': 'ai-tools-for-content-creators',
+    'best-ai-video-tools-content-creators': 'top-ai-tools-for-content-creators',
+    'ai-tools-content-creators': 'top-ai-tools-for-content-creators',
+    'ai-tools-for-video': 'best-ai-tools-for-video-creation',
+    'video-creation-ai': 'best-ai-tools-for-video-creation',
+    'ai-tools-for-design': 'best-ai-tools-for-graphic-design',
+    'graphic-design-ai': 'best-ai-tools-for-graphic-design',
+    'ai-for-developers': 'best-ai-tools-for-developers',
+    'developer-ai-tools': 'best-ai-tools-for-developers',
+    'ai-trends': 'latest-useful-ai-trends-2026',
+    'useful-ai-trends': 'latest-useful-ai-trends-2026',
     'future-of-ai': 'future-of-artificial-intelligence',
     'advanced-prompt-engineering': 'advanced-prompt-engineering-guide',
-    'best-ai-coding-assistants': 'best-ai-coding-assistants-cursor-vs-copilot',
+    'best-ai-coding-assistants': 'best-ai-tools-for-developers',
     'cursor-vs-copilot': 'best-ai-coding-assistants-cursor-vs-copilot',
     'midjourney-vs-dalle-3': 'ai-image-generation-midjourney-vs-dalle',
     'best-ai-voice-cloning': 'ai-voice-cloning-text-to-speech-guide',
     'elevenlabs-review': 'ai-voice-cloning-text-to-speech-guide',
     'ai-meeting-assistants': 'best-ai-meeting-assistants-comparison',
     'otter-vs-fireflies': 'best-ai-meeting-assistants-comparison',
-    'ai-seo-strategies': 'ai-seo-strategies-google-sge-perplexity',
+    'ai-seo-strategies': 'best-ai-tools-for-seo',
+    'ai-seo-tools': 'best-ai-tools-for-seo',
     'run-local-llms': 'run-local-llms-ollama-deepseek-guide',
     'ollama-guide': 'run-local-llms-ollama-deepseek-guide'
   };

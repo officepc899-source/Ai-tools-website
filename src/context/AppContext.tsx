@@ -1,15 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { AITool, BusinessIdea, DigitalProduct, Article, PinterestLandingTopic } from '../types';
+import { AITool, BusinessIdea, Article, PinterestLandingTopic } from '../types';
 import { INITIAL_AI_TOOLS } from '../data/toolsData';
 import { INITIAL_BUSINESS_IDEAS } from '../data/businessIdeasData';
-import { INITIAL_DIGITAL_PRODUCTS } from '../data/digitalProductsData';
 import { INITIAL_ARTICLES } from '../data/articlesData';
 import { PINTEREST_LANDINGS } from '../data/pinterestLandingsData';
-
-interface CheckoutModalData {
-  isOpen: boolean;
-  product: DigitalProduct | null;
-}
 
 interface AppContextType {
   currentPath: string;
@@ -29,16 +23,12 @@ interface AppContextType {
   deleteTool: (toolId: string) => void;
   resetToolsData: () => void;
   businessIdeas: BusinessIdea[];
-  digitalProducts: DigitalProduct[];
   articles: Article[];
   updateArticle: (updated: Article) => void;
   adsEnabled: boolean;
   setAdsEnabled: (enabled: boolean) => void;
   toggleAds: () => void;
   pinterestLandings: PinterestLandingTopic[];
-  checkoutModal: CheckoutModalData;
-  openCheckout: (product: DigitalProduct) => void;
-  closeCheckout: () => void;
   toastMessage: string | null;
   toast: string | null;
   showToast: (msg: string) => void;
@@ -145,10 +135,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
-  const [checkoutModal, setCheckoutModal] = useState<CheckoutModalData>({
-    isOpen: false,
-    product: null
-  });
 
   // Bookmarks persistence
   const [bookmarks, setBookmarks] = useState<string[]>(() => {
@@ -186,8 +172,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [businessIdeas] = useState<BusinessIdea[]>(INITIAL_BUSINESS_IDEAS);
-  const [digitalProducts] = useState<DigitalProduct[]>(INITIAL_DIGITAL_PRODUCTS);
-  const ARTICLES_VERSION = 'v3_20_seo_articles';
+  const ARTICLES_VERSION = 'v4_30_seo_articles';
   const [articles, setArticles] = useState<Article[]>(() => {
     try {
       const savedVersion = localStorage.getItem('nexus_articles_version');
@@ -338,14 +323,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast(adsEnabled ? 'Display Ads disabled' : 'Display Ads enabled');
   };
 
-  const openCheckout = (product: DigitalProduct) => {
-    setCheckoutModal({ isOpen: true, product });
-  };
-
-  const closeCheckout = () => {
-    setCheckoutModal({ isOpen: false, product: null });
-  };
-
   return (
     <AppContext.Provider
       value={{
@@ -364,16 +341,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         deleteTool,
         resetToolsData,
         businessIdeas,
-        digitalProducts,
         articles,
         updateArticle,
         adsEnabled,
         setAdsEnabled,
         toggleAds,
         pinterestLandings: PINTEREST_LANDINGS,
-        checkoutModal,
-        openCheckout,
-        closeCheckout,
         toastMessage,
         toast: toastMessage,
         showToast,

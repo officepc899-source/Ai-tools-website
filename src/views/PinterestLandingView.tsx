@@ -18,7 +18,6 @@ import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { ToolCard } from '../components/ToolCard';
 import { BusinessIdeaCard } from '../components/BusinessIdeaCard';
-import { DigitalProductCard } from '../components/DigitalProductCard';
 import { AdBanner } from '../components/AdBanner';
 import { copyToClipboard } from '../utils/clipboard';
 
@@ -27,7 +26,7 @@ interface PinterestLandingViewProps {
 }
 
 export const PinterestLandingView: React.FC<PinterestLandingViewProps> = ({ slug }) => {
-  const { pinterestLandings, tools, businessIdeas, digitalProducts, navigate, showToast } = useApp();
+  const { pinterestLandings, tools, businessIdeas, navigate, showToast } = useApp();
 
   const landing = useMemo(() => pinterestLandings.find((p) => p.slug === slug), [pinterestLandings, slug]);
 

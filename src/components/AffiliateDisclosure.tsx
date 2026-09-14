@@ -11,7 +11,7 @@ export const AffiliateDisclosureBanner: React.FC = () => {
         <div className="flex items-center gap-2 truncate">
           <Info className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
           <span className="truncate">
-            <strong className="text-slate-900 dark:text-white">Affiliate Transparency:</strong> When you purchase through links on our site (including AliExpress &amp; software partners), we may earn a commission at no extra cost to you.
+            <strong className="text-slate-900 dark:text-white">Affiliate Transparency:</strong> When you purchase or subscribe through links on our site (software &amp; AI tool partners), we may earn a commission at no extra cost to you.
           </span>
         </div>
         <button
@@ -26,7 +26,7 @@ export const AffiliateDisclosureBanner: React.FC = () => {
 };
 
 export const AffiliateBadge: React.FC<{ merchant?: string; className?: string }> = ({
-  merchant = 'AliExpress',
+  merchant = 'Partner',
   className = ''
 }) => {
   const { setAffiliateModalOpen } = useApp();
@@ -78,14 +78,14 @@ export const AffiliateDisclosureModal: React.FC = () => {
 
         <div className="space-y-4 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
           <p>
-            At <strong className="text-slate-900 dark:text-white">AIToolNest</strong>, we operate with full financial transparency. Our goal is to connect entrepreneurs, creators, and engineers with high-utility AI tools and hardware.
+            At <strong className="text-slate-900 dark:text-white">AIToolNest</strong>, we operate with full financial transparency. Our goal is to connect entrepreneurs, creators, and engineers with high-utility AI tools and software.
           </p>
 
           <h4 className="font-semibold text-slate-800 dark:text-slate-100 text-base pt-1">
-            AliExpress &amp; Software Partner Affiliation
+            Software &amp; AI Partner Affiliation
           </h4>
           <p>
-            AIToolNest participates in the <strong>AliExpress Portals Affiliate Program</strong> and various software affiliate networks. When you click on product links (e.g. &ldquo;Check Price on AliExpress&rdquo; or &ldquo;Claim Deal&rdquo;) and complete a qualifying purchase, we may receive a small referral commission at <strong className="text-slate-900 dark:text-white">zero extra cost to you</strong>.
+            AIToolNest participates in various software and AI provider affiliate programs. When you click on referral links (e.g. &ldquo;Visit Tool&rdquo; or &ldquo;Claim Deal&rdquo;) and complete a qualifying signup or subscription, we may receive a small referral commission at <strong className="text-slate-900 dark:text-white">zero extra cost to you</strong>.
           </p>
 
           <h4 className="font-semibold text-slate-800 dark:text-slate-100 text-base pt-1">

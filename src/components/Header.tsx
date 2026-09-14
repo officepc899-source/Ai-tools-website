@@ -89,26 +89,6 @@ export const Header: React.FC = () => {
               Prompt Library
             </button>
 
-            <button
-              onClick={() => handleNav('/products')}
-              className={`transition-colors cursor-pointer py-1.5 inline-flex items-center gap-1 ${
-                currentPath.startsWith('/product') ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'hover:text-indigo-600 dark:hover:text-white'
-              }`}
-            >
-              <span>Products Portal</span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded-md bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 font-bold uppercase">Affiliate</span>
-            </button>
-
-            <button
-              onClick={() => handleNav('/ai-gadgets')}
-              className={`transition-colors cursor-pointer py-1.5 inline-flex items-center gap-1 ${
-                currentPath === '/ai-gadgets' || currentPath === '/gadgets' ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'hover:text-indigo-600 dark:hover:text-white'
-              }`}
-            >
-              <span>AI Gadgets</span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-bold uppercase">Deals</span>
-            </button>
-
             {/* Explore Hubs Dropdown */}
             <div className="relative">
               <button
@@ -145,9 +125,6 @@ export const Header: React.FC = () => {
                   <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
                   <button onClick={() => handleNav('/business-ideas')} className="w-full text-left px-3.5 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200">
                     AI Business Blueprints
-                  </button>
-                  <button onClick={() => handleNav('/digital-products')} className="w-full text-left px-3.5 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200">
-                    Digital Products & Kits
                   </button>
                 </div>
               )}
@@ -257,24 +234,6 @@ export const Header: React.FC = () => {
             }`}
           >
             Prompt Library
-          </button>
-          <button
-            onClick={() => handleNav('/products')}
-            className={`w-full text-left px-3 py-2 rounded-xl font-medium flex items-center justify-between ${
-              currentPath.startsWith('/product') ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-            }`}
-          >
-            <span>Affiliate Products Portal</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 font-bold uppercase">Deals</span>
-          </button>
-          <button
-            onClick={() => handleNav('/ai-gadgets')}
-            className={`w-full text-left px-3 py-2 rounded-xl font-medium flex items-center justify-between ${
-              currentPath === '/ai-gadgets' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-            }`}
-          >
-            <span>AI Gadgets & Hardware</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-bold uppercase">Deals</span>
           </button>
           <button
             onClick={() => handleNav('/chatgpt-alternatives')}

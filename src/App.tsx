@@ -4,7 +4,6 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { AffiliateDisclosureBanner, AffiliateDisclosureModal } from './components/AffiliateDisclosure';
 import { GlobalSearchModal } from './components/GlobalSearchModal';
-import { CheckoutModal } from './components/CheckoutModal';
 import { SubmitToolModal } from './components/SubmitToolModal';
 import { ScrollToTop } from './components/ScrollToTop';
 import { CookieConsent } from './components/CookieConsent';
@@ -22,11 +21,6 @@ import { ChatGPTAlternativesView } from './views/ChatGPTAlternativesView';
 import { AIPromptsView } from './views/AIPromptsView';
 import { BusinessIdeasView } from './views/BusinessIdeasView';
 import { BusinessIdeaDetailView } from './views/BusinessIdeaDetailView';
-import { DigitalProductsView } from './views/DigitalProductsView';
-import { GadgetsView } from './views/GadgetsView';
-import { GadgetDetailView } from './views/GadgetDetailView';
-import { AffiliateProductPortalView } from './views/AffiliateProductPortalView';
-import { AffiliateProductDetailView } from './views/AffiliateProductDetailView';
 import { BlogView } from './views/BlogView';
 import { ArticleDetailView } from './views/ArticleDetailView';
 import { PinterestLandingView } from './views/PinterestLandingView';
@@ -68,7 +62,6 @@ const AppContent: React.FC = () => {
         </main>
         <Footer />
         <GlobalSearchModal />
-        <CheckoutModal />
         <SubmitToolModal />
         <AffiliateDisclosureModal />
         <ScrollToTop />
@@ -145,44 +138,6 @@ const AppContent: React.FC = () => {
     if (cleanPath.startsWith('/business-idea/')) {
       const slug = cleanPath.replace('/business-idea/', '');
       return <BusinessIdeaDetailView slug={slug} />;
-    }
-
-    if (cleanPath === '/digital-products') {
-      return <DigitalProductsView />;
-    }
-
-    // Affiliate Product Portal Routes
-    if (cleanPath === '/products' || cleanPath === '/affiliate-products') {
-      return <AffiliateProductPortalView />;
-    }
-
-    if (cleanPath.startsWith('/products/')) {
-      const slug = cleanPath.replace('/products/', '');
-      return <AffiliateProductDetailView slug={slug} />;
-    }
-
-    if (cleanPath.startsWith('/product/')) {
-      const slug = cleanPath.replace('/product/', '');
-      return <AffiliateProductDetailView slug={slug} />;
-    }
-
-    if (cleanPath === '/ai-gadgets' || cleanPath === '/gadgets') {
-      return <GadgetsView />;
-    }
-
-    if (cleanPath.startsWith('/ai-gadgets/')) {
-      const slug = cleanPath.replace('/ai-gadgets/', '');
-      return <GadgetDetailView slug={slug} />;
-    }
-
-    if (cleanPath.startsWith('/gadget/')) {
-      const slug = cleanPath.replace('/gadget/', '');
-      return <GadgetDetailView slug={slug} />;
-    }
-
-    if (cleanPath.startsWith('/gadgets/')) {
-      const slug = cleanPath.replace('/gadgets/', '');
-      return <GadgetDetailView slug={slug} />;
     }
 
     if (cleanPath === '/blog') {
@@ -279,7 +234,6 @@ const AppContent: React.FC = () => {
 
       {/* Global Interactive Modals */}
       <GlobalSearchModal />
-      <CheckoutModal />
       <SubmitToolModal />
       <AffiliateDisclosureModal />
 

@@ -4,7 +4,7 @@
  * ============================================================================
  * Provides type-safe event tracking for:
  *  - Page Views
- *  - AliExpress & Software Affiliate Link Clicks (Crucial for earning & conversion rate)
+ *  - Software & AI Affiliate Link Clicks (Crucial for earning & conversion rate)
  *  - Google AdSense / Sponsor Impressions & Clicks
  *  - Search queries & filters
  *  - Newsletter conversions
@@ -47,12 +47,12 @@ export const trackEvent = (
 };
 
 /**
- * Track an affiliate click (AliExpress, Amazon, SaaS tool)
+ * Track an affiliate click (Merchant partner, SaaS tool)
  * This is the highest-value monetization event.
  */
 export const trackAffiliateClick = (
   productName: string,
-  merchant: string = 'AliExpress',
+  merchant: string = 'Affiliate Partner',
   affiliateUrl: string,
   price?: string | number
 ): void => {

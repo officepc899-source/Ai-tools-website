@@ -172,18 +172,13 @@ export const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/products')} className="hover:text-white transition-colors text-orange-400 font-semibold">
-                  Affiliate Products Portal
+                <button onClick={() => navigate('/chatgpt-alternatives')} className="hover:text-white transition-colors">
+                  ChatGPT Alternatives
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/ai-gadgets')} className="hover:text-white transition-colors text-amber-400 font-semibold">
-                  AI Gadgets & Deals
-                </button>
-              </li>
-              <li>
-                <button onClick={() => navigate('/digital-products')} className="hover:text-white transition-colors">
-                  Digital Products & Kits
+                <button onClick={() => navigate('/ai-image-generators')} className="hover:text-white transition-colors">
+                  AI Image Generators
                 </button>
               </li>
             </ul>

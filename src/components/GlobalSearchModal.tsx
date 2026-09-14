@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, Bot, Lightbulb, ShoppingBag, BookOpen, ArrowRight, ExternalLink } from 'lucide-react';
+import { Search, X, Bot, Lightbulb, BookOpen, ArrowRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const GlobalSearchModal: React.FC = () => {
-  const { isSearchOpen, setIsSearchOpen, tools, businessIdeas, digitalProducts, articles, navigate } = useApp();
+  const { isSearchOpen, setIsSearchOpen, tools, businessIdeas, articles, navigate } = useApp();
   const [query, setQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<'all' | 'tools' | 'business' | 'products' | 'articles'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'tools' | 'business' | 'articles'>('all');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -50,14 +50,6 @@ export const GlobalSearchModal: React.FC = () => {
       b.title.toLowerCase().includes(q) ||
       b.summary.toLowerCase().includes(q) ||
       b.categoryLabel.toLowerCase().includes(q)
-  );
-
-  const filteredProducts = digitalProducts.filter(
-    (p) =>
-      !q ||
-      p.title.toLowerCase().includes(q) ||
-      p.description.toLowerCase().includes(q) ||
-      p.categoryLabel.toLowerCase().includes(q)
   );
 
   const filteredArticles = articles.filter(
@@ -125,14 +117,6 @@ export const GlobalSearchModal: React.FC = () => {
             }`}
           >
             Business Ideas ({filteredBusiness.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('products')}
-            className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
-              activeTab === 'products' ? 'bg-indigo-600 text-white' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
-            }`}
-          >
-            Digital Products ({filteredProducts.length})
           </button>
           <button
             onClick={() => setActiveTab('articles')}
@@ -209,33 +193,6 @@ export const GlobalSearchModal: React.FC = () => {
             </div>
           )}
 
-          {/* Digital Products Section */}
-          {(activeTab === 'all' || activeTab === 'products') && filteredProducts.length > 0 && (
-            <div className="pt-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                <ShoppingBag className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Digital Products & Templates</span>
-              </div>
-              <div className="space-y-1.5">
-                {filteredProducts.slice(0, 3).map((prod) => (
-                  <button
-                    key={prod.id}
-                    onClick={() => handleSelect(`/digital-products`)}
-                    className="w-full text-left p-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-between group border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
-                  >
-                    <div>
-                      <div className="font-semibold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
-                        {prod.title}
-                      </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">{prod.description}</div>
-                    </div>
-                    <span className="text-sm font-bold text-slate-900 dark:text-white ml-2">${prod.price}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Articles Section */}
           {(activeTab === 'all' || activeTab === 'articles') && filteredArticles.length > 0 && (
             <div className="pt-3">
@@ -265,7 +222,6 @@ export const GlobalSearchModal: React.FC = () => {
 
           {filteredTools.length === 0 &&
             filteredBusiness.length === 0 &&
-            filteredProducts.length === 0 &&
             filteredArticles.length === 0 && (
               <div className="py-12 text-center text-slate-400">
                 <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />

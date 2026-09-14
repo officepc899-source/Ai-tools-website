@@ -166,7 +166,7 @@ export const PINTEREST_LANDINGS: PinterestLandingTopic[] = [
     pinHeading: '25 Digital Product Ideas That Sell on Autopilot via Pinterest',
     heroBadge: '📦 100% Margin Assets',
     subtitle: 'Create digital products once and sell them infinitely. Explore high-demand Notion workspaces, Canva templates, AI prompt packs, and guides.',
-    categoryType: 'products',
+    categoryType: 'business',
     curatedToolSlugs: ['midjourney', 'notion-ai', 'canva-magic-studio'],
     keyHighlights: [
       'Zero manufacturing or shipping costs',
