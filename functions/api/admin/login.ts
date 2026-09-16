@@ -64,6 +64,14 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const isEmailValid = normalizedEmail === config.adminEmail;
   const isPasswordValid = await verifyPassword(password, config.adminPassword);
 
+  console.log("[ADMIN AUTH DEBUG]", JSON.stringify({
+    emailMatch: isEmailValid,
+    passwordMatch: isPasswordValid,
+    adminEmailConfigured: Boolean(config.adminEmail),
+    adminPasswordConfigured: Boolean(config.adminPassword),
+    sessionSecretConfigured: Boolean(config.sessionSecret)
+  }));
+
   const url = new URL(request.url);
   const isSecure = url.protocol === 'https:' || request.headers.get('x-forwarded-proto') === 'https';
 
