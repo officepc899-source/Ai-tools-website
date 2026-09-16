@@ -297,6 +297,12 @@ async function startServer() {
     });
   });
 
+  // Explicit ads.txt endpoint for Google AdSense crawler verification
+  app.get('/ads.txt', (req, res) => {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.send('google.com, pub-2683919410645700, DIRECT, f08c47fec0942fa0\n');
+  });
+
   // Vite middleware for development vs static build in production
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
