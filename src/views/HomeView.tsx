@@ -41,6 +41,7 @@ import { SEOHead } from '../components/SEOHead';
 import { ToolCard } from '../components/ToolCard';
 import { ToolCardSkeleton } from '../components/ToolCardSkeleton';
 import { ArticleCard } from '../components/ArticleCard';
+import { InteractiveToolsStudio } from '../components/interactive-tools/InteractiveToolsStudio';
 import { AI_PROMPTS } from '../data/promptsData';
 import { INITIAL_ARTICLES } from '../data/articlesData';
 import { copyToClipboard } from '../utils/clipboard';
@@ -619,6 +620,11 @@ export const HomeView: React.FC = () => {
                 <ToolCard key={tool.id} tool={tool} featured={tool.badges.includes('Staff Pick')} />
               ))}
         </div>
+      </section>
+
+      {/* 3.1. FREE INTERACTIVE ONLINE AI TOOLS STUDIO */}
+      <section aria-labelledby="interactive-studio-heading" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <InteractiveToolsStudio />
       </section>
 
       {/* 3.5. TRENDING AI NEWS & BREAKTHROUGHS SECTION */}

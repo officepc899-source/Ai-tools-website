@@ -44,6 +44,11 @@ import { Breadcrumbs } from '../components/Breadcrumbs';
 import { ToolCard } from '../components/ToolCard';
 import { AdBanner } from '../components/AdBanner';
 import { copyToClipboard } from '../utils/clipboard';
+import { TextSummarizerTool } from '../components/interactive-tools/TextSummarizerTool';
+import { ParaphraserTool } from '../components/interactive-tools/ParaphraserTool';
+import { EmailWriterTool } from '../components/interactive-tools/EmailWriterTool';
+import { TitleGeneratorTool } from '../components/interactive-tools/TitleGeneratorTool';
+import { MetaDescriptionTool } from '../components/interactive-tools/MetaDescriptionTool';
 
 interface ToolDetailViewProps {
   slug: string;
@@ -447,6 +452,33 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* LEFT COLUMN: Deep Review & Tool Information */}
         <div className="lg:col-span-8 space-y-8">
+          {/* Interactive Tool Widget if built-in */}
+          {tool.slug === 'ai-text-summarizer' && (
+            <section className="mb-6">
+              <TextSummarizerTool />
+            </section>
+          )}
+          {tool.slug === 'ai-paraphrasing-tool' && (
+            <section className="mb-6">
+              <ParaphraserTool />
+            </section>
+          )}
+          {tool.slug === 'ai-email-writer' && (
+            <section className="mb-6">
+              <EmailWriterTool />
+            </section>
+          )}
+          {tool.slug === 'ai-title-generator' && (
+            <section className="mb-6">
+              <TitleGeneratorTool />
+            </section>
+          )}
+          {tool.slug === 'ai-meta-description-generator' && (
+            <section className="mb-6">
+              <MetaDescriptionTool />
+            </section>
+          )}
+
           {/* SECTION: Overview & Best For */}
           <section id="overview" className="space-y-6">
             {/* "Best For" Hero Section */}

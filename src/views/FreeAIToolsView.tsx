@@ -4,6 +4,7 @@ import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { ToolCard } from '../components/ToolCard';
+import { InteractiveToolsStudio } from '../components/interactive-tools/InteractiveToolsStudio';
 
 export const FreeAIToolsView: React.FC = () => {
   const { tools, navigate } = useApp();
@@ -102,6 +103,11 @@ export const FreeAIToolsView: React.FC = () => {
         {/* Ambient Glow Graphic */}
         <div className="absolute -right-16 -bottom-16 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
       </header>
+
+      {/* Built-in Instant Interactive Tools Studio */}
+      <section className="bg-slate-50 dark:bg-slate-900/50 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+        <InteractiveToolsStudio />
+      </section>
 
       {/* Filter & Search Bar */}
       <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-xs space-y-4">

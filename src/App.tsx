@@ -14,6 +14,7 @@ import { HomeView } from './views/HomeView';
 import { ToolsDirectoryView } from './views/ToolsDirectoryView';
 import { ToolDetailView } from './views/ToolDetailView';
 import { FreeAIToolsView } from './views/FreeAIToolsView';
+import { InteractiveToolsView } from './views/InteractiveToolsView';
 import { AIToolsForBusinessView } from './views/AIToolsForBusinessView';
 import { AIToolsForStudentsView } from './views/AIToolsForStudentsView';
 import { AIImageGeneratorsView } from './views/AIImageGeneratorsView';
@@ -95,6 +96,30 @@ const AppContent: React.FC = () => {
 
     if (cleanPath === '/free-ai-tools') {
       return <FreeAIToolsView />;
+    }
+
+    if (cleanPath === '/interactive-tools' || cleanPath === '/free-tools') {
+      return <InteractiveToolsView />;
+    }
+
+    if (cleanPath === '/ai-text-summarizer') {
+      return <InteractiveToolsView initialTool="summarizer" />;
+    }
+
+    if (cleanPath === '/ai-paraphrasing-tool') {
+      return <InteractiveToolsView initialTool="paraphraser" />;
+    }
+
+    if (cleanPath === '/ai-email-writer') {
+      return <InteractiveToolsView initialTool="email-writer" />;
+    }
+
+    if (cleanPath === '/ai-title-generator') {
+      return <InteractiveToolsView initialTool="title-generator" />;
+    }
+
+    if (cleanPath === '/ai-meta-description-generator') {
+      return <InteractiveToolsView initialTool="meta-description" />;
     }
 
     if (cleanPath === '/ai-tools-for-business') {

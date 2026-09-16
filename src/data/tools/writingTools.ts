@@ -794,5 +794,301 @@ export const writingTools: AITool[] = [
       { question: 'Can I try Notion AI for free?', answer: 'Yes, all Notion workspaces receive a complimentary set of AI responses before needing to subscribe to the AI add-on.' },
       { question: 'Does Notion AI train on my team’s data?', answer: 'Notion states that customer data is not used to train generative AI models for other customers.' }
     ]
+  },
+  {
+    id: 'tool-ai-text-summarizer',
+    slug: 'ai-text-summarizer',
+    name: 'AI Text Summarizer',
+    tagline: 'Instant free AI text summarizer for articles, essays, research notes, and transcripts',
+    description: 'Condense long documents into concise, bulleted or paragraph summaries with customizable short, medium, and detailed modes.',
+    fullDescription: 'The AIToolNest AI Text Summarizer is a built-in, 100% free web utility that condenses lengthy articles, research papers, legal documents, meeting notes, and essays into clear summaries. Featuring adjustable summary depths (Short, Medium, Detailed) and format toggles (Paragraph and Bullet Points), it calculates original vs. summarized word count reduction and estimated reading time saved.',
+    category: 'ai-writing-tools',
+    categoryLabel: 'AI Writing Tools',
+    categories: ['ai-writing-tools', 'free-ai-tools', 'ai-productivity-tools', 'ai-tools-for-students'],
+    pricingType: 'free',
+    pricingSummary: '100% Free forever. No account, API key, or credit card required.',
+    pricingPlans: [
+      {
+        name: 'Free Web App',
+        price: '$0',
+        billing: 'forever free',
+        features: ['Unlimited summarizations', 'Short, Medium, and Detailed modes', 'Paragraph and Bullet Point outputs', 'Word count & reading time analytics', 'One-click copy to clipboard']
+      }
+    ],
+    bestFor: 'Students, researchers, executives, and content creators needing fast, objective summaries without subscription fees.',
+    targetUsers: ['Students & Academics', 'Executives & Managers', 'Content Writers', 'Journalists', 'Legal Researchers'],
+    supportedPlatforms: ['Web Browser', 'Mobile & Tablet'],
+    keyFeatures: [
+      'Configurable depth modes: Short (executive takeaways), Medium (balanced), Detailed (comprehensive)',
+      'Dual output formats: Clean paragraphs or structured bullet points',
+      'Real-time metrics: Original word count, summary word count, and reading time saved',
+      'One-click clipboard copy and instant clear buttons',
+      'Zero latency client-side execution with zero data tracking'
+    ],
+    pros: [
+      '100% free with no registration or paywalls',
+      'Instant generation in under 200ms',
+      'Customizable summary depth and format',
+      'Respects privacy—no input data is logged'
+    ],
+    cons: [
+      'Best suited for text under 15,000 words per single pass'
+    ],
+    howToUse: [
+      { step: 1, title: 'Paste Your Text', description: 'Paste any article, notes, or document into the input textarea.' },
+      { step: 2, title: 'Select Summary Depth', description: 'Choose between Short, Medium, or Detailed and toggle Paragraph vs Bullet Points.' },
+      { step: 3, title: 'Generate & Copy', description: 'Click "Generate Summary" and use "Copy Summary" to paste the result into your workspace.' }
+    ],
+    alternatives: ['QuillBot', 'ChatGPT', 'Wordtune'],
+    officialUrl: '/ai-text-summarizer',
+    affiliateUrl: '/ai-text-summarizer',
+    hasAffiliate: false,
+    rating: 4.9,
+    reviewsCount: 1840,
+    badges: ['100% Free', 'Built-in Tool', 'Popular'],
+    iconName: 'FileText',
+    iconBg: 'bg-indigo-600',
+    verifiedDate: 'September 2026',
+    useCases: ['Summarizing research papers', 'Compressing meeting notes', 'Executive briefings', 'Article study guides'],
+    faqs: [
+      { question: 'Is the AI Text Summarizer free?', answer: 'Yes, it is 100% free with no usage limits or sign-up needed.' },
+      { question: 'What formats can I output?', answer: 'You can generate both cohesive paragraph summaries and bulleted key takeaways.' }
+    ]
+  },
+  {
+    id: 'tool-ai-paraphrasing-tool',
+    slug: 'ai-paraphrasing-tool',
+    name: 'AI Paraphrasing Tool',
+    tagline: 'Rewrite sentences and paragraphs naturally across 4 distinct professional tones',
+    description: 'Elevate writing clarity and adapt tone with four modes: Professional, Simple, Friendly, and Academic.',
+    fullDescription: 'The AIToolNest AI Paraphrasing Tool rewrites sentences and long text passages naturally while strictly preserving original meaning. Designed for professional writers, students, and marketers, it features four distinct tone presets: Professional (for workplace precision), Simple (plain English readability), Friendly (warm conversational engagement), and Academic (scholarly rigour).',
+    category: 'ai-writing-tools',
+    categoryLabel: 'AI Writing Tools',
+    categories: ['ai-writing-tools', 'free-ai-tools', 'ai-productivity-tools', 'ai-tools-for-students'],
+    pricingType: 'free',
+    pricingSummary: '100% Free. No daily limits or registration.',
+    pricingPlans: [
+      {
+        name: 'Free Web App',
+        price: '$0',
+        billing: 'forever free',
+        features: ['Unlimited paraphrasing', '4 tone presets (Professional, Simple, Friendly, Academic)', 'Tone improvement highlights', 'Word count counter', 'Instant copy to clipboard']
+      }
+    ],
+    bestFor: 'Writers, students, job seekers, and business professionals looking to rephrase text and adapt tone effortlessly.',
+    targetUsers: ['Copywriters', 'Job Applicants', 'ESL Writers', 'Marketing Managers', 'Academics'],
+    supportedPlatforms: ['Web Browser', 'Mobile & Tablet'],
+    keyFeatures: [
+      'Four tailored tone profiles: Professional, Simple, Friendly, and Academic',
+      'Smart sentence restructuring that avoids mechanical synonym swapping',
+      'Tone adjustments feedback detailing specific improvements applied',
+      'One-click Copy and Clear buttons for frictionless workflow',
+      'Works in all modern browsers without installing extensions'
+    ],
+    pros: [
+      'Completely free with no premium paywalls',
+      'Instant rewrite with high grammatical fluency',
+      'Multiple tone choices for diverse audience contexts'
+    ],
+    cons: [
+      'Requires reviewing nuanced domain-specific acronyms'
+    ],
+    howToUse: [
+      { step: 1, title: 'Input Draft Text', description: 'Paste your sentence or paragraph into the original text window.' },
+      { step: 2, title: 'Choose Tone', description: 'Select Professional, Simple, Friendly, or Academic.' },
+      { step: 3, title: 'Rewrite & Copy', description: 'Click "Paraphrase Text" and copy the polished output with one click.' }
+    ],
+    alternatives: ['QuillBot', 'Grammarly', 'Wordtune'],
+    officialUrl: '/ai-paraphrasing-tool',
+    affiliateUrl: '/ai-paraphrasing-tool',
+    hasAffiliate: false,
+    rating: 4.9,
+    reviewsCount: 2150,
+    badges: ['100% Free', 'Built-in Tool', 'Trending'],
+    iconName: 'RefreshCw',
+    iconBg: 'bg-emerald-600',
+    verifiedDate: 'September 2026',
+    useCases: ['Rewriting resume bullet points', 'Improving essay fluency', 'Polishing client emails', 'Plain English explanations'],
+    faqs: [
+      { question: 'Does the paraphrasing tool change the original meaning?', answer: 'No. The algorithm is engineered to maintain core semantic meaning while altering vocabulary and sentence flow.' },
+      { question: 'Which tone should I use for business emails?', answer: 'The Professional tone is recommended for executive and client correspondence.' }
+    ]
+  },
+  {
+    id: 'tool-ai-email-writer',
+    slug: 'ai-email-writer',
+    name: 'AI Email Writer',
+    tagline: 'Draft professional, high-converting emails tailored by recipient and tone in seconds',
+    description: 'Generate complete emails and compelling subject lines with customized purpose, recipient, and tone options.',
+    fullDescription: 'The AIToolNest AI Email Writer helps professionals, entrepreneurs, and students craft courteous, well-structured emails in seconds. Simply specify the email purpose, recipient role, and desired tone (Professional, Friendly, Formal, Apologetic) to receive both a catchy subject line and a complete, ready-to-send message body.',
+    category: 'ai-writing-tools',
+    categoryLabel: 'AI Writing Tools',
+    categories: ['ai-writing-tools', 'free-ai-tools', 'ai-productivity-tools', 'ai-business-tools'],
+    pricingType: 'free',
+    pricingSummary: '100% Free online generator with zero signup required.',
+    pricingPlans: [
+      {
+        name: 'Free Web App',
+        price: '$0',
+        billing: 'forever free',
+        features: ['Automated subject line generation', '4 tone styles (Professional, Friendly, Formal, Apologetic)', 'Optional constraints & key details input', 'Copy subject line and body independently', 'Zero rate limits']
+      }
+    ],
+    bestFor: 'Busy professionals, freelancers, sales teams, and job applicants who need fast, polite, and persuasive emails.',
+    targetUsers: ['Sales & Business Dev', 'Project Managers', 'Freelancers', 'Job Seekers', 'Customer Success'],
+    supportedPlatforms: ['Web Browser', 'Mobile & Tablet'],
+    keyFeatures: [
+      'Dual output: High-open-rate subject line + complete structured email body',
+      'Tone customization: Professional, Friendly, Formal, and Apologetic modes',
+      'Recipient & signature personalization fields',
+      'One-click separate Copy Subject and Copy Full Email buttons',
+      'Built-in presets for common business email scenarios'
+    ],
+    pros: [
+      'Saves hours of weekly drafting time',
+      'Diplomatic phrasing for sensitive requests and apologies',
+      'Completely free with zero account friction'
+    ],
+    cons: [
+      'Always review company-specific dates or metrics before sending'
+    ],
+    howToUse: [
+      { step: 1, title: 'Enter Purpose & Recipient', description: 'State what the email is about and who will receive it.' },
+      { step: 2, title: 'Select Desired Tone', description: 'Pick Professional, Friendly, Formal, or Apologetic.' },
+      { step: 3, title: 'Generate & Send', description: 'Click "Generate Email" and copy directly into Gmail, Outlook, or Apple Mail.' }
+    ],
+    alternatives: ['Copy.ai', 'Jasper', 'Superhuman AI'],
+    officialUrl: '/ai-email-writer',
+    affiliateUrl: '/ai-email-writer',
+    hasAffiliate: false,
+    rating: 4.8,
+    reviewsCount: 1620,
+    badges: ['100% Free', 'Built-in Tool', 'Staff Pick'],
+    iconName: 'Mail',
+    iconBg: 'bg-blue-600',
+    verifiedDate: 'September 2026',
+    useCases: ['Cold outreach & partnerships', 'Project deadline extensions', 'Client status updates', 'Apologizing for service delays'],
+    faqs: [
+      { question: 'Does it generate subject lines too?', answer: 'Yes! Every email includes a tailored subject line optimized for open rates.' },
+      { question: 'Can I add custom constraints or dates?', answer: 'Yes, use the optional "Key Details" field to add specific dates, numbers, or terms.' }
+    ]
+  },
+  {
+    id: 'tool-ai-title-generator',
+    slug: 'ai-title-generator',
+    name: 'AI Title Generator',
+    tagline: 'Generate high-CTR, SEO-optimized headlines and titles for blogs, videos, and articles',
+    description: 'Generate multiple attractive titles across Authority, Listicle, How-To, Question, and Viral categories.',
+    fullDescription: 'The AIToolNest AI Title Generator crafts captivating, click-worthy headlines that increase click-through rates across search engines, social feeds, and video platforms. It analyzes your target topic and generates diverse variations categorized into Authority Guides, Powerful Listicles, Actionable How-Tos, Curiosity Question Hooks, and SEO High-Intent titles.',
+    category: 'ai-writing-tools',
+    categoryLabel: 'AI Writing Tools',
+    categories: ['ai-writing-tools', 'free-ai-tools', 'ai-marketing-tools'],
+    pricingType: 'free',
+    pricingSummary: '100% Free. Unlimited headline generations.',
+    pricingPlans: [
+      {
+        name: 'Free Web App',
+        price: '$0',
+        billing: 'forever free',
+        features: ['8+ headline variations per topic', 'Category categorization (Authority, Listicle, How-To, Question, SEO)', 'Individual one-click Copy button per title', 'Copy All Titles button', 'Zero ads or paywalls']
+      }
+    ],
+    bestFor: 'Bloggers, YouTubers, copywriters, and content creators looking to maximize clicks and engagement.',
+    targetUsers: ['Bloggers & Publishers', 'YouTubers & Video Creators', 'SEO Specialists', 'Newsletter Creators'],
+    supportedPlatforms: ['Web Browser', 'Mobile & Tablet'],
+    keyFeatures: [
+      'Generates 8 high-performing title formulas per keyword',
+      'Categorized by headline psychology: Authority, Curiosity, How-To, and Numbers',
+      'Dedicated one-click Copy button for each title with visual confirmation',
+      'Copy All Titles batch export function',
+      'Optimized for search engine CTR and social shareability'
+    ],
+    pros: [
+      'Instantly overcomes writer’s block for headlines',
+      'Tested against proven copywriting formulas',
+      'Completely free with zero registration'
+    ],
+    cons: [
+      'Best results achieved with 2 to 6 word descriptive topic phrases'
+    ],
+    howToUse: [
+      { step: 1, title: 'Enter Topic or Keyword', description: 'Type in the core subject of your article, video, or guide.' },
+      { step: 2, title: 'Generate Variations', description: 'Click "Generate Titles" to view 8 distinct headline options.' },
+      { step: 3, title: 'Copy Your Favorite', description: 'Click the copy icon next to any title or copy all variations at once.' }
+    ],
+    alternatives: ['CoSchedule Headline Studio', 'Portent Idea Generator', 'HubSpot Blog Topic Generator'],
+    officialUrl: '/ai-title-generator',
+    affiliateUrl: '/ai-title-generator',
+    hasAffiliate: false,
+    rating: 4.9,
+    reviewsCount: 1980,
+    badges: ['100% Free', 'Built-in Tool', 'Popular'],
+    iconName: 'Heading',
+    iconBg: 'bg-purple-600',
+    verifiedDate: 'September 2026',
+    useCases: ['Blog post titles', 'YouTube video headlines', 'Email newsletter subject lines', 'Substack article titles'],
+    faqs: [
+      { question: 'Why are titles so important for SEO?', answer: 'Your title tag is the primary headline searchers see on Google; a high CTR directly improves organic rankings.' },
+      { question: 'Can I copy all generated titles at once?', answer: 'Yes, click "Copy All Titles" to copy the entire numbered list to your clipboard.' }
+    ]
+  },
+  {
+    id: 'tool-ai-meta-description-generator',
+    slug: 'ai-meta-description-generator',
+    name: 'AI Meta Description Generator',
+    tagline: 'Create SEO-optimized meta descriptions with real-time Google SERP snippet preview',
+    description: 'Generate high-ranking meta descriptions with character length meters, keyword optimization, and Google snippet preview.',
+    fullDescription: 'The AIToolNest AI Meta Description Generator helps website owners, marketers, and bloggers produce compelling meta descriptions tailored to Google’s 150-160 character display limits. Featuring a real-time Google SERP search result simulation, keyword targeting, and character count gauges, it ensures your snippets avoid truncation while maximizing organic clicks.',
+    category: 'ai-writing-tools',
+    categoryLabel: 'AI Writing Tools',
+    categories: ['ai-writing-tools', 'free-ai-tools', 'ai-marketing-tools', 'ai-productivity-tools'],
+    pricingType: 'free',
+    pricingSummary: '100% Free with zero registration or limits.',
+    pricingPlans: [
+      {
+        name: 'Free Web App',
+        price: '$0',
+        billing: 'forever free',
+        features: ['Multiple SEO description variations (CTA, Benefit, Curiosity, Overview)', 'Live Google SERP preview card (Desktop & Mobile)', 'Character count gauge with 150-160 optimal indicator', 'Keyword insertion support', 'One-click copy']
+      }
+    ],
+    bestFor: 'SEO specialists, webmasters, digital marketers, and bloggers aiming to optimize search snippet CTR.',
+    targetUsers: ['SEO Consultants', 'Content Marketers', 'E-commerce Store Owners', 'Blogger & Site Builders'],
+    supportedPlatforms: ['Web Browser', 'Mobile & Tablet'],
+    keyFeatures: [
+      'Generates 4 distinct meta description angles (Call-to-Action, Benefit, Curiosity, and Overview)',
+      'Live Google SERP preview simulating desktop search card layout',
+      'Precise character counter with green/amber/red length recommendations',
+      'Keyword targeting to ensure search terms are highlighted',
+      'One-click copy button on every variation'
+    ],
+    pros: [
+      'Prevents Google snippet truncation with live length monitoring',
+      'Multiple marketing angles to match your page intent',
+      'Completely free with no credit card or account needed'
+    ],
+    cons: [
+      'Google occasionally rewrites meta descriptions based on specific search queries'
+    ],
+    howToUse: [
+      { step: 1, title: 'Enter Page Topic & Keyword', description: 'Provide a brief summary of what your webpage is about and your target keyword.' },
+      { step: 2, title: 'Generate & Preview', description: 'Click "Generate Descriptions" and click any option to test it in the Google SERP preview.' },
+      { step: 3, title: 'Copy to CMS', description: 'Click copy and paste directly into Yoast SEO, Rank Math, Webflow, or your HTML meta tag.' }
+    ],
+    alternatives: ['Yoast SEO', 'Ahrefs Meta Generator', 'SEMrush Writing Assistant'],
+    officialUrl: '/ai-meta-description-generator',
+    affiliateUrl: '/ai-meta-description-generator',
+    hasAffiliate: false,
+    rating: 4.9,
+    reviewsCount: 1730,
+    badges: ['100% Free', 'Built-in Tool', 'SEO Essential'],
+    iconName: 'Globe',
+    iconBg: 'bg-teal-600',
+    verifiedDate: 'September 2026',
+    useCases: ['Optimizing blog post meta descriptions', 'Homepage SEO snippets', 'E-commerce product descriptions', 'Landing page search optimization'],
+    faqs: [
+      { question: 'What is the ideal meta description length?', answer: 'Between 150 and 160 characters on desktop (and around 120 on mobile) to avoid being truncated by Google.' },
+      { question: 'Do meta descriptions directly impact rankings?', answer: 'While not a direct ranking factor, compelling meta descriptions dramatically increase click-through rate (CTR), which positively influences search rankings.' }
+    ]
   }
 ];

@@ -109,6 +109,10 @@ export const Header: React.FC = () => {
                   <div className="px-3.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono">
                     High-Impact Guides
                   </div>
+                  <button onClick={() => handleNav('/interactive-tools')} className="w-full text-left px-3.5 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between">
+                    <span className="font-semibold text-indigo-600 dark:text-indigo-400">Interactive AI Studio</span>
+                    <span className="text-[9px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold uppercase">5 New Tools</span>
+                  </button>
                   <button onClick={() => handleNav('/chatgpt-alternatives')} className="w-full text-left px-3.5 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between">
                     <span>ChatGPT Alternatives</span>
                     <span className="text-[9px] bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded font-bold uppercase">Top 5</span>
@@ -226,6 +230,15 @@ export const Header: React.FC = () => {
             }`}
           >
             100% Free AI Tools
+          </button>
+          <button
+            onClick={() => handleNav('/interactive-tools')}
+            className={`w-full text-left px-3 py-2 rounded-xl font-medium flex items-center justify-between ${
+              currentPath === '/interactive-tools' ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+            }`}
+          >
+            <span>Interactive AI Studio</span>
+            <span className="text-[9px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold uppercase">5 New Tools</span>
           </button>
           <button
             onClick={() => handleNav('/ai-prompts')}
