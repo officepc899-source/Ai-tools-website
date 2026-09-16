@@ -29,6 +29,28 @@ interface AdminViewProps {
 export const AdminView: React.FC<AdminViewProps> = ({ onLogout, adminEmail }) => {
   const { tools, updateTool, addTool, adsEnabled, setAdsEnabled, showToast, navigate } = useApp();
   const [activeTab, setActiveTab] = useState<'tools' | 'monetization'>('tools');
+  const [isVerifying, setIsVerifying] = useState(false);
+
+  const handleVerifySession = async () => {
+    setIsVerifying(true);
+    try {
+      const res = await fetch('/api/admin/verify', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { Accept: 'application/json' }
+      });
+      if (res.ok) {
+        const data = await res.json().catch(() => null);
+        showToast(`Session Verified: ${data?.user?.email || 'Admin'} (Role: ${data?.user?.role || 'admin'})`);
+      } else {
+        showToast('Admin session expired or invalid. Please re-authenticate.');
+      }
+    } catch {
+      showToast('Network error while checking session status.');
+    } finally {
+      setIsVerifying(false);
+    }
+  };
 
   // Tools editing state
   const [editingTool, setEditingTool] = useState<AITool | null>(null);
@@ -138,6 +160,17 @@ export const AdminView: React.FC<AdminViewProps> = ({ onLogout, adminEmail }) =>
               <span className="truncate max-w-[180px]">{adminEmail}</span>
             </div>
           )}
+
+          {/* Verify Session Button */}
+          <button
+            onClick={handleVerifySession}
+            disabled={isVerifying}
+            className="px-3 py-2 rounded-xl text-xs font-semibold border border-indigo-200 dark:border-indigo-900/50 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5 cursor-pointer transition-colors"
+            title="Verify session with /api/admin/verify"
+          >
+            <ShieldCheck className={`w-3.5 h-3.5 ${isVerifying ? 'animate-spin' : 'text-indigo-600 dark:text-indigo-400'}`} />
+            <span>{isVerifying ? 'Verifying...' : 'Verify Session'}</span>
+          </button>
 
           {/* Display Ads Toggle */}
           <button

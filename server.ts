@@ -11,15 +11,28 @@ dotenv.config();
 const PORT = 3000;
 const SESSION_COOKIE_NAME = 'admin_session';
 
-// Admin configuration from environment variables
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'admin@aitoolnest.com').trim().toLowerCase();
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Admin#Nest2026!Secure';
-const SESSION_SECRET = process.env.SESSION_SECRET || 'aitoolnest-super-secure-session-secret-change-in-production';
+// Admin configuration from environment variables - NO hardcoded fallback credentials
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const SESSION_SECRET = process.env.SESSION_SECRET;
 
-// In-memory token revocation & active session tracking
-const activeSessions = new Map<string, { email: string; role: string; expiresAt: number; csrfToken: string }>();
+function checkAdminConfig(): { configured: boolean; error?: string } {
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD || !SESSION_SECRET) {
+    const missing: string[] = [];
+    if (!ADMIN_EMAIL) missing.push('ADMIN_EMAIL');
+    if (!ADMIN_PASSWORD) missing.push('ADMIN_PASSWORD');
+    if (!SESSION_SECRET) missing.push('SESSION_SECRET');
+    return {
+      configured: false,
+      error: `Server Configuration Error: Missing required admin environment variables (${missing.join(
+        ', '
+      )}). For production on Cloudflare Pages, configure these in Cloudflare Pages Settings > Environment Variables. For local development, set them in .env.`
+    };
+  }
+  return { configured: true };
+}
 
-// Rate-limiting tracker for login attempts (IP -> { count, lockedUntil })
+// Rate-limiting tracker for local dev login attempts (IP -> { attempts, lockedUntil })
 interface RateLimitInfo {
   attempts: number;
   lockedUntil: number;
@@ -38,28 +51,27 @@ function getClientIp(req: Request): string {
 }
 
 // Generate an HMAC signature for a payload
-function signToken(payload: string): string {
-  const hmac = crypto.createHmac('sha256', SESSION_SECRET);
+function signToken(payload: string, secret: string): string {
+  const hmac = crypto.createHmac('sha256', secret);
   hmac.update(payload);
   return hmac.digest('hex');
 }
 
-// Create a cryptographically secure session token
-function createSessionToken(email: string, role: string): { token: string; csrfToken: string; expiresAt: number } {
-  const sessionId = crypto.randomBytes(32).toString('hex');
+// Create a cryptographically signed stateless session token
+function createSessionToken(email: string, role: string, secret: string): { token: string; csrfToken: string; expiresAt: number } {
+  const sessionId = crypto.randomBytes(24).toString('hex');
   const csrfToken = crypto.randomBytes(24).toString('hex');
   const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
 
   const payload = JSON.stringify({ sessionId, email, role, expiresAt, csrfToken });
-  const signature = signToken(payload);
+  const signature = signToken(payload, secret);
   const token = Buffer.from(payload).toString('base64url') + '.' + signature;
 
-  activeSessions.set(sessionId, { email, role, expiresAt, csrfToken });
   return { token, csrfToken, expiresAt };
 }
 
-// Verify a session token
-function verifySessionToken(token: string): { valid: boolean; email?: string; role?: string; csrfToken?: string; sessionId?: string } {
+// Verify a stateless session token
+function verifySessionToken(token: string, secret: string): { valid: boolean; email?: string; role?: string; csrfToken?: string; sessionId?: string } {
   if (!token || typeof token !== 'string') {
     return { valid: false };
   }
@@ -77,7 +89,7 @@ function verifySessionToken(token: string): { valid: boolean; email?: string; ro
     return { valid: false };
   }
 
-  const expectedSig = signToken(payloadStr);
+  const expectedSig = signToken(payloadStr, secret);
   const sigBuffer = Buffer.from(receivedSig);
   const expectedBuffer = Buffer.from(expectedSig);
 
@@ -87,18 +99,11 @@ function verifySessionToken(token: string): { valid: boolean; email?: string; ro
 
   try {
     const data = JSON.parse(payloadStr);
-    if (!data.sessionId || !data.expiresAt || !data.email || !data.role) {
+    if (!data.sessionId || !data.expiresAt || !data.email || !data.role || !data.csrfToken) {
       return { valid: false };
     }
 
     if (Date.now() > data.expiresAt) {
-      activeSessions.delete(data.sessionId);
-      return { valid: false };
-    }
-
-    // Check in active sessions
-    const session = activeSessions.get(data.sessionId);
-    if (!session || session.expiresAt < Date.now()) {
       return { valid: false };
     }
 
@@ -113,7 +118,7 @@ function verifyPassword(candidate: string, expected: string): boolean {
   if (!candidate || !expected) return false;
 
   // If password stored is bcrypt hash
-  if (expected.startsWith('$2a$') || expected.startsWith('$2b$')) {
+  if (expected.startsWith('$2a$') || expected.startsWith('$2b$') || expected.startsWith('$2y$')) {
     try {
       return bcrypt.compareSync(candidate, expected);
     } catch {
@@ -125,7 +130,6 @@ function verifyPassword(candidate: string, expected: string): boolean {
   const candBuf = Buffer.from(candidate, 'utf8');
   const expBuf = Buffer.from(expected, 'utf8');
   if (candBuf.length !== expBuf.length) {
-    // Perform a dummy timingSafeEqual to avoid timing leak
     crypto.timingSafeEqual(candBuf, candBuf);
     return false;
   }
@@ -134,8 +138,14 @@ function verifyPassword(candidate: string, expected: string): boolean {
 
 // Authentication middleware
 function requireAdminAuth(req: Request, res: Response, next: NextFunction): void {
+  const config = checkAdminConfig();
+  if (!config.configured || !SESSION_SECRET) {
+    res.status(500).json({ error: config.error || 'Server configuration error' });
+    return;
+  }
+
   const token = req.cookies?.[SESSION_COOKIE_NAME];
-  const auth = verifySessionToken(token);
+  const auth = verifySessionToken(token, SESSION_SECRET);
 
   if (!auth.valid || auth.role !== 'admin') {
     res.status(401).json({ error: 'Unauthorized: Admin authentication required', authenticated: false });
@@ -152,7 +162,6 @@ function requireAdminAuth(req: Request, res: Response, next: NextFunction): void
     }
   }
 
-  // Attach session info to request
   (req as any).adminSession = auth;
   next();
 }
@@ -182,8 +191,14 @@ async function startServer() {
 
   // Check current session
   app.get('/api/admin/session', (req, res) => {
+    const config = checkAdminConfig();
+    if (!config.configured || !SESSION_SECRET) {
+      res.status(500).json({ error: config.error || 'Server configuration error', authenticated: false });
+      return;
+    }
+
     const token = req.cookies?.[SESSION_COOKIE_NAME];
-    const auth = verifySessionToken(token);
+    const auth = verifySessionToken(token, SESSION_SECRET);
 
     if (auth.valid && auth.role === 'admin') {
       res.json({
@@ -201,6 +216,12 @@ async function startServer() {
 
   // Admin Login
   app.post('/api/admin/login', (req, res) => {
+    const config = checkAdminConfig();
+    if (!config.configured || !ADMIN_EMAIL || !ADMIN_PASSWORD || !SESSION_SECRET) {
+      res.status(500).json({ error: config.error || 'Server configuration error' });
+      return;
+    }
+
     const clientIp = getClientIp(req);
     const now = Date.now();
 
@@ -247,8 +268,8 @@ async function startServer() {
     // Reset rate limiter on successful authentication
     loginAttempts.delete(clientIp);
 
-    // Create session
-    const { token, csrfToken } = createSessionToken(normalizedEmail, 'admin');
+    // Create stateless session
+    const { token, csrfToken } = createSessionToken(normalizedEmail, 'admin', SESSION_SECRET);
 
     // Set secure HttpOnly cookie
     const isProduction = process.env.NODE_ENV === 'production';
@@ -270,14 +291,6 @@ async function startServer() {
 
   // Admin Logout
   app.post('/api/admin/logout', (req, res) => {
-    const token = req.cookies?.[SESSION_COOKIE_NAME];
-    if (token) {
-      const auth = verifySessionToken(token);
-      if (auth.sessionId) {
-        activeSessions.delete(auth.sessionId);
-      }
-    }
-
     res.clearCookie(SESSION_COOKIE_NAME, {
       path: '/',
       httpOnly: true,
@@ -288,8 +301,8 @@ async function startServer() {
     res.json({ success: true, message: 'Logged out successfully' });
   });
 
-  // Protected Admin Verification endpoint (can be used to verify API access)
-  app.get('/api/admin/verify', requireAdminAuth, (req, res) => {
+  // Protected Admin Verification endpoint (supports GET and POST)
+  app.all('/api/admin/verify', requireAdminAuth, (req, res) => {
     const session = (req as any).adminSession;
     res.json({
       success: true,
