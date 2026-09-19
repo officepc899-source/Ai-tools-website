@@ -350,7 +350,7 @@ export const HomeView: React.FC = () => {
           {/* Release Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200/80 dark:border-indigo-800/60 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-6 shadow-xs animate-fadeIn">
             <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
-            <span>The Premier AI Directory • 10,000+ Tested & Verified Tools</span>
+            <span>The Premier AI Directory • 60+ Tested & Verified Tools</span>
           </div>
 
           {/* EXACT REQUIRED LARGE HEADLINE */}
