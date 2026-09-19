@@ -1328,14 +1328,14 @@ export const HomeView: React.FC = () => {
               Ready to Supercharge Your Workflow with AI?
             </h2>
             <p className="text-xs sm:text-base text-indigo-200/90 max-w-xl mx-auto leading-relaxed">
-              Explore 10,000+ benchmarked AI tools or submit your startup software to be discovered by our community today.
+              Explore 60+ benchmarked AI tools or submit your startup software to be discovered by our community today.
             </p>
             <div className="pt-4 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
               <button
                 onClick={() => navigate('/tools')}
                 className="px-7 py-3.5 bg-white text-indigo-950 font-bold text-xs sm:text-sm rounded-xl hover:bg-slate-100 transition-all cursor-pointer shadow-lg hover:shadow-xl hover:-translate-y-0.5"
               >
-                Browse All 10,000+ Tools
+                Browse All Tools
               </button>
               <button
                 onClick={() => setSubmitToolModalOpen(true)}
