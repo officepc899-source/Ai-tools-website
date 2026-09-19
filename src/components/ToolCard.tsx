@@ -52,6 +52,14 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, featured = false }) =>
   // Category specific aesthetic theme gradients for the top banner
   const categoryTheme = useMemo(() => {
     switch (tool.category) {
+      case 'ai-assistant':
+      case 'ai-assistants':
+        return {
+          bannerGradient: 'from-blue-600/15 via-indigo-600/10 to-transparent',
+          meshColor: 'bg-blue-500/15',
+          accentBorder: 'group-hover:border-blue-400/70 dark:group-hover:border-blue-500/60',
+          badgeText: 'text-blue-700 dark:text-blue-300'
+        };
       case 'ai-writing':
       case 'ai-writing-tools':
         return {

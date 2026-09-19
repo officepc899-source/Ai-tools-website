@@ -20,10 +20,13 @@ import { AIToolsForStudentsView } from './views/AIToolsForStudentsView';
 import { AIImageGeneratorsView } from './views/AIImageGeneratorsView';
 import { ChatGPTAlternativesView } from './views/ChatGPTAlternativesView';
 import { AIPromptsView } from './views/AIPromptsView';
+import { GoogleAIToolsView } from './views/GoogleAIToolsView';
 import { BusinessIdeasView } from './views/BusinessIdeasView';
 import { BusinessIdeaDetailView } from './views/BusinessIdeaDetailView';
 import { BlogView } from './views/BlogView';
 import { ArticleDetailView } from './views/ArticleDetailView';
+import { TutorialsView } from './views/TutorialsView';
+import { TutorialDetailView } from './views/TutorialDetailView';
 import { PinterestLandingView } from './views/PinterestLandingView';
 import { NotFoundView } from './views/NotFoundView';
 import {
@@ -142,6 +145,10 @@ const AppContent: React.FC = () => {
       return <AIPromptsView />;
     }
 
+    if (cleanPath === '/google-ai-tools' || cleanPath === '/google-ai') {
+      return <GoogleAIToolsView />;
+    }
+
     if (cleanPath.startsWith('/category/') || cleanPath.startsWith('/ai-tools/category/')) {
       return <ToolsDirectoryView />;
     }
@@ -172,6 +179,15 @@ const AppContent: React.FC = () => {
     if (cleanPath.startsWith('/blog/')) {
       const slug = cleanPath.replace('/blog/', '');
       return <ArticleDetailView slug={slug} />;
+    }
+
+    if (cleanPath === '/tutorials') {
+      return <TutorialsView />;
+    }
+
+    if (cleanPath.startsWith('/tutorials/')) {
+      const slug = cleanPath.replace('/tutorials/', '');
+      return <TutorialDetailView slug={slug} />;
     }
 
     if (cleanPath.startsWith('/landing/')) {

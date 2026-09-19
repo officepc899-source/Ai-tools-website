@@ -41,13 +41,16 @@ import { SEOHead } from '../components/SEOHead';
 import { ToolCard } from '../components/ToolCard';
 import { ToolCardSkeleton } from '../components/ToolCardSkeleton';
 import { ArticleCard } from '../components/ArticleCard';
+import { TutorialCard } from '../components/TutorialCard';
 import { InteractiveToolsStudio } from '../components/interactive-tools/InteractiveToolsStudio';
 import { AI_PROMPTS } from '../data/promptsData';
 import { INITIAL_ARTICLES } from '../data/articlesData';
 import { copyToClipboard } from '../utils/clipboard';
+import { isGoogleAITool } from '../data/toolsData';
 
 export const HomeView: React.FC = () => {
-  const { tools, navigate, setIsSearchOpen, setSubmitToolModalOpen, showToast } = useApp();
+  const { tools, navigate, setIsSearchOpen, setSubmitToolModalOpen, showToast, tutorials } = useApp();
+  const featuredTutorials = tutorials.slice(0, 3);
   const [heroSearch, setHeroSearch] = useState('');
   const [selectedSearchCategory, setSelectedSearchCategory] = useState('all');
   const [activeCategoryTab, setActiveCategoryTab] = useState('all');
@@ -101,6 +104,24 @@ export const HomeView: React.FC = () => {
   const newTools = tools.slice(-6).reverse();
   const samplePrompts = AI_PROMPTS.slice(0, 3);
   const latestArticles = INITIAL_ARTICLES.slice(0, 3);
+
+  // 3 featured tools for compact Google AI Tools section
+  const googleFeaturedTools = React.useMemo(() => {
+    const prioritySlugs = ['google-gemini', 'google-ai-studio', 'google-imagen', 'google-veo', 'notebooklm', 'gemini-api'];
+    const selected: typeof tools = [];
+    for (const slug of prioritySlugs) {
+      const found = tools.find((t) => t.slug === slug);
+      if (found && !selected.some((s) => s.id === found.id)) {
+        selected.push(found);
+      }
+      if (selected.length === 3) break;
+    }
+    if (selected.length < 3) {
+      const remaining = tools.filter((t) => isGoogleAITool(t) && !selected.some((s) => s.id === t.id));
+      selected.push(...remaining.slice(0, 3 - selected.length));
+    }
+    return selected;
+  }, [tools]);
 
   // Popular Categories list with rich meta
   const categoryHighlights = [
@@ -830,6 +851,40 @@ export const HomeView: React.FC = () => {
         </div>
       </section>
 
+      {/* 5B. "GOOGLE AI TOOLS" COMPACT CURATED SECTION */}
+      <section aria-labelledby="google-ai-tools-heading" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-800/80 text-xs font-bold mb-2 shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+              <span>Official Ecosystem Collection</span>
+            </div>
+            <h2
+              id="google-ai-tools-heading"
+              className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight"
+            >
+              Google AI Tools
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Explore Google's generative models, developer sandboxes, and research engines in one verified collection.
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate('/google-ai-tools')}
+            className="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all inline-flex items-center gap-1.5 cursor-pointer self-start sm:self-auto shadow-sm shadow-blue-600/20"
+          >
+            <span>Explore Google AI Tools →</span>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+          {googleFeaturedTools.map((tool) => (
+            <ToolCard key={tool.id} tool={tool} />
+          ))}
+        </div>
+      </section>
+
       {/* 6. "WHY CHOOSE US" TRUST MATRIX */}
       <section aria-labelledby="why-choose-us-heading" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
@@ -987,6 +1042,41 @@ export const HomeView: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {latestArticles.map((art) => (
             <ArticleCard key={art.id} article={art} />
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURED AI TUTORIALS SECTION */}
+      <section aria-labelledby="featured-tutorials-heading" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold mb-2">
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span>Step-by-Step Learning</span>
+            </div>
+            <h2
+              id="featured-tutorials-heading"
+              className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight"
+            >
+              Featured AI Tutorials
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Learn how to use top AI tools with simple step-by-step walkthroughs.
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate('/tutorials')}
+            className="text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer inline-flex items-center gap-1 shrink-0"
+          >
+            <span>View All Tutorials</span>
+            <span>&rarr;</span>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {featuredTutorials.map((tut) => (
+            <TutorialCard key={tut.id} tutorial={tut} />
           ))}
         </div>
       </section>

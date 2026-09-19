@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   BookOpen,
   Search,
@@ -11,7 +11,8 @@ import {
   Filter,
   Layers,
   Rss,
-  Tag
+  Tag,
+  ChevronDown
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
@@ -27,6 +28,14 @@ export const BlogView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+
+  const PAGE_SIZE = 12;
+  const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
+
+  // Reset pagination when category, tag or search query changes
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [selectedCategory, selectedTag, searchQuery]);
 
   // Exact 6 publication categories requested
   const publicationCategories = [
@@ -81,6 +90,11 @@ export const BlogView: React.FC = () => {
     }
     return filteredArticles;
   }, [filteredArticles, selectedCategory, selectedTag, searchQuery, featuredArticle]);
+
+  // Progressive batch rendering to keep initial page load lightweight and eliminate memory lag
+  const displayedArticles = useMemo(() => {
+    return feedArticles.slice(0, visibleCount);
+  }, [feedArticles, visibleCount]);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -165,7 +179,7 @@ export const BlogView: React.FC = () => {
             <Sparkles className="w-4 h-4" />
             <span>Featured Publication Story</span>
           </div>
-          <ArticleCard article={featuredArticle} layout="featured" />
+          <ArticleCard article={featuredArticle} layout="featured" priority={true} />
         </section>
       )}
 
@@ -284,10 +298,10 @@ export const BlogView: React.FC = () => {
 
       {/* Main Publication Feed Grid */}
       {feedArticles.length > 0 ? (
-        <section className="space-y-4">
+        <section className="space-y-6">
           <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
             <span>
-              Showing {feedArticles.length} publication {feedArticles.length === 1 ? 'article' : 'articles'}
+              Showing {displayedArticles.length} of {feedArticles.length} publication {feedArticles.length === 1 ? 'article' : 'articles'}
             </span>
             <span className="flex items-center gap-1">
               <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
@@ -296,10 +310,36 @@ export const BlogView: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {feedArticles.map((article) => (
+            {displayedArticles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
           </div>
+
+          {/* Progressive Load More to prevent initial image stampede */}
+          {visibleCount < feedArticles.length && (
+            <div className="flex flex-col items-center justify-center gap-3 pt-6 pb-2">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Displaying {displayedArticles.length} of {feedArticles.length} articles
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+                  className="px-6 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-2"
+                >
+                  <span>Load More Articles ({feedArticles.length - visibleCount} remaining)</span>
+                  <ChevronDown className="w-4 h-4 text-slate-500" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount(feedArticles.length)}
+                  className="px-4 py-2.5 rounded-xl text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer"
+                >
+                  Show All ({feedArticles.length})
+                </button>
+              </div>
+            </div>
+          )}
         </section>
       ) : (
         <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-4">

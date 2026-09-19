@@ -126,6 +126,9 @@ export function getCategoryBySlug(slug: string): ToolDirectoryCategory | undefin
 
   // Normalized alias mapping
   const aliasMap: Record<string, string> = {
+    'assistant': 'ai-productivity',
+    'ai-assistant': 'ai-productivity',
+    'ai-assistants': 'ai-productivity',
     'writing': 'ai-writing',
     'ai-writing-tools': 'ai-writing',
     'image': 'ai-image-generation',

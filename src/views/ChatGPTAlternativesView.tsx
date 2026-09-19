@@ -11,7 +11,7 @@ export const ChatGPTAlternativesView: React.FC = () => {
 
   // Alternative conversational and reasoning models
   const chatGptAltTools = tools.filter((t) => {
-    return ['claude', 'gemini', 'perplexity', 'notebooklm', 'google-ai-studio'].includes(t.slug);
+    return ['claude', 'gemini', 'google-gemini', 'perplexity', 'notebooklm', 'google-ai-studio'].includes(t.slug);
   });
 
   const faqs = [

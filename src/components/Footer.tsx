@@ -147,6 +147,12 @@ export const Footer: React.FC = () => {
                   ChatGPT Alternatives
                 </button>
               </li>
+              <li>
+                <button onClick={() => navigate('/google-ai-tools')} className="hover:text-white transition-colors text-blue-400 font-semibold flex items-center gap-1.5">
+                  <span>Google AI Tools</span>
+                  <span className="text-[9px] bg-blue-500/20 text-blue-300 px-1 py-0.2 rounded font-mono font-bold uppercase">New</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -156,6 +162,11 @@ export const Footer: React.FC = () => {
               AI Resources
             </h4>
             <ul className="space-y-2 text-xs">
+              <li>
+                <button onClick={() => navigate('/tutorials')} className="hover:text-white transition-colors text-indigo-400 font-semibold">
+                  AI Tutorials
+                </button>
+              </li>
               <li>
                 <button onClick={() => navigate('/ai-prompts')} className="hover:text-white transition-colors">
                   Prompt Library (5,000+)

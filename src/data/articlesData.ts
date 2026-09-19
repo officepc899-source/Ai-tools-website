@@ -1,4 +1,5 @@
 import { Article } from '../types';
+import { NEW_PUBLICATION_ARTICLES } from './articles/newPublicationArticles';
 import { NEW_ESSENTIAL_ARTICLES } from './articles/newEssentialArticles';
 import { NEW_TECH_AND_CREATIVE_ARTICLES } from './articles/newTechnicalAndCreativeArticles';
 import { CORE_ARTICLES } from './articles/coreArticles';
@@ -6,8 +7,9 @@ import { DEV_AND_MEDIA_ARTICLES } from './articles/devAndMediaArticles';
 import { MARKETING_AND_BUSINESS_ARTICLES } from './articles/marketingAndBusinessArticles';
 import { ADVANCED_TECH_ARTICLES } from './articles/advancedTechArticles';
 
-// Aggregate all 30 unique, production-grade SEO articles
+// Aggregate all 38 unique, production-grade SEO articles
 export const INITIAL_ARTICLES: Article[] = [
+  ...NEW_PUBLICATION_ARTICLES,
   ...NEW_ESSENTIAL_ARTICLES,
   ...NEW_TECH_AND_CREATIVE_ARTICLES,
   ...CORE_ARTICLES,
@@ -28,6 +30,15 @@ export function getArticleBySlug(slug: string): Article | undefined {
 
   // Backward compatibility alias redirects
   const aliases: Record<string, string> = {
+    'best-ai-tools-for-students-in-2026': 'best-ai-tools-for-students-2026',
+    'free-ai-tools-everyday-productivity': 'best-free-ai-tools-everyday-productivity',
+    'content-creators-save-time-ai': 'how-ai-tools-help-content-creators-save-time',
+    'best-ai-tools-for-small-business': 'best-ai-tools-for-small-businesses-guide',
+    'how-to-use-ai-for-seo': 'how-to-use-ai-tools-for-seo',
+    'best-ai-writing-tools': 'best-ai-writing-tools-better-content',
+    'ai-digital-marketing-guide': 'ai-tools-for-digital-marketing-beginners-guide',
+    'how-to-start-using-ai-tools': 'how-beginners-can-start-using-ai-tools',
+    'beginners-guide-to-ai-tools': 'how-beginners-can-start-using-ai-tools',
     '25-best-free-ai-tools': 'best-ai-tools-in-2026',
     'best-ai-productivity-tools': 'ai-productivity-tools',
     'productivity-tools': 'ai-productivity-tools',

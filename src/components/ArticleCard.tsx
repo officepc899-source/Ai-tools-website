@@ -1,11 +1,13 @@
 import React from 'react';
-import { Clock, Calendar, ArrowRight, BookOpen, Sparkles } from 'lucide-react';
+import { Clock, Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import { Article } from '../types';
 import { useApp } from '../context/AppContext';
+import { getOptimizedImageUrl, getArticleCardSrcSet, getArticleHeroSrcSet } from '../utils/imageOptimizer';
 
 interface ArticleCardProps {
   article: Article;
   layout?: 'standard' | 'horizontal' | 'featured';
+  priority?: boolean;
 }
 
 const CATEGORY_STYLES: Record<string, { badgeBg: string; text: string; dot: string }> = {
@@ -41,7 +43,7 @@ const CATEGORY_STYLES: Record<string, { badgeBg: string; text: string; dot: stri
   }
 };
 
-export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'standard' }) => {
+export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'standard', priority = false }) => {
   const { navigate } = useApp();
   const catStyle = CATEGORY_STYLES[article.category] || {
     badgeBg: 'bg-slate-500/10 dark:bg-slate-500/20 text-slate-700 dark:text-slate-300 border-slate-200/50 dark:border-slate-800/40',
@@ -62,10 +64,15 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
       >
         <div className="lg:w-7/12 relative aspect-[16/10] lg:aspect-auto overflow-hidden bg-slate-100 dark:bg-slate-950">
           <img
-            src={article.featuredImage}
+            src={getOptimizedImageUrl(article.featuredImage, { width: 800, quality: 78 })}
+            srcSet={getArticleHeroSrcSet(article.featuredImage)}
+            sizes="(max-width: 1024px) 100vw, 55vw"
+            width={800}
+            height={500}
             alt={article.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'low'}
             decoding="async"
             referrerPolicy="no-referrer"
           />
@@ -121,9 +128,13 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
           <div className="flex items-center justify-between pt-6 border-t border-slate-100 dark:border-slate-800/80 mt-6">
             <div className="flex items-center gap-3">
               <img
-                src={article.author.avatar}
+                src={getOptimizedImageUrl(article.author.avatar, { width: 80, height: 80, quality: 80 })}
                 alt={article.author.name}
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
               />
               <div>
@@ -151,10 +162,15 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
       {/* Cover Image */}
       <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-950">
         <img
-          src={article.featuredImage}
+          src={getOptimizedImageUrl(article.featuredImage, { width: 600, quality: 75 })}
+          srcSet={getArticleCardSrcSet(article.featuredImage)}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 380px"
+          width={600}
+          height={375}
           alt={article.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-          loading="lazy"
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'low'}
           decoding="async"
           referrerPolicy="no-referrer"
         />
@@ -198,9 +214,13 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, layout = 'sta
         <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
           <div className="flex items-center gap-2.5 min-w-0">
             <img
-              src={article.author.avatar}
+              src={getOptimizedImageUrl(article.author.avatar, { width: 56, height: 56, quality: 80 })}
               alt={article.author.name}
+              width={28}
+              height={28}
               className="w-7 h-7 rounded-full object-cover shrink-0 border border-slate-200 dark:border-slate-700"
+              loading="lazy"
+              decoding="async"
               referrerPolicy="no-referrer"
             />
             <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">

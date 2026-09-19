@@ -109,6 +109,10 @@ export const Header: React.FC = () => {
                   <div className="px-3.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono">
                     High-Impact Guides
                   </div>
+                  <button onClick={() => handleNav('/google-ai-tools')} className="w-full text-left px-3.5 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between">
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">Google AI Tools</span>
+                    <span className="text-[9px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded font-bold uppercase">Collection</span>
+                  </button>
                   <button onClick={() => handleNav('/interactive-tools')} className="w-full text-left px-3.5 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between">
                     <span className="font-semibold text-indigo-600 dark:text-indigo-400">Interactive AI Studio</span>
                     <span className="text-[9px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold uppercase">5 New Tools</span>
@@ -133,6 +137,15 @@ export const Header: React.FC = () => {
                 </div>
               )}
             </div>
+
+            <button
+              onClick={() => handleNav('/tutorials')}
+              className={`transition-colors cursor-pointer py-1.5 ${
+                currentPath.startsWith('/tutorials') ? 'text-indigo-600 dark:text-indigo-400 font-bold' : 'hover:text-indigo-600 dark:hover:text-white'
+              }`}
+            >
+              Tutorials
+            </button>
 
             <button
               onClick={() => handleNav('/blog')}
@@ -249,6 +262,15 @@ export const Header: React.FC = () => {
             Prompt Library
           </button>
           <button
+            onClick={() => handleNav('/google-ai-tools')}
+            className={`w-full text-left px-3 py-2 rounded-xl font-medium flex items-center justify-between ${
+              currentPath === '/google-ai-tools' ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+            }`}
+          >
+            <span>Google AI Tools</span>
+            <span className="text-[9px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded font-bold uppercase">Collection</span>
+          </button>
+          <button
             onClick={() => handleNav('/chatgpt-alternatives')}
             className="w-full text-left px-3 py-2 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
           >
@@ -265,6 +287,14 @@ export const Header: React.FC = () => {
             className="w-full text-left px-3 py-2 rounded-xl font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
           >
             Business Ideas
+          </button>
+          <button
+            onClick={() => handleNav('/tutorials')}
+            className={`w-full text-left px-3 py-2 rounded-xl font-medium ${
+              currentPath.startsWith('/tutorials') ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+            }`}
+          >
+            AI Tutorials
           </button>
           <button
             onClick={() => handleNav('/blog')}

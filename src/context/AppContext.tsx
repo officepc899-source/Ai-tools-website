@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { AITool, BusinessIdea, Article, PinterestLandingTopic } from '../types';
+import { AITool, BusinessIdea, Article, PinterestLandingTopic, Tutorial } from '../types';
 import { INITIAL_AI_TOOLS } from '../data/toolsData';
 import { INITIAL_BUSINESS_IDEAS } from '../data/businessIdeasData';
 import { INITIAL_ARTICLES } from '../data/articlesData';
+import { INITIAL_TUTORIALS } from '../data/tutorials';
 import { PINTEREST_LANDINGS } from '../data/pinterestLandingsData';
 
 interface AppContextType {
@@ -25,6 +26,10 @@ interface AppContextType {
   businessIdeas: BusinessIdea[];
   articles: Article[];
   updateArticle: (updated: Article) => void;
+  tutorials: Tutorial[];
+  addTutorial: (newTutorial: Tutorial) => void;
+  updateTutorial: (updated: Tutorial) => void;
+  deleteTutorial: (tutorialId: string) => void;
   adsEnabled: boolean;
   setAdsEnabled: (enabled: boolean) => void;
   toggleAds: () => void;
@@ -147,15 +152,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   // Tools data with admin persistence and version migration
-  const TOOLS_VERSION = 'v2_complete_directory_49';
+  const TOOLS_VERSION = 'v4_google_collection_53';
   const [tools, setTools] = useState<AITool[]>(() => {
     try {
       const savedVersion = localStorage.getItem('nexus_tools_version');
-      if (savedVersion === TOOLS_VERSION) {
-        const saved = localStorage.getItem('nexus_tools_data');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length >= INITIAL_AI_TOOLS.length) return parsed;
+      const saved = localStorage.getItem('nexus_tools_data');
+      if (saved && savedVersion === TOOLS_VERSION) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const hasGemini = parsed.some((t: AITool) => t.slug === 'google-gemini' || t.slug === 'gemini');
+          const hasVeo = parsed.some((t: AITool) => t.slug === 'google-veo');
+          if (hasGemini && hasVeo && parsed.length >= INITIAL_AI_TOOLS.length) {
+            return parsed;
+          }
+        }
+      }
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          // Merge INITIAL_AI_TOOLS with existing custom/admin tools
+          const customOrEdited = parsed.filter((t: AITool) => !INITIAL_AI_TOOLS.some((init) => init.id === t.id));
+          const merged = [...INITIAL_AI_TOOLS, ...customOrEdited];
+          localStorage.setItem('nexus_tools_version', TOOLS_VERSION);
+          localStorage.setItem('nexus_tools_data', JSON.stringify(merged));
+          return merged;
         }
       }
     } catch {
@@ -172,7 +192,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [businessIdeas] = useState<BusinessIdea[]>(INITIAL_BUSINESS_IDEAS);
-  const ARTICLES_VERSION = 'v4_30_seo_articles';
+  const ARTICLES_VERSION = 'v5_38_curated_articles';
   const [articles, setArticles] = useState<Article[]>(() => {
     try {
       const savedVersion = localStorage.getItem('nexus_articles_version');
@@ -193,6 +213,29 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       // ignore
     }
     return INITIAL_ARTICLES;
+  });
+
+  const TUTORIALS_VERSION = 'v1_ai_tutorials_initial';
+  const [tutorials, setTutorials] = useState<Tutorial[]>(() => {
+    try {
+      const savedVersion = localStorage.getItem('nexus_tutorials_version');
+      if (savedVersion === TUTORIALS_VERSION) {
+        const saved = localStorage.getItem('nexus_tutorials_data');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length >= INITIAL_TUTORIALS.length) return parsed;
+        }
+      }
+    } catch {
+      // fallback
+    }
+    try {
+      localStorage.setItem('nexus_tutorials_version', TUTORIALS_VERSION);
+      localStorage.setItem('nexus_tutorials_data', JSON.stringify(INITIAL_TUTORIALS));
+    } catch {
+      // ignore
+    }
+    return INITIAL_TUTORIALS;
   });
 
   // Keep path in sync with browser hash and history popstate
@@ -318,6 +361,45 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
+  const addTutorial = (newTut: Tutorial) => {
+    setTutorials((prev) => {
+      const updated = [newTut, ...prev];
+      try {
+        localStorage.setItem('nexus_tutorials_data', JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
+    showToast(`Tutorial "${newTut.title}" created successfully!`);
+  };
+
+  const updateTutorial = (updatedTut: Tutorial) => {
+    setTutorials((prev) => {
+      const updated = prev.map((t) => (t.id === updatedTut.id ? updatedTut : t));
+      try {
+        localStorage.setItem('nexus_tutorials_data', JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
+    showToast(`Tutorial "${updatedTut.title}" updated!`);
+  };
+
+  const deleteTutorial = (tutorialId: string) => {
+    setTutorials((prev) => {
+      const updated = prev.filter((t) => t.id !== tutorialId);
+      try {
+        localStorage.setItem('nexus_tutorials_data', JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
+    showToast('Tutorial deleted successfully');
+  };
+
   const toggleAds = () => {
     setAdsEnabled((prev) => !prev);
     showToast(adsEnabled ? 'Display Ads disabled' : 'Display Ads enabled');
@@ -343,6 +425,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         businessIdeas,
         articles,
         updateArticle,
+        tutorials,
+        addTutorial,
+        updateTutorial,
+        deleteTutorial,
         adsEnabled,
         setAdsEnabled,
         toggleAds,

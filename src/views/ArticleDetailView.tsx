@@ -37,6 +37,7 @@ import { copyToClipboard } from '../utils/clipboard';
 import { ArticleCard } from '../components/ArticleCard';
 import { AdBanner } from '../components/AdBanner';
 import { getArticleBySlug, getRelatedArticles, getPreviousAndNextArticles } from '../data/articlesData';
+import { getOptimizedImageUrl, getArticleHeroSrcSet } from '../utils/imageOptimizer';
 
 interface ArticleDetailViewProps {
   slug: string;
@@ -359,9 +360,12 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
         <div className="flex flex-wrap items-center justify-between gap-4 pt-4 pb-4 border-y border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-3">
             <img
-              src={article.author.avatar}
+              src={getOptimizedImageUrl(article.author.avatar, { width: 88, height: 88, quality: 80 })}
               alt={article.author.name}
+              width={44}
+              height={44}
               className="w-11 h-11 rounded-full object-cover border-2 border-indigo-600/30 dark:border-indigo-400/30 shadow-xs"
+              loading="eager"
               referrerPolicy="no-referrer"
             />
             <div>
@@ -443,12 +447,17 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
 
       {/* Hero Cover Image with Aspect Ratio & Photography Credit */}
       <div className="space-y-2">
-        <div className="rounded-3xl overflow-hidden shadow-md max-h-[500px] border border-slate-200 dark:border-slate-800 bg-slate-900 relative">
+        <div className="rounded-3xl overflow-hidden shadow-md aspect-[16/9] max-h-[500px] border border-slate-200 dark:border-slate-800 bg-slate-900 relative">
           <img
-            src={article.featuredImage}
+            src={getOptimizedImageUrl(article.featuredImage, { width: 1200, quality: 82 })}
+            srcSet={getArticleHeroSrcSet(article.featuredImage)}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1000px"
+            width={1200}
+            height={675}
             alt={article.title}
             className="w-full h-full object-cover max-h-[500px]"
             loading="eager"
+            fetchPriority="high"
             decoding="async"
             referrerPolicy="no-referrer"
           />
@@ -641,9 +650,13 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
       {/* Author Biography Box */}
       <section className="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-xs">
         <img
-          src={article.author.avatar}
+          src={getOptimizedImageUrl(article.author.avatar, { width: 128, height: 128, quality: 80 })}
           alt={article.author.name}
+          width={64}
+          height={64}
           className="w-16 h-16 rounded-2xl object-cover border-2 border-indigo-600/30 dark:border-indigo-400/30 shrink-0 shadow-sm"
+          loading="lazy"
+          decoding="async"
           referrerPolicy="no-referrer"
         />
         <div className="space-y-3 text-center sm:text-left flex-1">

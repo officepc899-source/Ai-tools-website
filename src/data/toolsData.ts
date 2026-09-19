@@ -5,9 +5,15 @@ import { videoTools } from './tools/videoTools';
 import { businessProductivityTools } from './tools/businessProductivityTools';
 import { researchStudentTools } from './tools/researchStudentTools';
 import { codingAndAudioTools } from './tools/codingAndAudioTools';
+import { googleGeminiTool } from './tools/geminiTool';
+import { googleVeoTool, googleImagenTool, geminiApiTool } from './tools/googleSuiteTools';
 
 const allRawTools: AITool[] = [
   ...writingTools,
+  googleGeminiTool,
+  googleVeoTool,
+  googleImagenTool,
+  geminiApiTool,
   ...designAndImageTools,
   ...videoTools,
   ...businessProductivityTools,
@@ -57,6 +63,12 @@ export const INITIAL_AI_TOOLS: AITool[] = rawTools.map((tool) => {
   expandedCategories.add(tool.category);
 
   // Map legacy categories to new 9 core categories
+  if (tool.category === 'ai-assistant' || tool.category === 'ai-assistants' || (tool.categories && (tool.categories.includes('ai-assistant') || tool.categories.includes('ai-assistants')))) {
+    expandedCategories.add('ai-writing');
+    expandedCategories.add('ai-productivity');
+    expandedCategories.add('ai-coding');
+    expandedCategories.add('ai-education');
+  }
   if (tool.category === 'ai-writing-tools' || (tool.categories && tool.categories.includes('ai-writing-tools'))) {
     expandedCategories.add('ai-writing');
   }
@@ -194,3 +206,28 @@ export function getToolBySlug(slug: string): AITool | undefined {
   const normalized = slug.toLowerCase().trim();
   return INITIAL_AI_TOOLS.find((t) => t.slug.toLowerCase() === normalized || t.id.toLowerCase() === normalized);
 }
+
+export const GOOGLE_AI_TOOL_SLUGS: readonly string[] = [
+  'google-gemini',
+  'gemini',
+  'google-ai-studio',
+  'notebooklm',
+  'google-veo',
+  'google-imagen',
+  'gemini-api'
+];
+
+export function isGoogleAITool(tool: AITool): boolean {
+  if (!tool) return false;
+  const slug = tool.slug.toLowerCase();
+  const id = tool.id.toLowerCase();
+  const name = tool.name.toLowerCase();
+  return (
+    GOOGLE_AI_TOOL_SLUGS.includes(slug) ||
+    GOOGLE_AI_TOOL_SLUGS.includes(id) ||
+    name.startsWith('google ') ||
+    name.includes('gemini') ||
+    slug === 'notebooklm'
+  );
+}
+

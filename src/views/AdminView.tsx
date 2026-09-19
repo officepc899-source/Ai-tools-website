@@ -14,11 +14,13 @@ import {
   CheckCircle2,
   Eye,
   Layers,
-  LogOut
+  LogOut,
+  GraduationCap
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
 import { Breadcrumbs } from '../components/Breadcrumbs';
+import { AdminTutorialsManager } from '../components/admin/AdminTutorialsManager';
 import { AITool, PricingType, ToolCategory } from '../types';
 
 interface AdminViewProps {
@@ -27,8 +29,8 @@ interface AdminViewProps {
 }
 
 export const AdminView: React.FC<AdminViewProps> = ({ onLogout, adminEmail }) => {
-  const { tools, updateTool, addTool, adsEnabled, setAdsEnabled, showToast, navigate } = useApp();
-  const [activeTab, setActiveTab] = useState<'tools' | 'monetization'>('tools');
+  const { tools, updateTool, addTool, adsEnabled, setAdsEnabled, showToast, navigate, tutorials } = useApp();
+  const [activeTab, setActiveTab] = useState<'tools' | 'monetization' | 'tutorials'>('tools');
   const [isVerifying, setIsVerifying] = useState(false);
 
   const handleVerifySession = async () => {
@@ -228,6 +230,19 @@ export const AdminView: React.FC<AdminViewProps> = ({ onLogout, adminEmail }) =>
           <DollarSign className="w-4 h-4" />
           <span>Monetization &amp; AdSense</span>
         </button>
+
+        <button
+          onClick={() => setActiveTab('tutorials')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === 'tutorials'
+              ? 'bg-indigo-600 text-white shadow-md'
+              : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+          }`}
+        >
+          <GraduationCap className="w-4 h-4" />
+          <span>AI Tutorials</span>
+          <span className="px-1.5 py-0.2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-[10px]">{tutorials.length}</span>
+        </button>
       </div>
 
       {/* TAB 1: AI SOFTWARE TOOLS DIRECTORY */}
@@ -368,6 +383,9 @@ export const AdminView: React.FC<AdminViewProps> = ({ onLogout, adminEmail }) =>
         </div>
       )}
 
+      {/* TAB 3: AI TUTORIALS MANAGEMENT */}
+      {activeTab === 'tutorials' && <AdminTutorialsManager />}
+
       {/* Edit Tool Modal */}
       {editingTool && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
@@ -455,6 +473,136 @@ export const AdminView: React.FC<AdminViewProps> = ({ onLogout, adminEmail }) =>
                 >
                   <Save className="w-3.5 h-3.5" />
                   <span>Save Changes</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Add New Tool Modal */}
+      {showAddForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">
+                Add New AI Software Tool
+              </h3>
+              <button
+                onClick={() => setShowAddForm(false)}
+                className="text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-mono cursor-pointer"
+              >
+                CLOSE
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateTool} className="space-y-4 text-xs">
+              <div>
+                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Tool Name *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g., Google DeepMind AlphaCode"
+                  value={newToolName}
+                  onChange={(e) => setNewToolName(e.target.value)}
+                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Category</label>
+                  <select
+                    value={newToolCategory}
+                    onChange={(e) => setNewToolCategory(e.target.value as any)}
+                    className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                  >
+                    <option value="ai-assistant">AI Assistant</option>
+                    <option value="ai-development">AI Development / API</option>
+                    <option value="writing">AI Writing</option>
+                    <option value="image">AI Image / Art</option>
+                    <option value="video">AI Video</option>
+                    <option value="audio">AI Audio / Voice</option>
+                    <option value="productivity">AI Productivity</option>
+                    <option value="business">AI Business</option>
+                    <option value="coding">AI Coding</option>
+                    <option value="research">AI Research &amp; Study</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Pricing Model</label>
+                  <select
+                    value={newToolPricingType}
+                    onChange={(e) => setNewToolPricingType(e.target.value as any)}
+                    className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                  >
+                    <option value="free">100% Free</option>
+                    <option value="freemium">Freemium</option>
+                    <option value="free-trial">Free Trial</option>
+                    <option value="paid">Paid Only</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Pricing Summary</label>
+                <input
+                  type="text"
+                  value={newToolPricingSummary}
+                  onChange={(e) => setNewToolPricingSummary(e.target.value)}
+                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Official Website URL</label>
+                <input
+                  type="url"
+                  placeholder="https://..."
+                  value={newToolOfficialUrl}
+                  onChange={(e) => setNewToolOfficialUrl(e.target.value)}
+                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl font-mono bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Affiliate Link (Optional)</label>
+                <input
+                  type="url"
+                  placeholder="https://partner..."
+                  value={newToolAffiliateUrl}
+                  onChange={(e) => setNewToolAffiliateUrl(e.target.value)}
+                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl font-mono bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Description *</label>
+                <textarea
+                  rows={3}
+                  required
+                  placeholder="Describe core capabilities, target audience, and standout features..."
+                  value={newToolDescription}
+                  onChange={(e) => setNewToolDescription(e.target.value)}
+                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white resize-none"
+                />
+              </div>
+
+              <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowAddForm(false)}
+                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-semibold cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-xs flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Create Tool Listing</span>
                 </button>
               </div>
             </form>

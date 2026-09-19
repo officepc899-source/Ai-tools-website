@@ -10,6 +10,10 @@ export type ToolCategory =
   | 'ai-business'
   | 'ai-education'
   | 'free-ai-tools'
+  // AI Assistant & General Models
+  | 'ai-assistant'
+  | 'ai-assistants'
+  | 'ai-development'
   // Legacy & Alias Category Keys
   | 'ai-writing-tools'
   | 'ai-design-tools'
@@ -92,6 +96,7 @@ export interface AITool {
   howToUse: HowToStep[];
   alternatives: string[];
   officialUrl: string;
+  developerUrl?: string;
   affiliateUrl: string;
   hasAffiliate: boolean;
   rating: number;
@@ -102,9 +107,14 @@ export interface AITool {
   iconBg: string;
   logoUrl?: string;
   verifiedDate: string;
+  capabilities?: string[];
   useCases: string[];
   tags?: string[];
+  seoTitle?: string;
+  seoDescription?: string;
   faqs?: ToolFAQ[];
+  generatorType?: string;
+  interactiveConfig?: any;
 }
 
 export type BusinessIdeaCategory =
@@ -209,3 +219,51 @@ export interface PinterestLandingTopic {
   metaTitle: string;
   metaDescription: string;
 }
+
+export type TutorialCategory =
+  | 'All'
+  | 'ChatGPT'
+  | 'AI Writing'
+  | 'AI Image'
+  | 'AI Video'
+  | 'Productivity'
+  | 'Students'
+  | 'Marketing'
+  | 'Other';
+
+export type TutorialDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
+
+export interface TutorialStep {
+  step: number;
+  title: string;
+  description: string;
+  tips?: string;
+  codeSnippet?: string;
+  promptExample?: string;
+}
+
+export interface Tutorial {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  category: TutorialCategory;
+  difficulty: TutorialDifficulty;
+  duration: string;
+  thumbnail: string;
+  videoUrl?: string;
+  introduction: string;
+  whatYouNeed: string[];
+  steps: TutorialStep[];
+  tips: string[];
+  commonMistakes: string[];
+  conclusion: string;
+  relatedTools: string[];
+  publishedDate?: string;
+  author?: {
+    name: string;
+    role: string;
+    avatar?: string;
+  };
+}
+
