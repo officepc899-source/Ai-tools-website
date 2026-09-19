@@ -415,7 +415,7 @@ export const HomeView: React.FC = () => {
                   type="text"
                   value={heroSearch}
                   onChange={(e) => setHeroSearch(e.target.value)}
-                  placeholder="Search 10,000+ AI tools by name, task, or feature..."
+                  placeholder="Search 60+ AI tools by name, task, or feature..."
                   className="w-full px-3 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 bg-transparent focus:outline-none"
                 />
                 {heroSearch && (
