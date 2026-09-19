@@ -750,7 +750,7 @@ export const HomeView: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800/80 text-xs font-bold mb-2 shadow-2xs">
               <Layers className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-              <span>Specialized Workflows • 100+ Categories</span>
+              <span>Specialized Workflows • 10+ Categories</span>
             </div>
             <h2
               id="popular-categories-heading"
@@ -767,7 +767,7 @@ export const HomeView: React.FC = () => {
             onClick={() => navigate('/tools')}
             className="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-all inline-flex items-center gap-1.5 cursor-pointer self-start sm:self-auto"
           >
-            <span>All 100+ Categories</span>
+            <span>All 10+ Categories</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
