@@ -482,7 +482,7 @@ export const HomeView: React.FC = () => {
               onClick={() => navigate('/tools')}
               className="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-98 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/25 transition-all flex items-center gap-2 cursor-pointer group"
             >
-              <span>Explore 10,000+ AI Tools</span>
+              <span>Explore 60+ AI Tools</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </button>
             <button
@@ -582,7 +582,7 @@ export const HomeView: React.FC = () => {
             onClick={() => navigate('/tools')}
             className="px-4 py-2.5 rounded-xl text-xs font-bold bg-indigo-50 dark:bg-indigo-950/80 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800 transition-all inline-flex items-center gap-2 cursor-pointer self-start md:self-auto shadow-2xs hover:shadow-xs"
           >
-            <span>Browse Full Directory (10,000+)</span>
+            <span>Browse Full Directory (60+)</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -1273,7 +1273,7 @@ export const HomeView: React.FC = () => {
               Stay Ahead With The Top AI Releases
             </h3>
             <p className="text-slate-300 text-sm mt-2 mb-6 leading-relaxed">
-              Join 45,000+ founders, marketers, and developers receiving our hand-curated weekly breakdown of top newly launched tools, prompts, and tutorials.
+              remove 45,000+ founders, marketers, and developers receiving our hand-curated weekly breakdown of top newly launched tools, prompts, and tutorials.
             </p>
 
             {!subscribed ? (
