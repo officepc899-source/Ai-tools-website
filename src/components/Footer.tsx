@@ -276,6 +276,17 @@ export const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
+                <button
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent('aitoolnest_open_cookie_preferences'));
+                    window.dispatchEvent(new CustomEvent('open-cookie-preferences'));
+                  }}
+                  className="hover:text-white transition-colors cursor-pointer text-slate-400"
+                >
+                  Cookie Preferences
+                </button>
+              </li>
+              <li>
                 <button onClick={() => navigate('/editorial-policy')} className="hover:text-white transition-colors cursor-pointer">
                   Editorial Policy
                 </button>

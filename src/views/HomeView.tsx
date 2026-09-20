@@ -47,6 +47,7 @@ import { AI_PROMPTS } from '../data/promptsData';
 import { INITIAL_ARTICLES } from '../data/articlesData';
 import { copyToClipboard } from '../utils/clipboard';
 import { isGoogleAITool } from '../data/toolsData';
+import { DIRECTORY_CATEGORIES } from '../data/categoriesData';
 
 export const HomeView: React.FC = () => {
   const { tools, navigate, setIsSearchOpen, setSubmitToolModalOpen, showToast, tutorials } = useApp();
@@ -281,7 +282,7 @@ export const HomeView: React.FC = () => {
     <div className="space-y-16 sm:space-y-24 pb-20">
       <SEOHead
         title="AIToolNest - Discover the Best AI Tools for Every Task"
-        description="Explore 10,000+ hand-tested AI tools, productivity software, generative models, and free digital resources categorized to accelerate your workflow on AIToolNest."
+        description="Explore curated hand-tested AI tools, productivity software, generative models, and free digital resources categorized to accelerate your workflow on AIToolNest."
         canonicalUrl="https://aitoolnest.com/"
         schemaData={[
           {
@@ -482,7 +483,7 @@ export const HomeView: React.FC = () => {
               onClick={() => navigate('/tools')}
               className="px-7 py-3.5 bg-indigo-600 hover:bg-indigo-700 active:scale-98 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/25 transition-all flex items-center gap-2 cursor-pointer group"
             >
-              <span>Explore 60+ AI Tools</span>
+              <span>Explore {tools.length} AI Tools</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </button>
             <button
@@ -500,58 +501,62 @@ export const HomeView: React.FC = () => {
       <section aria-label="AIToolNest Statistics" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 sm:-mt-12">
         <div className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-slate-800 p-6 sm:p-8 shadow-xl shadow-slate-900/5">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-slate-100 dark:divide-slate-800">
+            {/* 1. AI Tools */}
             <div className="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4">
               <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
                 <Compass className="w-6 h-6" />
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight">
-                  10,000+
+                  {tools.length}
                 </div>
                 <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-                  AI Tools Indexed
+                  AI Tools
                 </div>
               </div>
             </div>
 
+            {/* 2. Categories */}
             <div className="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4">
               <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
                 <Layers className="w-6 h-6" />
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight">
-                  100+
+                  {DIRECTORY_CATEGORIES.length}
                 </div>
                 <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-                  Curated Categories
+                  Categories
                 </div>
               </div>
             </div>
 
+            {/* 3. Fresh & Useful */}
             <div className="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4">
               <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
                 <Clock className="w-6 h-6" />
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight">
-                  Updated Weekly
+                <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight leading-tight">
+                  Fresh AI Resources
                 </div>
-                <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-                  Verified Pricing & Features
+                <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium leading-snug mt-0.5">
+                  Tools, tutorials and resources for everyday AI tasks
                 </div>
               </div>
             </div>
 
+            {/* 4. Free Resources */}
             <div className="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4">
               <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                 <Gift className="w-6 h-6" />
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight">
+                <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight leading-tight">
                   Free AI Resources
                 </div>
-                <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-                  100% Free Tools & Prompts
+                <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium leading-snug mt-0.5">
+                  Free tools, prompts and tutorials
                 </div>
               </div>
             </div>

@@ -27,10 +27,38 @@ export const CookieConsent: React.FC = () => {
         // Small delay for smooth entrance after page loads
         const timer = setTimeout(() => setIsVisible(true), 800);
         return () => clearTimeout(timer);
+      } else {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed.analytics === 'boolean') setAnalyticsConsent(parsed.analytics);
+        if (typeof parsed.advertising === 'boolean') setAdvertisingConsent(parsed.advertising);
       }
     } catch {
       // Fallback
     }
+  }, []);
+
+  useEffect(() => {
+    const handleOpen = () => {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (typeof parsed.analytics === 'boolean') setAnalyticsConsent(parsed.analytics);
+          if (typeof parsed.advertising === 'boolean') setAdvertisingConsent(parsed.advertising);
+        }
+      } catch {
+        // ignore
+      }
+      setShowPreferences(true);
+      setIsVisible(true);
+    };
+
+    window.addEventListener('open-cookie-preferences', handleOpen);
+    window.addEventListener('aitoolnest_open_cookie_preferences', handleOpen);
+    return () => {
+      window.removeEventListener('open-cookie-preferences', handleOpen);
+      window.removeEventListener('aitoolnest_open_cookie_preferences', handleOpen);
+    };
   }, []);
 
   const saveConsent = (prefs: CookiePreferences) => {

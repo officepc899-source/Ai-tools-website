@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ShieldCheck,
   FileText,
@@ -14,7 +14,16 @@ import {
   Cpu,
   Mail,
   HelpCircle,
-  Scale
+  Scale,
+  Settings,
+  Sliders,
+  Shield,
+  Info,
+  Check,
+  X,
+  RotateCcw,
+  BarChart3,
+  Globe
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
@@ -182,87 +191,520 @@ export const DisclaimerView: React.FC = () => {
 
 // --- 3. COOKIE POLICY ---
 export const CookiePolicyView: React.FC = () => {
+  const { showToast, navigate } = useApp();
+  const STORAGE_KEY = 'aitoolnest_cookie_consent_v1';
+
+  const [analyticsConsent, setAnalyticsConsent] = useState(true);
+  const [advertisingConsent, setAdvertisingConsent] = useState(true);
+  const [savedTimestamp, setSavedTimestamp] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed.analytics === 'boolean') setAnalyticsConsent(parsed.analytics);
+        if (typeof parsed.advertising === 'boolean') setAdvertisingConsent(parsed.advertising);
+        if (parsed.timestamp) setSavedTimestamp(parsed.timestamp);
+      }
+    } catch {
+      // Fallback
+    }
+  }, []);
+
+  const savePreferences = (analytics: boolean, advertising: boolean) => {
+    const prefs = {
+      essential: true,
+      analytics,
+      advertising,
+      timestamp: new Date().toISOString()
+    };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+      if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('consent', 'update', {
+          analytics_storage: analytics ? 'granted' : 'denied',
+          ad_storage: advertising ? 'granted' : 'denied',
+          ad_user_data: advertising ? 'granted' : 'denied',
+          ad_personalization: advertising ? 'granted' : 'denied'
+        });
+      }
+      setAnalyticsConsent(analytics);
+      setAdvertisingConsent(advertising);
+      setSavedTimestamp(prefs.timestamp);
+      showToast('Cookie preferences updated successfully.');
+    } catch {
+      showToast('Preferences could not be saved to local storage.');
+    }
+  };
+
+  const handleOpenConsentBanner = () => {
+    window.dispatchEvent(new CustomEvent('aitoolnest_open_cookie_preferences'));
+    window.dispatchEvent(new CustomEvent('open-cookie-preferences'));
+    showToast('Cookie consent banner opened.');
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       <SEOHead
-        title="Cookie Policy - How We Use Cookies & Tracking | AIToolNest"
-        description="Learn about the cookies and tracking technologies used on AIToolNest to provide smooth navigation, analytics, and AdSense compliance."
+        title="Cookie Policy - How We Use Cookies & Tracking Technologies | AIToolNest"
+        description="Comprehensive Cookie Policy for AIToolNest. Learn how we utilize cookies, Google AdSense, analytics, and how to control your personal privacy preferences."
         canonicalUrl="https://aitoolnest.com/#/cookie-policy"
       />
       <Breadcrumbs items={[{ label: 'Cookie Policy' }]} />
 
+      {/* Header Banner */}
       <div className="border-b border-slate-200 dark:border-slate-800 pb-6 space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-xs font-semibold">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-semibold">
           <Cookie className="w-3.5 h-3.5" />
-          <span>Tracking & Transparency</span>
+          <span>Tracking & Privacy Transparency</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight font-['Space_Grotesk']">
           Cookie Policy
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-          Last Updated: March 2026
+          Last Updated: September 21, 2026 • Compliant with GDPR, CCPA/CPRA, and Google AdSense Policies
         </p>
       </div>
 
-      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-xs space-y-8 text-slate-700 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
-        <section className="space-y-3">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">What Are Cookies?</h2>
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-xs space-y-10 text-slate-700 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+        
+        {/* Summary Introduction */}
+        <div className="p-5 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/50 flex items-start gap-4">
+          <Shield className="w-6 h-6 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+          <div className="space-y-1 text-xs sm:text-sm">
+            <h2 className="font-bold text-slate-900 dark:text-white">Your Privacy Choices Matter to Us</h2>
+            <p className="text-slate-600 dark:text-slate-300">
+              AIToolNest is committed to full transparency regarding data storage and user tracking. This policy details how we use cookies, tracking pixels, and third-party advertising partners like Google AdSense to sustain our directory while respecting your digital autonomy.
+            </p>
+          </div>
+        </div>
+
+        {/* Section 1 */}
+        <section id="what-are-cookies" className="space-y-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <Info className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            1. What Are Cookies?
+          </h2>
           <p>
-            Cookies are small text files placed on your device by websites that you visit. They are widely used to make websites work properly, provide analytics, improve page loading speed, and remember your display preferences (such as Dark/Light theme).
+            Cookies are small text files containing strings of letters and numbers that web servers store on your computer, mobile device, or browser when you visit a website. Cookies allow websites to &ldquo;remember&rdquo; your actions, preferences, device specifications, and user settings over time so you do not have to re-enter them whenever you return to the site or navigate from one page to another.
           </p>
+          <p>
+            In addition to standard HTTP cookies, we and our service providers may utilize related client-side storage technologies, such as:
+          </p>
+          <ul className="list-disc pl-6 space-y-1 text-slate-600 dark:text-slate-300 text-xs sm:text-sm">
+            <li><strong className="text-slate-900 dark:text-white">HTML5 Web Storage (Local and Session Storage):</strong> Used to remember your selected theme (dark or light mode), recently bookmarked AI tools, and transient text drafts in our interactive generation utilities.</li>
+            <li><strong className="text-slate-900 dark:text-white">Web Beacons and Pixels:</strong> Small transparent graphic images or code snippets used in conjunction with cookies to monitor user navigation flows and verify aggregate referral interactions.</li>
+            <li><strong className="text-slate-900 dark:text-white">Session vs. Persistent Cookies:</strong> <em>Session cookies</em> are temporary and are automatically deleted when you close your web browser. <em>Persistent cookies</em> remain stored on your device until they reach their configured expiration date or until you manually clear them through your browser settings.</li>
+            <li><strong className="text-slate-900 dark:text-white">First-Party vs. Third-Party Cookies:</strong> <em>First-party cookies</em> are set directly by AIToolNest. <em>Third-party cookies</em> are set by third-party domains providing specialized services like programmatic advertising, video embedding, or traffic analytics.</li>
+          </ul>
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">Types of Cookies We Use</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
-              <h3 className="font-bold text-slate-900 dark:text-white text-sm">Essential & Functional</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Necessary for core site operation, including theme toggles, search modals, and secure session management. Cannot be disabled.
+        {/* Section 2 */}
+        <section id="how-we-use-cookies" className="space-y-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <Sliders className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            2. How We Use Cookies
+          </h2>
+          <p>
+            At AIToolNest, we utilize cookies and related technologies for several distinct and essential operational objectives:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-1.5">
+              <span className="font-bold text-slate-900 dark:text-white text-sm block">Core Platform Stability</span>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
+                Verifying genuine client sessions, protecting our API endpoints from CSRF exploits, rate-limiting malicious traffic, and maintaining user navigation integrity.
               </p>
             </div>
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
-              <h3 className="font-bold text-slate-900 dark:text-white text-sm">Analytics & Performance</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Helps us count page visits and traffic sources to measure and improve website performance in an anonymous, aggregated manner.
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-1.5">
+              <span className="font-bold text-slate-900 dark:text-white text-sm block">Personalized Experience</span>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
+                Preserving your theme configuration (dark/light mode), remembering category filter states, and storing offline bookmarks of curated software.
               </p>
             </div>
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
-              <h3 className="font-bold text-slate-900 dark:text-white text-sm">Advertising & Google AdSense</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Used by advertising networks (e.g. Google DoubleClick DART) to serve relevant advertisements based on visits to this and other websites.
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-1.5">
+              <span className="font-bold text-slate-900 dark:text-white text-sm block">Traffic &amp; Speed Telemetry</span>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
+                Measuring site response speeds, evaluating Core Web Vitals, and identifying broken links or high-friction workflows anonymously.
               </p>
             </div>
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
-              <h3 className="font-bold text-slate-900 dark:text-white text-sm">Affiliate Tracking Cookies</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Placed by affiliate partner networks when clicking external software links to ensure proper commission crediting. Contains no personal data.
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-1.5">
+              <span className="font-bold text-slate-900 dark:text-white text-sm block">Ad Delivery &amp; Sustainability</span>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
+                Displaying non-intrusive Google AdSense advertising to support our directory, tutorials, and free resources.
               </p>
             </div>
           </div>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">How to Manage and Disable Cookies</h2>
+        {/* Section 3 */}
+        <section id="types-of-cookies-we-use" className="space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <FileText className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            3. Types of Cookies We Use
+          </h2>
           <p>
-            You can modify your browser settings to decline cookies or alert you when cookies are being sent. Note that if you disable essential cookies, certain features of AIToolNest may not function properly. For more information, visit <a href="https://aboutcookies.org" target="_blank" rel="noopener noreferrer nofollow" className="text-indigo-600 dark:text-indigo-400 underline">aboutcookies.org</a>.
+            We classify all cookies operating on AIToolNest into four distinct categories based on their function and purpose:
+          </p>
+
+          <div className="space-y-4">
+            {/* Essential */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">A. Strictly Necessary &amp; Security Cookies</h3>
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold uppercase tracking-wider">
+                  Always Active
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                These cookies are strictly required for the website to function securely and cannot be disabled in our systems. They are typically only set in response to actions made by you, such as establishing privacy preferences, logging into the administrative panel, or protecting input forms from Cross-Site Request Forgery (CSRF).
+              </p>
+              <div className="text-xs font-mono bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">aitoolnest_cookie_consent_v1:</span> Stores your cookie consent preferences (Duration: 1 year).</div>
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">admin_session:</span> Cryptographically signed HttpOnly token for authenticated admin users (Duration: 24 hours).</div>
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">aitoolnest_theme:</span> Preserves your dark/light appearance setting in localStorage (Persistent).</div>
+              </div>
+            </div>
+
+            {/* Functional */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">B. Functional &amp; Preference Cookies</h3>
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold uppercase tracking-wider">
+                  Configurable
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                These cookies enable enhanced functionality, personalization, and interactive tools memory. If you disallow these cookies, some features such as tool bookmarks, quick search filtering, and state preservation across tab switches may not function smoothly.
+              </p>
+              <div className="text-xs font-mono bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">aitoolnest_bookmarks:</span> Keeps track of your saved AI tools in browser storage (Persistent).</div>
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">aitoolnest_recent_searches:</span> Remembers your recent query history for faster discovery (Persistent).</div>
+              </div>
+            </div>
+
+            {/* Analytics */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">C. Analytics &amp; Performance Cookies</h3>
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-bold uppercase tracking-wider">
+                  User Opt-in / Opt-out
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                These cookies allow us to count visits and traffic sources to measure and improve site performance. They help us know which pages and tools are popular and see how visitors navigate the site.
+              </p>
+              <div className="text-xs font-mono bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">_ga / _ga_*:</span> Standard Google Analytics cookies used to calculate visitor and session statistics (Duration: up to 2 years).</div>
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">_gid:</span> Google Analytics cookie used to distinguish unique sessions across 24 hours.</div>
+              </div>
+            </div>
+
+            {/* Advertising */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">D. Advertising &amp; Marketing Cookies</h3>
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 font-bold uppercase tracking-wider">
+                  Commercial Partners
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                These cookies may be set through our site by our advertising partner, Google AdSense, and its associated domains (such as DoubleClick). They are used to serve relevant ads, limit frequency, and report ad performance.
+              </p>
+              <div className="text-xs font-mono bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">__gads / __gpi:</span> Google AdSense advertising delivery, frequency capping, and ad reporting cookies (Duration: 13 months).</div>
+                <div><span className="font-bold text-indigo-600 dark:text-indigo-400">IDE / test_cookie:</span> Google DoubleClick cookies used for ad measurement and serving (Duration: up to 1 year).</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 4 */}
+        <section id="third-party-cookies" className="space-y-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <Globe className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            4. Third-Party Cookies
+          </h2>
+          <p>
+            When you visit AIToolNest, certain third parties may place cookies or client-side identifiers on your device. These third parties include Google AdSense and analytics services.
+          </p>
+          <p>
+            Please note that AIToolNest does not directly control the technical operation of third-party cookies. The collection and use of information by third parties is governed by their respective privacy policies.
+          </p>
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2 text-xs sm:text-sm">
+            <span className="font-bold text-slate-900 dark:text-white block">Key Third-Party Service Providers:</span>
+            <ul className="list-disc pl-5 space-y-1 text-slate-600 dark:text-slate-300">
+              <li>
+                <strong className="text-slate-900 dark:text-white">Google LLC:</strong> Provides Google AdSense, Google Analytics 4, and Google Tag Manager. Review Google&apos;s privacy practices at{' '}
+                <a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer nofollow" className="text-indigo-600 dark:text-indigo-400 underline inline-flex items-center gap-0.5">
+                  Google Privacy &amp; Terms <ExternalLink className="w-3 h-3" />
+                </a>.
+              </li>
+              <li>
+                <strong className="text-slate-900 dark:text-white">External Software Websites:</strong> Outbound links on AIToolNest direct you to external third-party software websites. Once you leave AIToolNest, any cookies or data collection on those external sites are subject to the independent policies of those third-party providers.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Section 5 */}
+        <section id="google-adsense" className="space-y-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <DollarSign className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            5. Google AdSense and Advertising Cookies
+          </h2>
+          <p>
+            AIToolNest partners with Google AdSense (Publisher ID: <code className="text-xs font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-indigo-600 dark:text-indigo-400">ca-pub-2683919410645700</code>) to serve programmatic advertisements on our website.
+          </p>
+          <div className="p-5 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 space-y-3 text-xs sm:text-sm">
+            <h3 className="font-bold text-slate-900 dark:text-white text-sm">
+              Mandatory Google Advertising Disclosure:
+            </h3>
+            <ul className="list-disc pl-5 space-y-1.5 text-slate-700 dark:text-slate-300">
+              <li>
+                Third-party vendors, including Google, use cookies to serve advertisements based on a user&apos;s prior visits to AIToolNest or other websites across the Internet.
+              </li>
+              <li>
+                Google&apos;s use of advertising cookies (such as the DoubleClick DART cookie) enables it and its partners to serve personalized advertisements to our users based on their browsing activity across websites.
+              </li>
+              <li>
+                You may opt out of personalized advertising by visiting{' '}
+                <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer nofollow" className="text-indigo-600 dark:text-indigo-400 font-semibold underline inline-flex items-center gap-0.5">
+                  Google Ads Settings <ExternalLink className="w-3 h-3" />
+                </a>.
+              </li>
+              <li>
+                To learn more about how Google handles information in its advertising products, visit{' '}
+                <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer nofollow" className="text-indigo-600 dark:text-indigo-400 font-semibold underline inline-flex items-center gap-0.5">
+                  Google Advertising Policies <ExternalLink className="w-3 h-3" />
+                </a>.
+              </li>
+            </ul>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+            For users in the European Economic Area (EEA), United Kingdom (UK), and California, our consent management interface communicates directly with Google Tag Manager and AdSense. If you reject advertising cookies, Google AdSense falls back to serving non-personalized, contextual advertisements that do not rely on past browsing profiles.
           </p>
         </section>
 
-        <section className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk']">Contact Us Regarding Cookies</h2>
+        {/* Section 6 */}
+        <section id="analytics-and-performance" className="space-y-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            6. Analytics and Performance
+          </h2>
           <p>
-            If you have questions about our use of cookies, tracking technologies, or data privacy practices, please reach out to:
+            We utilize Google Analytics 4 to evaluate how visitors interact with our software reviews, tutorials, and business resources.
           </p>
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm space-y-1">
-            <div className="font-semibold text-slate-900 dark:text-white">
-              Official Contact Email: <a href="mailto:aitoolnest1@gmail.com" className="text-indigo-600 dark:text-indigo-400 hover:underline font-mono">aitoolnest1@gmail.com</a>
-            </div>
-            <p className="text-slate-500 dark:text-slate-400 text-xs">
-              Response Time: We usually respond within 24–48 hours.
+          <p>
+            Google Analytics cookies collect standard operational metrics such as device operating system, browser version, approximate geographic region, time spent on pages, and navigation interactions. We do not use Google Analytics to collect personal contact information such as your name or email address.
+          </p>
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm space-y-2">
+            <span className="font-semibold text-slate-900 dark:text-white block">Google Analytics Opt-Out Add-on:</span>
+            <p className="text-slate-600 dark:text-slate-400">
+              If you wish to prevent your data from being utilized by Google Analytics across all websites, you can install the official browser extension provided by Google:{' '}
+              <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer nofollow" className="text-indigo-600 dark:text-indigo-400 underline font-semibold inline-flex items-center gap-0.5">
+                Google Analytics Opt-out Browser Add-on <ExternalLink className="w-3 h-3" />
+              </a>.
             </p>
           </div>
         </section>
+
+        {/* Section 7 - Interactive Cookie Preferences */}
+        <section id="managing-cookie-preferences" className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+                <Settings className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                7. Managing Your Cookie Preferences
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                Adjust your consent preferences below or launch the consent banner anytime.
+              </p>
+            </div>
+            <button
+              onClick={handleOpenConsentBanner}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors border border-slate-300 dark:border-slate-700 cursor-pointer self-start sm:self-auto"
+            >
+              <Cookie className="w-3.5 h-3.5 text-amber-500" />
+              <span>Open Cookie Banner</span>
+            </button>
+          </div>
+
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+            You can configure your cookie preferences right here on this page. Your choices are automatically synchronized with our site-wide CookieConsent system, Google Tag Manager, and Google Analytics 4 consent modes.
+          </p>
+
+          {/* Interactive Consent Control Card */}
+          <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3">
+              <div className="flex items-center gap-2">
+                <Sliders className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                <span className="text-sm font-bold text-slate-900 dark:text-white">Active Preferences Manager</span>
+              </div>
+              {savedTimestamp && (
+                <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Last recorded: {new Date(savedTimestamp).toLocaleDateString()}
+                </span>
+              )}
+            </div>
+
+            <div className="space-y-3 text-xs sm:text-sm">
+              {/* Essential Item */}
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div className="space-y-0.5 pr-4">
+                  <span className="font-bold text-slate-900 dark:text-white block">Strictly Necessary Cookies</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">Security tokens, consent records, and appearance state.</span>
+                </div>
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 shrink-0">
+                  Always Active
+                </span>
+              </div>
+
+              {/* Analytics Item */}
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div className="space-y-0.5 pr-4">
+                  <span className="font-bold text-slate-900 dark:text-white block">Analytics &amp; Performance Cookies</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">Google Analytics 4 traffic measurement and site speed optimization.</span>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={analyticsConsent}
+                    onChange={(e) => setAnalyticsConsent(e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                </label>
+              </div>
+
+              {/* Advertising Item */}
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div className="space-y-0.5 pr-4">
+                  <span className="font-bold text-slate-900 dark:text-white block">Google AdSense &amp; Advertising Cookies</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">Ad delivery, frequency capping, and ad measurement.</span>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={advertisingConsent}
+                    onChange={(e) => setAdvertisingConsent(e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                </label>
+              </div>
+            </div>
+
+            {/* Preference Action Buttons */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-2">
+              <button
+                onClick={() => savePreferences(analyticsConsent, advertisingConsent)}
+                className="py-2.5 px-5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors cursor-pointer shadow-sm"
+              >
+                Save Cookie Preferences
+              </button>
+              <button
+                onClick={() => savePreferences(true, true)}
+                className="py-2.5 px-4 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer"
+              >
+                Accept All
+              </button>
+              <button
+                onClick={() => savePreferences(false, false)}
+                className="py-2.5 px-4 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer"
+              >
+                Reject Non-Essential
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 8 */}
+        <section id="how-to-disable-cookies" className="space-y-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <Lock className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            8. How to Disable Cookies
+          </h2>
+          <p>
+            In addition to our on-site preferences manager, most modern web browsers provide controls that allow you to block, delete, or restrict cookies on a per-site or global basis.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs sm:text-sm">
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+              <span className="font-bold text-slate-900 dark:text-white block">Google Chrome</span>
+              <p className="text-slate-600 dark:text-slate-400">
+                Go to <span className="font-mono text-[11px]">Settings &gt; Privacy and security &gt; Third-party cookies</span>. From there, you can block third-party cookies or customize site permissions.
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+              <span className="font-bold text-slate-900 dark:text-white block">Mozilla Firefox</span>
+              <p className="text-slate-600 dark:text-slate-400">
+                Go to <span className="font-mono text-[11px]">Settings &gt; Privacy &amp; Security &gt; Enhanced Tracking Protection</span> to select Standard or Strict blocking modes.
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+              <span className="font-bold text-slate-900 dark:text-white block">Apple Safari (macOS / iOS)</span>
+              <p className="text-slate-600 dark:text-slate-400">
+                Go to <span className="font-mono text-[11px]">Safari &gt; Settings &gt; Advanced</span>, and enable <span className="font-mono text-[11px]">Block all cookies</span> or enable Prevent Cross-Site Tracking.
+              </p>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-1">
+              <span className="font-bold text-slate-900 dark:text-white block">Microsoft Edge</span>
+              <p className="text-slate-600 dark:text-slate-400">
+                Go to <span className="font-mono text-[11px]">Settings &gt; Cookies and site permissions &gt; Manage and delete cookies and site data</span>.
+              </p>
+            </div>
+          </div>
+          <div className="p-4 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-900/40 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            <strong className="text-slate-900 dark:text-white">Impact of Disabling Cookies:</strong> If you configure your browser to block all cookies (including strictly necessary cookies), certain interactive capabilities of AIToolNest—such as preserving your preferred dark/light theme, remembering bookmarked tools, and saving generated texts—may not function as intended.
+          </div>
+        </section>
+
+        {/* Section 9 */}
+        <section id="changes-to-this-policy" className="space-y-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <RotateCcw className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            9. Changes to This Cookie Policy
+          </h2>
+          <p>
+            We may periodically revise this Cookie Policy to reflect technical modifications to our platform, changes in our partner integrations, updated regulatory guidance (such as evolving interpretations of GDPR, ePrivacy Directive, or CCPA), or enhancements to Google AdSense policies.
+          </p>
+          <p>
+            Whenever modifications are made, we will update the &ldquo;Last Updated&rdquo; date at the top of this document. For significant or material changes that impact how your information is handled, we will provide additional prominent notice via our site banner or home page. We encourage you to review this Cookie Policy periodically to stay informed about our tracking and privacy standards.
+          </p>
+        </section>
+
+        {/* Section 10 */}
+        <section id="contact-us" className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] flex items-center gap-2">
+            <Mail className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            10. Contact Us
+          </h2>
+          <p>
+            If you have questions, comments, or concerns regarding this Cookie Policy, our advertising practices, or how your personal privacy preferences are applied, please reach out to our privacy administration team:
+          </p>
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm space-y-2">
+            <div className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+              <Mail className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <span>Official Privacy &amp; Cookie Inquiries:</span>
+              <a href="mailto:aitoolnest1@gmail.com" className="text-indigo-600 dark:text-indigo-400 hover:underline font-mono">
+                aitoolnest1@gmail.com
+              </a>
+            </div>
+            <div className="text-slate-600 dark:text-slate-300">
+              <span>Platform Portal: </span>
+              <button
+                onClick={() => navigate('/contact')}
+                className="text-indigo-600 dark:text-indigo-400 underline font-semibold hover:text-indigo-700 cursor-pointer"
+              >
+                Contact Form &amp; Support Desk
+              </button>
+            </div>
+            <p className="text-slate-500 dark:text-slate-400 text-xs">
+              Inquiries sent to our email address are typically reviewed within 24–48 hours.
+            </p>
+          </div>
+        </section>
+
       </div>
     </div>
   );
