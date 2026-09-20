@@ -130,7 +130,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-writing',
       name: 'AI Writing & Copy',
       icon: PenTool,
-      count: '1,420+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-writing' || (t.categories && t.categories.includes('ai-writing' as any))).length} tools`,
       gradient: 'from-blue-500/10 to-indigo-500/10',
       iconColor: 'text-indigo-600 dark:text-indigo-400',
       iconBg: 'bg-indigo-50 dark:bg-indigo-950/80',
@@ -140,7 +140,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-image-generation',
       name: 'AI Image & Design',
       icon: Palette,
-      count: '980+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-image-generation' || (t.categories && t.categories.includes('ai-image-generation' as any))).length} tools`,
       gradient: 'from-pink-500/10 to-rose-500/10',
       iconColor: 'text-rose-600 dark:text-rose-400',
       iconBg: 'bg-rose-50 dark:bg-rose-950/80',
@@ -150,7 +150,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-video',
       name: 'AI Video & Cinema',
       icon: Film,
-      count: '650+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-video' || (t.categories && t.categories.includes('ai-video' as any))).length} tools`,
       gradient: 'from-purple-500/10 to-violet-500/10',
       iconColor: 'text-purple-600 dark:text-purple-400',
       iconBg: 'bg-purple-50 dark:bg-purple-950/80',
@@ -160,7 +160,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-audio',
       name: 'AI Audio & Voice',
       icon: Sparkles,
-      count: '410+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-audio' || (t.categories && t.categories.includes('ai-audio' as any))).length} tools`,
       gradient: 'from-cyan-500/10 to-teal-500/10',
       iconColor: 'text-cyan-600 dark:text-cyan-400',
       iconBg: 'bg-cyan-50 dark:bg-cyan-950/80',
@@ -170,7 +170,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-coding',
       name: 'AI Coding & DevOps',
       icon: Code2,
-      count: '820+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-coding' || (t.categories && t.categories.includes('ai-coding' as any))).length} tools`,
       gradient: 'from-emerald-500/10 to-teal-500/10',
       iconColor: 'text-emerald-600 dark:text-emerald-400',
       iconBg: 'bg-emerald-50 dark:bg-emerald-950/80',
@@ -180,7 +180,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-productivity',
       name: 'AI Productivity',
       icon: Zap,
-      count: '1,150+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-productivity' || (t.categories && t.categories.includes('ai-productivity' as any))).length} tools`,
       gradient: 'from-amber-500/10 to-orange-500/10',
       iconColor: 'text-amber-600 dark:text-amber-400',
       iconBg: 'bg-amber-50 dark:bg-amber-950/80',
@@ -190,7 +190,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-business',
       name: 'AI for Business',
       icon: Briefcase,
-      count: '1,840+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-business' || (t.categories && t.categories.includes('ai-business' as any))).length} tools`,
       gradient: 'from-indigo-500/10 to-blue-500/10',
       iconColor: 'text-blue-600 dark:text-blue-400',
       iconBg: 'bg-blue-50 dark:bg-blue-950/80',
@@ -200,7 +200,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-marketing',
       name: 'AI Marketing & SEO',
       icon: TrendingUp,
-      count: '780+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-marketing' || (t.categories && t.categories.includes('ai-marketing' as any))).length} tools`,
       gradient: 'from-fuchsia-500/10 to-pink-500/10',
       iconColor: 'text-fuchsia-600 dark:text-fuchsia-400',
       iconBg: 'bg-fuchsia-50 dark:bg-fuchsia-950/80',
@@ -210,7 +210,7 @@ export const HomeView: React.FC = () => {
       id: 'ai-education',
       name: 'AI for Education',
       icon: GraduationCap,
-      count: '540+ tools',
+      count: `${tools.filter((t) => t.category === 'ai-education' || (t.categories && t.categories.includes('ai-education' as any))).length} tools`,
       gradient: 'from-violet-500/10 to-indigo-500/10',
       iconColor: 'text-violet-600 dark:text-violet-400',
       iconBg: 'bg-violet-50 dark:bg-violet-950/80',
@@ -233,23 +233,23 @@ export const HomeView: React.FC = () => {
   const homeFaqs = [
     {
       q: 'What is AIToolNest?',
-      a: 'AIToolNest is an independent directory, benchmarking portal, and research hub that helps builders, businesses, developers, and creators discover, evaluate, and deploy the world’s best artificial intelligence tools.'
+      a: 'AIToolNest is an independent discovery directory and resource hub that helps builders, businesses, developers, and creators discover, evaluate, and explore artificial intelligence tools for everyday workflows.'
     },
     {
-      q: 'Are all the tools on AIToolNest really tested?',
-      a: 'Yes. Unlike automated web scrapers, every tool featured in our primary listings undergoes thorough testing by our research team across output quality, pricing transparency, privacy policies, and real-world utility.'
+      q: 'How are tools on AIToolNest evaluated and listed?',
+      a: 'Tools featured on AIToolNest are curated based on feature completeness, active availability, pricing clarity, and practical utility for everyday tasks.'
     },
     {
       q: 'Can I find 100% free AI tools without entering a credit card?',
-      a: 'Absolutely. We curate a dedicated "100% Free AI Tools" section featuring completely free software, open-source weights, and generous freemium quotas with zero upfront payment required.'
+      a: 'Yes. We curate a dedicated "100% Free AI Tools" section featuring completely free software, open-source weights, and generous freemium quotas with zero upfront payment required.'
     },
     {
       q: 'How do I submit my AI startup or tool for listing?',
-      a: 'Simply click "Submit Your AI Tool" in the header or footer. Basic directory listing is 100% free. We also offer expedited 24-hour review and featured placement options for founders seeking maximum exposure.'
+      a: 'Simply click "Submit Your AI Tool" in the header or footer. Basic directory listing is free for founders and builders seeking exposure for their product.'
     },
     {
-      q: 'How frequently is tool pricing and benchmark data updated?',
-      a: 'Our research team performs weekly price and feature audits to guarantee that token costs, subscription tiers, and active release versions remain accurate.'
+      q: 'How frequently is tool pricing and listing information updated?',
+      a: 'We routinely review directory listings and update pricing models, active features, and links to keep directory information accurate and reliable.'
     }
   ];
 
@@ -257,7 +257,7 @@ export const HomeView: React.FC = () => {
   const testimonials = [
     {
       quote:
-        'AIToolNest saved our agency thousands in redundant SaaS bills. The honest pros and cons breakdown helped us pick Cursor and Midjourney v6 without the usual marketing hype.',
+        'AIToolNest helped our team cut redundant software subscriptions. The honest pros and cons breakdown helped us pick Cursor and Midjourney without the usual marketing hype.',
       author: 'Elena Rostova',
       role: 'Head of Product, Omnitech Media',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
@@ -282,7 +282,7 @@ export const HomeView: React.FC = () => {
     <div className="space-y-16 sm:space-y-24 pb-20">
       <SEOHead
         title="AIToolNest - Discover the Best AI Tools for Every Task"
-        description="Explore curated hand-tested AI tools, productivity software, generative models, and free digital resources categorized to accelerate your workflow on AIToolNest."
+        description="Explore 60+ carefully selected AI tools for writing, design, coding, productivity, business, and creative work."
         canonicalUrl="https://aitoolnest.com/"
         schemaData={[
           {
@@ -313,7 +313,7 @@ export const HomeView: React.FC = () => {
             '@context': 'https://schema.org',
             '@type': 'ItemList',
             name: 'Featured AI Tools',
-            description: 'Curated and verified top AI tools on AIToolNest',
+            description: 'Curated top AI tools on AIToolNest',
             itemListElement: featuredTools.map((t, idx) => ({
               '@type': 'ListItem',
               position: idx + 1,
@@ -351,7 +351,7 @@ export const HomeView: React.FC = () => {
           {/* Release Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200/80 dark:border-indigo-800/60 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-6 shadow-xs animate-fadeIn">
             <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
-            <span>The Premier AI Directory • 60+ Tested & Verified Tools</span>
+            <span>60+ AI Tools • 10 Categories</span>
           </div>
 
           {/* EXACT REQUIRED LARGE HEADLINE */}
@@ -368,7 +368,7 @@ export const HomeView: React.FC = () => {
 
           {/* PROFESSIONAL SUBTITLE */}
           <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8 sm:mb-10 leading-relaxed font-normal">
-            Explore thousands of hand-tested artificial intelligence software, generative models, and automation workflows audited to accelerate your business, code, and creative output.
+            Explore 60+ carefully selected AI tools for writing, design, coding, productivity, business, and creative work.
           </p>
 
           {/* UNIFIED SEARCH BAR WITH INTEGRATED CATEGORY FILTER */}
@@ -570,7 +570,7 @@ export const HomeView: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/80 text-xs font-bold mb-2 shadow-2xs">
               <Award className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-              <span>Editor&apos;s Audited Selections • Top Rated</span>
+              <span>Editor&apos;s Featured Selections • Top Rated</span>
             </div>
             <h2
               id="featured-tools-heading"
@@ -579,7 +579,7 @@ export const HomeView: React.FC = () => {
               Featured AI Tools
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Hand-tested artificial intelligence software ranked for workflow accuracy, value, and reliability.
+              Carefully selected artificial intelligence software organized by workflow, value, and reliability.
             </p>
           </div>
 
@@ -755,7 +755,7 @@ export const HomeView: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800/80 text-xs font-bold mb-2 shadow-2xs">
               <Layers className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-              <span>Specialized Workflows • 10+ Categories</span>
+              <span>Specialized Workflows • 10 Categories</span>
             </div>
             <h2
               id="popular-categories-heading"
@@ -772,7 +772,7 @@ export const HomeView: React.FC = () => {
             onClick={() => navigate('/tools')}
             className="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-all inline-flex items-center gap-1.5 cursor-pointer self-start sm:self-auto"
           >
-            <span>All 10+ Categories</span>
+            <span>All 10 Categories</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -827,7 +827,7 @@ export const HomeView: React.FC = () => {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200/80 dark:border-rose-800/80 text-xs font-bold mb-2 shadow-2xs">
               <TrendingUp className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
-              <span>Viral Growth & Rapid Adoption</span>
+              <span>Popular & Rapid Adoption</span>
             </div>
             <h2
               id="trending-tools-heading"
@@ -836,7 +836,7 @@ export const HomeView: React.FC = () => {
               Trending AI Tools
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Software solutions generating the highest community engagement and benchmark breakthroughs.
+              Popular AI software solutions gaining high community interest and active adoption.
             </p>
           </div>
 
@@ -871,7 +871,7 @@ export const HomeView: React.FC = () => {
               Google AI Tools
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Explore Google's generative models, developer sandboxes, and research engines in one verified collection.
+              Explore Google&apos;s generative models, developer sandboxes, and research tools in one curated collection.
             </p>
           </div>
 
@@ -904,7 +904,7 @@ export const HomeView: React.FC = () => {
             Why Builders & Professionals Choose AIToolNest
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-            The AI landscape moves at lightning speed. We provide definitive clarity through independent, hand-tested directory curation.
+            The AI landscape moves quickly. We provide clarity through independent, carefully organized directory listings.
           </p>
         </div>
 
@@ -915,14 +915,14 @@ export const HomeView: React.FC = () => {
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2 font-['Space_Grotesk']">
-                Hands-On Testing & Audits
+                Careful Curation & Review
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Zero automated scraper junk. Every featured tool is audited by our research desk across output fidelity, latency, data privacy, and feature authenticity.
+                Zero automated scraper clutter. Featured tools are reviewed for practical features, pricing clarity, and genuine utility.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400">
-              100% Manually Evaluated
+              Carefully Selected Listings
             </div>
           </div>
 
@@ -932,14 +932,14 @@ export const HomeView: React.FC = () => {
                 <Zap className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-slate-900 dark:text-white text-base mb-2 font-['Space_Grotesk']">
-                100% Transparent Pricing
+                Transparent Pricing
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                No hidden paywalls or surprise trials. We audit true Free tiers, generous freemium quotas, and enterprise monthly rates weekly.
+                No hidden paywalls or surprise trials. Clear details on free plans, trial limitations, and paid subscription tiers.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-              Verified Price Audits
+              Clear Pricing Breakdown
             </div>
           </div>
 
@@ -969,11 +969,11 @@ export const HomeView: React.FC = () => {
                 Creator & Founder Driven
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Indie builders and tech founders submit their tools directly, reaching over 500,000 monthly developers, digital marketers, and agency operators.
+                Indie builders and tech founders submit their tools directly, connecting with developers, digital marketers, and creators seeking AI solutions.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-purple-600 dark:text-purple-400">
-              500,000+ Monthly Visitors
+              Community Directory
             </div>
           </div>
         </div>
@@ -991,10 +991,10 @@ export const HomeView: React.FC = () => {
               id="free-tools-banner-heading"
               className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-['Space_Grotesk']"
             >
-              Save Thousands With 100% Free AI Tools
+              Discover 100% Free AI Tools
             </h3>
             <p className="text-slate-300 text-sm mt-2 mb-6 leading-relaxed">
-              Don&apos;t spend $20-$100/mo before checking our hand-verified list of completely free AI tools with no credit card required.
+              Explore our curated list of completely free AI tools and generous free tiers before committing to paid subscriptions.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
@@ -1032,7 +1032,7 @@ export const HomeView: React.FC = () => {
               Latest AI Guides & Industry Tutorials
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Read comprehensive benchmarks, prompting blueprints, and productivity stacks.
+              Read comprehensive guides, prompting blueprints, and productivity stacks.
             </p>
           </div>
 
@@ -1097,10 +1097,10 @@ export const HomeView: React.FC = () => {
             id="testimonials-heading"
             className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] tracking-tight"
           >
-            Trusted by 500,000+ AI Builders & Founders
+            Trusted by AI Builders & Creators
           </h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            See what product leads, developers, and agency owners say about AIToolNest.
+            See what product leads, developers, and creators say about AIToolNest.
           </p>
         </div>
 
@@ -1154,7 +1154,7 @@ export const HomeView: React.FC = () => {
                 Curated AI Prompt Vault
               </h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Battle-tested prompts engineered for ChatGPT, Claude, Midjourney, and Gemini.
+                Practical prompts crafted for ChatGPT, Claude, Midjourney, and Gemini.
               </p>
             </div>
 
@@ -1162,7 +1162,7 @@ export const HomeView: React.FC = () => {
               onClick={() => navigate('/ai-prompts')}
               className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer self-start md:self-auto"
             >
-              Open Full Prompt Vault (5,000+)
+              Explore Prompt Vault
             </button>
           </div>
 
@@ -1278,7 +1278,7 @@ export const HomeView: React.FC = () => {
               Stay Ahead With The Top AI Releases
             </h3>
             <p className="text-slate-300 text-sm mt-2 mb-6 leading-relaxed">
-              remove 45,000+ founders, marketers, and developers receiving our hand-curated weekly breakdown of top newly launched tools, prompts, and tutorials.
+              Join founders, marketers, and developers receiving our curated weekly breakdown of newly added tools, prompts, and tutorials.
             </p>
 
             {!subscribed ? (
@@ -1333,7 +1333,7 @@ export const HomeView: React.FC = () => {
               Ready to Supercharge Your Workflow with AI?
             </h2>
             <p className="text-xs sm:text-base text-indigo-200/90 max-w-xl mx-auto leading-relaxed">
-              Explore 60+ benchmarked AI tools or submit your startup software to be discovered by our community today.
+              Explore 60+ carefully selected AI tools or submit your startup software to be discovered by our community today.
             </p>
             <div className="pt-4 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
               <button
