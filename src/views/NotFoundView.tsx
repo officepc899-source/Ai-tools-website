@@ -21,7 +21,7 @@ export const NotFoundView: React.FC = () => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center space-y-8">
       <SEOHead
         title="404 - Page Not Found | AIToolNest"
-        description="The requested page could not be located on AIToolNest. Explore 10,000+ AI tools, free productivity software, and prompt guides."
+        description="The requested page could not be located on AIToolNest. Explore curated AI tools, free productivity software, and prompt guides."
       />
 
       <div className="space-y-4 max-w-lg mx-auto">
@@ -51,7 +51,7 @@ export const NotFoundView: React.FC = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search 10,000+ AI tools..."
+            placeholder="Search curated AI tools..."
             className="w-full px-3 py-1.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 bg-transparent focus:outline-none"
           />
           <button

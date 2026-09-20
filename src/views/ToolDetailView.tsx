@@ -37,7 +37,8 @@ import {
   BadgeCheck,
   TrendingUp,
   Laptop,
-  Code
+  Code,
+  Target
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SEOHead } from '../components/SEOHead';
@@ -167,7 +168,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
         sameAs: tool.developerUrl ? [tool.officialUrl, tool.developerUrl] : [tool.officialUrl],
         offers: {
           '@type': 'Offer',
-          price: tool.pricingType === 'free' ? '0' : '20',
+          price: tool.pricingType === 'free' ? '0' : (tool.pricingPlans?.[0]?.price?.replace(/[^0-9.]/g, '') || '10'),
           priceCurrency: 'USD',
           availability: 'https://schema.org/InStock',
           category: tool.pricingType
@@ -543,8 +544,38 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
               </div>
 
               <div className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 pt-2">
+                {tool.tagline && tool.tagline !== tool.fullDescription && (
+                  <p className="font-semibold text-slate-900 dark:text-white">
+                    {tool.tagline}
+                  </p>
+                )}
                 <p>{tool.fullDescription || tool.description}</p>
+                {tool.description && tool.fullDescription && tool.description !== tool.fullDescription && (
+                  <p className="text-slate-600 dark:text-slate-400 text-sm">
+                    {tool.description}
+                  </p>
+                )}
               </div>
+
+              {/* Core Capabilities */}
+              {tool.capabilities && tool.capabilities.length > 0 && (
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 font-mono block mb-2">
+                    Core Capabilities
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {tool.capabilities.map((cap, cidx) => (
+                      <span
+                        key={cidx}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50/70 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 rounded-xl text-xs font-medium border border-indigo-100 dark:border-indigo-900/50"
+                      >
+                        <Sparkles className="w-3 h-3 text-indigo-500 shrink-0" />
+                        <span>{cap}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Supported Platforms Tags */}
               {tool.supportedPlatforms && tool.supportedPlatforms.length > 0 && (
@@ -632,6 +663,20 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                   </h2>
                 </div>
               </div>
+
+              {tool.bestFor && (
+                <div className="p-4 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 flex items-start gap-3">
+                  <Target className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 font-mono block mb-0.5">
+                      Best Suited For
+                    </span>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                      {tool.bestFor}
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 {tool.targetUsers.map((user, idx) => (
@@ -978,15 +1023,40 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
           >
             <div>
               <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono mb-1">
-                Verified Pricing Tiers
+                Pricing &amp; Access Breakdown
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
                 {tool.name} Pricing Plans (2026)
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Pricing audited directly from official records. Primary model:{' '}
-                <strong className="capitalize text-slate-700 dark:text-slate-200">{tool.pricingType}</strong>.
+                Audited directly from official pricing documentation.
               </p>
+            </div>
+
+            {/* Free vs Paid Status Callout Card */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2.5">
+                <div className="flex items-center gap-2">
+                  <DollarSign className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white font-mono">
+                    Pricing Model &amp; Free/Paid Status:
+                  </span>
+                </div>
+                {getPricingBadge(tool.pricingType)}
+              </div>
+
+              {tool.pricingSummary && (
+                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
+                  {tool.pricingSummary}
+                </p>
+              )}
+
+              {tool.pricingDetailsNotes && (
+                <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                  <strong className="text-slate-800 dark:text-slate-200">Tier Details: </strong>
+                  {tool.pricingDetailsNotes}
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1084,17 +1154,30 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                         navigate(`/tools?q=${encodeURIComponent(alt)}`);
                       }
                     }}
-                    className="p-3.5 bg-slate-50 dark:bg-slate-800/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:border-indigo-300 dark:hover:border-indigo-700 border border-slate-200 dark:border-slate-700 rounded-2xl text-left transition-all cursor-pointer group flex items-center justify-between"
+                    className="p-4 bg-slate-50 dark:bg-slate-800/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:border-indigo-300 dark:hover:border-indigo-700 border border-slate-200 dark:border-slate-700 rounded-2xl text-left transition-all cursor-pointer group flex flex-col justify-between gap-2.5"
                   >
-                    <div>
-                      <h3 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    <div className="flex items-center justify-between w-full">
+                      <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                         {alt}
                       </h3>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                        {matched ? `${matched.categoryLabel} • ${matched.pricingType}` : 'Direct software alternative'}
-                      </p>
+                      <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
                     </div>
-                    <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all" />
+                    {matched ? (
+                      <div className="space-y-1">
+                        <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2">
+                          {matched.tagline || matched.description}
+                        </p>
+                        <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 font-medium pt-1">
+                          <span className="text-indigo-600 dark:text-indigo-400 font-semibold">{matched.categoryLabel}</span>
+                          <span>•</span>
+                          <span className="capitalize">{matched.pricingType}</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        Direct software alternative in this category
+                      </p>
+                    )}
                   </button>
                 );
               })}
@@ -1240,7 +1323,15 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                     rel="noopener noreferrer"
                     className="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1 text-right truncate max-w-[140px]"
                   >
-                    <span>ai.google.dev</span>
+                    <span>
+                      {(() => {
+                        try {
+                          return new URL(tool.developerUrl).hostname.replace(/^www\./, '');
+                        } catch {
+                          return 'Developer Docs';
+                        }
+                      })()}
+                    </span>
                     <ExternalLink className="w-3 h-3 shrink-0" />
                   </a>
                 </div>

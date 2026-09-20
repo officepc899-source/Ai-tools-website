@@ -66,12 +66,12 @@ export const AboutView: React.FC = () => {
       {/* Key Numbers / Counter Bar */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 text-center">
         <div className="space-y-1">
-          <div className="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400 font-['Space_Grotesk']">10,000+</div>
-          <div className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">AI Tools Evaluated</div>
+          <div className="text-2xl sm:text-3xl font-black text-indigo-600 dark:text-indigo-400 font-['Space_Grotesk']">60+</div>
+          <div className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">Curated AI Tools</div>
         </div>
         <div className="space-y-1">
-          <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">100+</div>
-          <div className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">Curated Categories</div>
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">10</div>
+          <div className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">Core Categories</div>
         </div>
         <div className="space-y-1">
           <div className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400 font-['Space_Grotesk']">Weekly</div>
@@ -369,7 +369,7 @@ export const AboutView: React.FC = () => {
           Ready to Discover Your Next High-Leverage AI Tool?
         </h3>
         <p className="text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-          Explore our vetted directory of 10,000+ AI tools, dive into step-by-step guides, or submit your own breakthrough AI application for review.
+          Explore our curated directory of 60+ AI tools across 10 categories, dive into step-by-step guides, or submit your own breakthrough AI application for review.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <button

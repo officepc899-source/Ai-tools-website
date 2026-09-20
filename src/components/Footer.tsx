@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
               Stay Updated With The Latest AI Tools
             </h3>
             <p className="text-slate-300 text-sm mt-2 mb-6 leading-relaxed">
-              Join 45,000+ founders, marketers, and developers getting our weekly AI digest with top new tools, prompts, and tutorials.
+              Join founders, marketers, and developers getting our weekly AI digest with top new tools, prompts, and tutorials.
             </p>
 
             {!subscribed ? (
@@ -119,7 +119,7 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-xs">
               <li>
                 <button onClick={() => navigate('/ai-tools')} className="hover:text-white transition-colors">
-                  All 10,000+ AI Tools
+                  All AI Tools Directory
                 </button>
               </li>
               <li>
@@ -169,7 +169,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button onClick={() => navigate('/ai-prompts')} className="hover:text-white transition-colors">
-                  Prompt Library (5,000+)
+                  AI Prompt Library
                 </button>
               </li>
               <li>

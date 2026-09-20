@@ -73,7 +73,7 @@ export const ChatGPTAlternativesView: React.FC = () => {
             Best ChatGPT Alternatives in 2026
           </h1>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            ChatGPT isn't the only frontier model in town. Discover why millions of engineers, researchers, and professional writers are switching to Claude 3.7, Gemini 2.0, and Perplexity for superior reasoning, live search, and massive context windows.
+            ChatGPT isn&apos;t the only frontier model in town. Discover why engineers, researchers, and professional writers are switching to Claude 3.7, Gemini 2.0, and Perplexity for superior reasoning, live search, and massive context windows.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-emerald-200">

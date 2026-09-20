@@ -259,7 +259,7 @@ export const ToolsDirectoryView: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold mb-2">
             <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-            <span>10,000+ AI Tools Directory • Verified Weekly</span>
+            <span>{tools.length}+ Curated AI Tools • 10 Categories</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight font-['Space_Grotesk']">
             {currentCategoryTitle}

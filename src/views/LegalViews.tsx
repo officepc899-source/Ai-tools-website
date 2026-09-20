@@ -1064,7 +1064,7 @@ export const AdvertiseView: React.FC = () => {
             <p className="text-xs text-slate-600 dark:text-slate-400">Rank #1 in your core category (e.g. AI Writing or AI Video) with top banner spotlight.</p>
             <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300 pt-2 border-t border-slate-100 dark:border-slate-800">
               <li>✓ Top sticky card in chosen category</li>
-              <li>✓ 10,000+ targeted category impressions</li>
+              <li>✓ Targeted category placement & impressions</li>
               <li>✓ Inclusion in weekly newsletter feature</li>
             </ul>
           </div>
@@ -1084,10 +1084,10 @@ export const AdvertiseView: React.FC = () => {
             <div className="text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
               $450 <span className="text-xs font-normal text-slate-400">/dispatch</span>
             </div>
-            <p className="text-xs text-slate-600 dark:text-slate-400">Dedicated primary sponsor slot in our weekly AI Dispatch sent to 45,000+ builders.</p>
-            <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300 pt-2 border-t border-slate-100 dark:border-slate-800">
+            <p className="text-xs text-slate-600 dark:text-slate-400">Dedicated primary sponsor slot in our weekly AI Dispatch sent to builders and creators.</p>
+            <ul className="space-y-1.5 text-slate-700 dark:text-slate-300 pt-2 border-t border-slate-100 dark:border-slate-800">
               <li>✓ Top banner + 120-word product writeup</li>
-              <li>✓ 42% open rate & 1,500+ direct clicks</li>
+              <li>✓ High-visibility placement with direct links</li>
               <li>✓ Permanent archive link on blog</li>
             </ul>
           </div>
@@ -1245,13 +1245,13 @@ export const SitemapView: React.FC = () => {
       title: 'Directory & Hubs',
       links: [
         { label: 'Homepage', path: '/' },
-        { label: 'AI Tools Directory (10,000+)', path: '/tools' },
+        { label: 'AI Tools Directory', path: '/tools' },
         { label: '100% Free AI Tools', path: '/free-ai-tools' },
         { label: 'AI Tools for Business', path: '/ai-tools-for-business' },
         { label: 'AI Tools for Students', path: '/ai-tools-for-students' },
         { label: 'AI Image Generators', path: '/ai-image-generators' },
         { label: 'ChatGPT Alternatives', path: '/chatgpt-alternatives' },
-        { label: 'AI Prompts Vault (5,000+)', path: '/ai-prompts' }
+        { label: 'AI Prompts Vault', path: '/ai-prompts' }
       ]
     },
     {
