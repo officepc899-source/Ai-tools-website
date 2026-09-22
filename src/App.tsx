@@ -172,12 +172,22 @@ const AppContent: React.FC = () => {
       return <BusinessIdeaDetailView slug={slug} />;
     }
 
-    if (cleanPath === '/blog') {
+    if (cleanPath === '/blog' || cleanPath === '/guides' || cleanPath === '/guides-and-blog' || cleanPath === '/articles') {
       return <BlogView />;
     }
 
     if (cleanPath.startsWith('/blog/')) {
       const slug = cleanPath.replace('/blog/', '');
+      return <ArticleDetailView slug={slug} />;
+    }
+
+    if (cleanPath.startsWith('/guides/')) {
+      const slug = cleanPath.replace('/guides/', '');
+      return <ArticleDetailView slug={slug} />;
+    }
+
+    if (cleanPath.startsWith('/article/')) {
+      const slug = cleanPath.replace('/article/', '');
       return <ArticleDetailView slug={slug} />;
     }
 

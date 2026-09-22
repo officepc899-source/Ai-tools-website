@@ -152,7 +152,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   // Tools data with admin persistence and version migration
-  const TOOLS_VERSION = 'v4_google_collection_53';
+  const TOOLS_VERSION = 'v6_63_tools_replit_2026_verified';
   const [tools, setTools] = useState<AITool[]>(() => {
     try {
       const savedVersion = localStorage.getItem('nexus_tools_version');
@@ -160,9 +160,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (saved && savedVersion === TOOLS_VERSION) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          const hasGemini = parsed.some((t: AITool) => t.slug === 'google-gemini' || t.slug === 'gemini');
-          const hasVeo = parsed.some((t: AITool) => t.slug === 'google-veo');
-          if (hasGemini && hasVeo && parsed.length >= INITIAL_AI_TOOLS.length) {
+          const hasAllTools = INITIAL_AI_TOOLS.every((init) => parsed.some((t: AITool) => t.slug === init.slug));
+          if (hasAllTools && parsed.length >= INITIAL_AI_TOOLS.length) {
             return parsed;
           }
         }
@@ -192,15 +191,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [businessIdeas] = useState<BusinessIdea[]>(INITIAL_BUSINESS_IDEAS);
-  const ARTICLES_VERSION = 'v5_38_curated_articles';
+  const ARTICLES_VERSION = 'v7_43_articles_2026_verified';
   const [articles, setArticles] = useState<Article[]>(() => {
     try {
       const savedVersion = localStorage.getItem('nexus_articles_version');
-      if (savedVersion === ARTICLES_VERSION) {
-        const saved = localStorage.getItem('nexus_articles_data');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length >= INITIAL_ARTICLES.length) return parsed;
+      const saved = localStorage.getItem('nexus_articles_data');
+      if (saved && savedVersion === ARTICLES_VERSION) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length >= INITIAL_ARTICLES.length) {
+          const hasAllArticles = INITIAL_ARTICLES.every((art) => parsed.some((p: Article) => p.slug === art.slug));
+          if (hasAllArticles) {
+            return parsed;
+          }
         }
       }
     } catch {

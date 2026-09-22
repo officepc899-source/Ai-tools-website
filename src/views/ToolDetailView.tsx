@@ -46,6 +46,7 @@ import { Breadcrumbs } from '../components/Breadcrumbs';
 import { ToolCard } from '../components/ToolCard';
 import { AdBanner } from '../components/AdBanner';
 import { copyToClipboard } from '../utils/clipboard';
+import { INITIAL_AI_TOOLS } from '../data/toolsData';
 import { TextSummarizerTool } from '../components/interactive-tools/TextSummarizerTool';
 import { ParaphraserTool } from '../components/interactive-tools/ParaphraserTool';
 import { EmailWriterTool } from '../components/interactive-tools/EmailWriterTool';
@@ -66,6 +67,12 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
   const tool = useMemo(
     () =>
       tools.find(
+        (t) =>
+          t.slug === slug ||
+          (slug === 'gemini' && t.slug === 'google-gemini') ||
+          (slug === 'google-gemini' && t.slug === 'gemini')
+      ) ||
+      INITIAL_AI_TOOLS.find(
         (t) =>
           t.slug === slug ||
           (slug === 'gemini' && t.slug === 'google-gemini') ||
