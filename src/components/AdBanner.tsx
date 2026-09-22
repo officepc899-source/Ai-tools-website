@@ -31,13 +31,17 @@ export const AdBanner: React.FC<AdBannerProps> = ({
   const [stickyDismissed, setStickyDismissed] = useState(false);
 
   useEffect(() => {
-    if (!adsEnabled) return;
+    if (!adsEnabled || !adSlot) return;
     try {
-      if (typeof window !== 'undefined' && window.adsbygoogle && adSlot) {
-        window.adsbygoogle.push({});
-        setAdLoaded(true);
+      if (typeof window !== 'undefined') {
+        const adsbygoogle = (window as unknown as { adsbygoogle?: unknown[] }).adsbygoogle;
+        if (adsbygoogle) {
+          adsbygoogle.push({});
+          setAdLoaded(true);
+        }
       }
-    } catch {
+    } catch (err) {
+      // Catch duplicate push exceptions gracefully in SPAs
       setAdLoaded(false);
     }
   }, [adsEnabled, adSlot]);
@@ -148,7 +152,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
     return (
       <div className={`bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xs relative my-6 ${className}`}>
         <div className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-mono mb-2">
-          Featured Resource
+          {adSlot ? 'Advertisement' : 'Featured Resource'}
         </div>
         {adSlot ? (
           <ins
@@ -195,7 +199,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
           <span className="text-[10px] text-slate-400 uppercase font-mono">Curated</span>
         </div>
         <h4 className="text-base font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] mb-2">
-          {title || 'Search 500+ Verified AI Tools & In-Depth Benchmarks'}
+          {title || 'Search 60+ Verified AI Tools & In-Depth Benchmarks'}
         </h4>
         <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
           Compare pricing, pros &amp; cons, user ratings, and feature breakdowns for top AI platforms.

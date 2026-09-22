@@ -440,5 +440,121 @@ export const codingAndAudioTools: AITool[] = [
     faqs: [
       { question: 'Is v0 free to use?', answer: 'Yes, v0 provides a generous free plan with 200 credits every month to generate and export React components.' }
     ]
+  },
+  {
+    id: 'tool-replit',
+    slug: 'replit',
+    name: 'Replit',
+    tagline: 'AI-powered software creation platform, cloud development environment, and autonomous app builder',
+    description: 'Build, collaborate on, and deploy full-stack web applications and software from natural language prompts with the Replit Agent and cloud IDE.',
+    fullDescription: 'Replit is an online development platform and cloud workspace that enables developers, founders, and creators to build, test, and deploy applications from any web browser. Featuring the autonomous Replit Agent alongside a multi-language IDE, Replit allows users to turn natural language specifications into functional full-stack software. The platform manages server configuration, language runtimes, package dependencies, and PostgreSQL databases automatically, enabling rapid application prototyping and instant cloud deployment.',
+    category: 'ai-coding',
+    categoryLabel: 'AI Coding',
+    categories: ['ai-coding', 'ai-business', 'ai-productivity', 'free-ai-tools'],
+    pricingType: 'freemium',
+    pricingSummary: 'Free Starter plan with public Repls and standard compute; Core subscription starts at $20/month billed annually ($25/mo billed monthly).',
+    pricingPlans: [
+      {
+        name: 'Starter',
+        price: '$0',
+        billing: 'forever free',
+        features: [
+          'Basic cloud workspace with standard compute',
+          'Unlimited public Repls',
+          'Access to community templates & packages',
+          'Basic AI code completions'
+        ]
+      },
+      {
+        name: 'Core',
+        price: '$20',
+        billing: 'per month (billed annually at $240)',
+        popular: true,
+        features: [
+          'Access to Replit Agent for autonomous app building',
+          'Unlimited private Repls',
+          'Advanced AI code completion & chat assistant',
+          'High-performance cloud CPU and RAM allocations',
+          'Custom domain deployments with SSL'
+        ]
+      },
+      {
+        name: 'Teams',
+        price: 'Custom',
+        billing: 'per user / month',
+        features: [
+          'Centralized team billing and role permissions',
+          'Shared private repositories and workspaces',
+          'Dedicated support and onboarding',
+          'Enterprise security and SSO options'
+        ]
+      }
+    ],
+    bestFor: 'Developers, founders, product teams, and students seeking a cloud IDE with autonomous AI app development and instant hosting.',
+    targetUsers: ['Full-Stack Web Developers', 'Startup Founders & Solo Builders', 'Product Managers', 'Coding Students & Educators'],
+    supportedPlatforms: ['Web Browser', 'iOS App', 'Android App'],
+    keyFeatures: [
+      'Replit Agent for autonomous full-stack software creation, debugging, and iteration from conversational prompts',
+      'Browser-based cloud IDE supporting Python, JavaScript, TypeScript, Go, Rust, and 50+ programming languages',
+      'Instant cloud hosting and deployment with automatic SSL and custom domain integration',
+      'Integrated cloud PostgreSQL database provisioning and key-value storage',
+      'Real-time multiplayer collaborative coding and team workspaces'
+    ],
+    pros: [
+      'Zero local installation required; entire development environment runs in managed cloud containers',
+      'Replit Agent handles full-stack configuration including packages, routing, and database setup',
+      'Seamless path from initial prompt to live, shareable URL',
+      'Strong collaborative features for remote teams and pair programming'
+    ],
+    cons: [
+      'Intensive Replit Agent tasks require Core subscription credits',
+      'Free tier projects spin down when idle and have limited CPU and memory resources'
+    ],
+    limitations: [
+      'Free plan projects are public by default and pause after periods of inactivity',
+      'Complex enterprise workloads requiring specialized hardware acceleration may require dedicated cloud infrastructure'
+    ],
+    verdict: {
+      summary: 'Replit is a leader in accessible, cloud-first software development. The introduction of Replit Agent has elevated the platform into an autonomous software creation engine capable of building functional web apps with minimal manual scaffolding.',
+      recommendation: 'Highly Recommended',
+      score: 4.8,
+      bottomLine: 'An exceptional browser-based development platform that bridges natural language prototyping with live web hosting.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'Cursor',
+        advantage: 'Runs completely in the browser with built-in hosting, deployment, and cloud databases without local machine configuration.',
+        disadvantage: 'Cursor integrates deeply into local desktop Git repositories and existing enterprise codebases.'
+      },
+      {
+        competitorName: 'v0 by Vercel',
+        advantage: 'Supports complete full-stack applications with databases, backend endpoints, and server logic rather than purely frontend React UI.',
+        disadvantage: 'v0 generates polished, production-grade Tailwind and shadcn UI component aesthetics with minimal prompt iterations.'
+      }
+    ],
+    howToUse: [
+      { step: 1, title: 'Open Replit and Start a Project', description: 'Navigate to replit.com, sign in, and launch Replit Agent or create a new language template Repl.' },
+      { step: 2, title: 'Describe the Application', description: 'Provide a clear prompt specifying your desired features, user flows, and required backend functionality.' },
+      { step: 3, title: 'Test, Refine, and Deploy', description: 'Interact with the live preview, request adjustments from the Agent, and click "Deploy" to publish to the web.' }
+    ],
+    alternatives: ['Cursor', 'GitHub Copilot', 'v0 by Vercel'],
+    officialUrl: 'https://replit.com',
+    affiliateUrl: 'https://replit.com',
+    hasAffiliate: false,
+    rating: 4.7,
+    reviewsCount: 18400,
+    badges: ['AI App Builder', 'Cloud IDE', 'Verified Free Tier'],
+    iconName: 'Code',
+    iconBg: 'bg-orange-600',
+    verifiedDate: 'September 2026',
+    useCases: ['Full-stack web application development', 'Rapid MVP creation and validation', 'API and bot hosting', 'Collaborative programming and learning'],
+    tags: ['AI Coding', 'App Builder', 'Replit Agent', 'Cloud IDE', 'Full Stack', 'Web Hosting'],
+    seoTitle: 'Replit: AI App Builder and Cloud Development Environment',
+    seoDescription: 'Detailed guide and overview of Replit, featuring the Replit Agent, cloud IDE, and one-click deployment for full-stack web applications.',
+    faqs: [
+      { question: 'What is Replit Agent?', answer: 'Replit Agent is an AI capability within Replit that plans, writes, executes, tests, and refines software applications autonomously based on conversational user prompts.' },
+      { question: 'Does Replit offer a free plan?', answer: 'Yes, Replit offers a free Starter plan with standard cloud compute for public projects and interactive coding.' },
+      { question: 'Can you deploy web applications on Replit?', answer: 'Yes, Replit includes one-click deployments with built-in SSL certificates and custom domain support.' }
+    ]
   }
 ];

@@ -1406,9 +1406,6 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
         </aside>
       </div>
 
-      {/* In-feed Horizontal Ad Banner */}
-      <AdBanner format="horizontal-leaderboard" />
-
       {/* 3. RELATED AI TOOLS SECTION */}
       {relatedTools.length > 0 && (
         <section className="space-y-6 pt-4 border-t border-slate-200 dark:border-slate-800">
@@ -1438,6 +1435,9 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
           </div>
         </section>
       )}
+
+      {/* In-feed Horizontal Ad Banner with ample content separation */}
+      <AdBanner format="horizontal-leaderboard" />
     </div>
   );
 };

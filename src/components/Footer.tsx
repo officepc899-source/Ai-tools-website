@@ -320,12 +320,24 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* FTC Affiliate Disclaimer & Copyright */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p className="text-center md:text-left max-w-2xl leading-relaxed">
-            <strong>Disclosure:</strong> AIToolNest is reader-supported. When you purchase software through links on our site, we may earn an affiliate commission at no extra cost to you.
+        {/* FTC Affiliate, Google AdSense & Editorial Transparency Notice */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <p className="text-center md:text-left max-w-3xl leading-relaxed text-[11px] text-slate-400">
+            <strong className="text-slate-300">Editorial Transparency &amp; Advertising Notice:</strong> AIToolNest is an independent technology publication. We display third-party advertisements (including Google AdSense) and participate in affiliate programs. When you click external software links or purchase subscriptions, we may earn a referral commission at no additional cost to you. Commercial partnerships do not influence our testing scores, star ratings, or editorial conclusions. Learn more in our{' '}
+            <button onClick={() => navigate('/editorial-policy')} className="underline text-indigo-400 hover:text-indigo-300 cursor-pointer">
+              Editorial Policy
+            </button>
+            ,{' '}
+            <button onClick={() => navigate('/affiliate-disclosure')} className="underline text-indigo-400 hover:text-indigo-300 cursor-pointer">
+              Affiliate Disclosure
+            </button>
+            , and{' '}
+            <button onClick={() => navigate('/privacy-policy')} className="underline text-indigo-400 hover:text-indigo-300 cursor-pointer">
+              Privacy Policy
+            </button>
+            .
           </p>
-          <div className="text-slate-500 text-center md:text-right shrink-0">
+          <div className="text-slate-500 text-center md:text-right shrink-0 text-xs">
             © 2026 AIToolNest. All rights reserved.
           </div>
         </div>

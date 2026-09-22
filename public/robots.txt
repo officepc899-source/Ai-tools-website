@@ -9,6 +9,9 @@ Disallow: /checkout
 Disallow: /*?*preview=true
 
 # Search Engine Crawlers Specific Rules
+User-agent: Mediapartners-Google
+Allow: /
+
 User-agent: Googlebot
 Allow: /
 Disallow: /admin

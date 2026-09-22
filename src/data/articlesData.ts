@@ -2,13 +2,15 @@ import { Article } from '../types';
 import { NEW_PUBLICATION_ARTICLES } from './articles/newPublicationArticles';
 import { NEW_ESSENTIAL_ARTICLES } from './articles/newEssentialArticles';
 import { NEW_TECH_AND_CREATIVE_ARTICLES } from './articles/newTechnicalAndCreativeArticles';
+import { NEW_EDITORIAL_ARTICLES_2026 } from './articles/newEditorialArticles2026';
 import { CORE_ARTICLES } from './articles/coreArticles';
 import { DEV_AND_MEDIA_ARTICLES } from './articles/devAndMediaArticles';
 import { MARKETING_AND_BUSINESS_ARTICLES } from './articles/marketingAndBusinessArticles';
 import { ADVANCED_TECH_ARTICLES } from './articles/advancedTechArticles';
 
-// Aggregate all 38 unique, production-grade SEO articles
+// Aggregate all unique, production-grade SEO articles
 export const INITIAL_ARTICLES: Article[] = [
+  ...NEW_EDITORIAL_ARTICLES_2026,
   ...NEW_PUBLICATION_ARTICLES,
   ...NEW_ESSENTIAL_ARTICLES,
   ...NEW_TECH_AND_CREATIVE_ARTICLES,
@@ -73,7 +75,12 @@ export function getArticleBySlug(slug: string): Article | undefined {
     'ai-seo-strategies': 'best-ai-tools-for-seo',
     'ai-seo-tools': 'best-ai-tools-for-seo',
     'run-local-llms': 'run-local-llms-ollama-deepseek-guide',
-    'ollama-guide': 'run-local-llms-ollama-deepseek-guide'
+    'ollama-guide': 'run-local-llms-ollama-deepseek-guide',
+    'best-ai-tools-for-creating-videos': 'best-ai-tools-for-creating-videos-2026',
+    'ai-app-builders': 'how-ai-app-builders-are-changing-software-development',
+    'ai-voice-tools': 'ai-voice-tools-for-youtube-podcasts-and-content-creation',
+    'ai-presentations': 'how-to-use-ai-tools-for-presentations-and-business-content',
+    'ai-research-tools': 'ai-research-tools-how-to-get-better-answers-with-sources'
   };
 
   const mappedSlug = aliases[normalized];

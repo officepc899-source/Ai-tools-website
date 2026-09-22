@@ -105,6 +105,84 @@ export const AboutView: React.FC = () => {
             We built AIToolNest as an open, authoritative discovery catalog and testing ground. Our team tests AI tools in real-world professional contexts: we deploy them across coding sprints, video editing timelines, academic literature reviews, and automated marketing pipelines to separate transformative breakthroughs from short-lived marketing hype.
           </p>
         </div>
+
+        {/* Editorial Board & Testing Staff (E-E-A-T) */}
+        <div className="pt-4 space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">
+              Editorial Board &amp; Review Analysts
+            </h3>
+            <button
+              onClick={() => navigate('/editorial-policy')}
+              className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
+            >
+              <span>Our Testing Standards</span>
+              <ArrowRight className="w-3 h-3" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 font-bold flex items-center justify-center font-['Space_Grotesk'] text-sm">
+                  AV
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white leading-tight">Alex Vance</h4>
+                  <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold block">Lead AI Editor</span>
+                </div>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Directs hands-on benchmarking, token cost audits, and comparative software evaluations. 7+ years in SaaS architecture.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center font-['Space_Grotesk'] text-sm">
+                  ER
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white leading-tight">Dr. Elena Rostova</h4>
+                  <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold block">ML Research Fellow</span>
+                </div>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Specializes in reasoning evaluations, context window fidelity, hallucination audits, and model safety parameters.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-950/80 text-violet-600 dark:text-violet-400 font-bold flex items-center justify-center font-['Space_Grotesk'] text-sm">
+                  MC
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white leading-tight">Marcus Chen</h4>
+                  <span className="text-[11px] text-violet-600 dark:text-violet-400 font-semibold block">Automation Specialist</span>
+                </div>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Audits developer copilots, API integrations, CLI tooling, and enterprise multi-agent workflows.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 font-bold flex items-center justify-center font-['Space_Grotesk'] text-sm">
+                  SJ
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white leading-tight">Sarah Jenkins</h4>
+                  <span className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold block">Creative Media Lead</span>
+                </div>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Evaluates generative visual models, audio synthesis engines, video editors, and commercial licensing rights.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* SECTION 2: Our Mission */}

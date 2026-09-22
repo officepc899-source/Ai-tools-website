@@ -647,6 +647,35 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
         </div>
       </section>
 
+      {/* Editorial Transparency & Fact-Check Badge */}
+      <section className="p-4 sm:p-5 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/40 border border-indigo-200/70 dark:border-indigo-900/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div className="flex items-start gap-2.5">
+          <Award className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <span className="font-bold text-slate-900 dark:text-white block">
+              AIToolNest Editorial Independence &amp; Disclosure
+            </span>
+            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+              Every tool and software platform featured in this publication is evaluated using hands-on benchmark criteria. We maintain strict separation between editorial opinions and commercial partnerships. Some external links are affiliate links that may generate a referral commission at no additional cost to you.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => navigate('/editorial-policy')}
+            className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 font-bold hover:bg-indigo-50 dark:hover:bg-indigo-950 cursor-pointer transition-colors"
+          >
+            Editorial Policy
+          </button>
+          <button
+            onClick={() => navigate('/affiliate-disclosure')}
+            className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors"
+          >
+            Disclosure
+          </button>
+        </div>
+      </section>
+
       {/* Author Biography Box */}
       <section className="p-6 sm:p-8 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-xs">
         <img
