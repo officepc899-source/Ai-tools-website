@@ -65,7 +65,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
             <div className="flex items-center gap-2 truncate text-xs sm:text-sm">
               <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
               <strong className="text-slate-900 dark:text-white truncate">
-                {title || 'Explore 100% Free AI Software Tools — Verified & Tested'}
+                {title || 'Explore Free AI Software Tools & Daily Utilities'}
               </strong>
             </div>
           </div>
@@ -128,7 +128,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
                 {title || 'Find the Perfect AI Tool for Your Workflow in 30 Seconds'}
               </h4>
               <p className="text-xs text-slate-300 max-w-xl leading-relaxed">
-                Filter through verified AI software categories: writing assistants, code copilots, video generators, and workflow automation.
+                Filter through curated AI software categories: writing assistants, code copilots, video generators, and workflow automation.
               </p>
             </div>
             <button
@@ -167,10 +167,10 @@ export const AdBanner: React.FC<AdBannerProps> = ({
               <Bot className="w-5 h-5" />
             </div>
             <h5 className="text-sm font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] leading-snug">
-              {title || 'Top Free AI Tools Directory — No Credit Card Needed'}
+              {title || 'Free AI Tools Directory — No Credit Card Required'}
             </h5>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Explore 100% free AI writing tools, background removers, code generators, and student study aids.
+              Explore free and freemium AI writing tools, utilities, code helpers, and student resources.
             </p>
             <button
               onClick={() => {
@@ -199,10 +199,10 @@ export const AdBanner: React.FC<AdBannerProps> = ({
           <span className="text-[10px] text-slate-400 uppercase font-mono">Curated</span>
         </div>
         <h4 className="text-base font-bold text-slate-900 dark:text-white font-['Space_Grotesk'] mb-2">
-          {title || 'Search 60+ Verified AI Tools & In-Depth Benchmarks'}
+          {title || 'Search 60+ Curated AI Tools & Software Listings'}
         </h4>
         <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-          Compare pricing, pros &amp; cons, user ratings, and feature breakdowns for top AI platforms.
+          Compare pricing, pros &amp; cons, editorial assessments, and feature breakdowns for top AI platforms.
         </p>
       </div>
       <button

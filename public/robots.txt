@@ -3,6 +3,7 @@
 
 User-agent: *
 Allow: /
+Allow: /ads.txt
 Disallow: /admin
 Disallow: /api/
 Disallow: /checkout
@@ -11,9 +12,11 @@ Disallow: /*?*preview=true
 # Search Engine Crawlers Specific Rules
 User-agent: Mediapartners-Google
 Allow: /
+Allow: /ads.txt
 
 User-agent: Googlebot
 Allow: /
+Allow: /ads.txt
 Disallow: /admin
 Disallow: /api/
 

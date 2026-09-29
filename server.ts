@@ -1,6 +1,7 @@
 import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import path from 'path';
+import fs from 'fs';
 import crypto from 'crypto';
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
@@ -9,8 +10,31 @@ import { createServer as createViteServer } from 'vite';
 
 dotenv.config();
 
-const PORT = 3000;
+// Robust production environment detection (Cloud Run, Render, Railway, or dist bundle)
+const isProduction =
+  process.env.NODE_ENV === 'production' ||
+  Boolean(process.env.K_SERVICE) ||
+  Boolean(process.env.RENDER) ||
+  Boolean(process.env.RAILWAY_STATIC_URL) ||
+  (typeof __filename !== 'undefined' && (__filename.endsWith('.cjs') || __filename.endsWith('.js'))) ||
+  (!process.env.NODE_ENV && fs.existsSync(path.join(process.cwd(), 'dist', 'index.html')));
+
+if (isProduction && process.env.NODE_ENV !== 'production') {
+  process.env.NODE_ENV = 'production';
+}
+
+// Respect hosting environment port (e.g. Cloud Run, container, behind Cloudflare) with 3000 default
+const PORT = parseInt(process.env.PORT || '3000', 10);
 const SESSION_COOKIE_NAME = 'admin_session';
+
+// Process-level crash prevention to ensure connections are never dropped unexpectedly (Cloudflare 520/521)
+process.on('unhandledRejection', (reason) => {
+  console.error('[Process] Unhandled Promise Rejection:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('[Process] Uncaught Exception:', err);
+});
 
 // Helper to retrieve and validate admin environment variables dynamically on each request
 function getAdminConfig(): {
@@ -46,7 +70,7 @@ function getAdminConfig(): {
   };
 }
 
-// Rate-limiting tracker for local dev login attempts (IP -> { attempts, lockedUntil })
+// Rate-limiting tracker for login attempts (IP -> { attempts, lockedUntil })
 interface RateLimitInfo {
   attempts: number;
   lockedUntil: number;
@@ -57,6 +81,11 @@ const MAX_LOGIN_ATTEMPTS = 5;
 const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
 
 function getClientIp(req: Request): string {
+  // Support Cloudflare connecting IP header first
+  const cfIp = req.headers['cf-connecting-ip'];
+  if (typeof cfIp === 'string' && cfIp.trim()) {
+    return cfIp.trim();
+  }
   const forwarded = req.headers['x-forwarded-for'];
   if (typeof forwarded === 'string') {
     return forwarded.split(',')[0].trim();
@@ -72,7 +101,11 @@ function signToken(payload: string, secret: string): string {
 }
 
 // Create a cryptographically signed stateless session token
-function createSessionToken(email: string, role: string, secret: string): { token: string; csrfToken: string; expiresAt: number } {
+function createSessionToken(
+  email: string,
+  role: string,
+  secret: string
+): { token: string; csrfToken: string; expiresAt: number } {
   const sessionId = crypto.randomBytes(24).toString('hex');
   const csrfToken = crypto.randomBytes(24).toString('hex');
   const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
@@ -85,7 +118,10 @@ function createSessionToken(email: string, role: string, secret: string): { toke
 }
 
 // Verify a stateless session token
-function verifySessionToken(token: string, secret: string): { valid: boolean; email?: string; role?: string; csrfToken?: string; sessionId?: string } {
+function verifySessionToken(
+  token: string,
+  secret: string
+): { valid: boolean; email?: string; role?: string; csrfToken?: string; sessionId?: string } {
   if (!token || typeof token !== 'string') {
     return { valid: false };
   }
@@ -154,7 +190,7 @@ function verifyPassword(candidate: string, expected: string): boolean {
 function requireAdminAuth(req: Request, res: Response, next: NextFunction): void {
   const config = getAdminConfig();
   if (!config.configured || !config.sessionSecret) {
-    res.status(500).json({ error: config.error || 'Server configuration error' });
+    res.status(401).json({ error: 'Unauthorized: Admin authentication is not configured in server environment variables', authenticated: false });
     return;
   }
 
@@ -180,10 +216,56 @@ function requireAdminAuth(req: Request, res: Response, next: NextFunction): void
   next();
 }
 
+// Suspicious/scanner/exploit path patterns to reject immediately with 404 (prevents 5xx and unnecessary SPA fallbacks)
+const BLOCKED_PATH_PATTERNS = [
+  // Hidden files and sensitive directories
+  /\/\.(env|git|svn|ds_store|htaccess|htpasswd|aws|ssh|docker|local|vscode|idea|cache)/i,
+  /^\/\.(?!well-known\/).+/i,
+  // Common scanner probes, scripts, backups, configs, and archives
+  /\.(php|asp|aspx|jsp|cgi|pl|sh|bash|sql|bak|old|swp|conf|ya?ml|ini|cfg|env|tar|gz|zip|rar|7z|log)$/i,
+  // Known exploit probes (WordPress, databases, management endpoints)
+  /\/(wp-admin|wp-includes|wp-content|wp-login|xmlrpc|phpmyadmin|adminer|actuator|console|cgi-bin|solr|telescope|webconsole|invoker|jmx-console|phpinfo|myadmin|pma)/i,
+  // Source files, build tools, lockfiles, and server configuration
+  /\/(package\.json|package-lock\.json|bun\.lock|tsconfig\.json|vite\.config\.ts|server\.ts|server\.js|server\.cjs(\.map)?|metadata\.json|_headers|_redirects)$/i,
+  // Path traversal sequences
+  /(\.\.[\/\\]|%2e%2e)/i
+];
+
 async function startServer() {
   const app = express();
 
-  // Basic security headers
+  // Enable reverse proxy trust (Cloudflare CDN / Cloud Run)
+  app.set('trust proxy', true);
+
+  // 1. Pre-routing URI Validation Middleware (catches malformed URI encoding & null bytes before Express router)
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    try {
+      decodeURI(req.url);
+      const decodedPath = decodeURIComponent(req.path);
+      if (decodedPath.includes('\0') || req.url.includes('\0')) {
+        res.status(400).send('Bad Request');
+        return;
+      }
+      next();
+    } catch {
+      // Malformed percent-encoding like /%ff or /%c0%af returns 400 Bad Request instead of unhandled 5xx
+      res.status(400).send('Bad Request');
+    }
+  });
+
+  // 2. Immediate Block for Scanner / Exploit / Server Files (returns proper 404 instead of 5xx or SPA fallback)
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    const reqPath = req.path;
+    for (const pattern of BLOCKED_PATH_PATTERNS) {
+      if (pattern.test(reqPath)) {
+        res.status(404).send('Not Found');
+        return;
+      }
+    }
+    next();
+  });
+
+  // 3. Basic security headers
   app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
@@ -191,23 +273,27 @@ async function startServer() {
     next();
   });
 
-  // Body and cookie parsers
+  // 4. Body and cookie parsers
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
   app.use(cookieParser());
 
-  // Health check endpoint
+  // 5. Health check endpoint (for Cloudflare / host liveness checks)
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 
   // --- Admin Authentication Routes ---
 
-  // Check current session
+  // Check current session: Returns 200 with authenticated: false if unconfigured or unauthenticated (prevents 5xx errors)
   app.get('/api/admin/session', (req, res) => {
     const config = getAdminConfig();
     if (!config.configured || !config.sessionSecret) {
-      res.status(500).json({ error: config.error || 'Server configuration error', authenticated: false });
+      res.status(200).json({
+        authenticated: false,
+        configured: false,
+        message: 'Admin authentication is not configured in environment variables'
+      });
       return;
     }
 
@@ -221,9 +307,9 @@ async function startServer() {
         csrfToken: auth.csrfToken
       });
     } else {
-      res.status(401).json({
+      res.status(200).json({
         authenticated: false,
-        message: 'No valid admin session'
+        message: 'No active admin session'
       });
     }
   });
@@ -232,7 +318,7 @@ async function startServer() {
   app.post('/api/admin/login', (req, res) => {
     const config = getAdminConfig();
     if (!config.configured || !config.email || !config.password || !config.sessionSecret) {
-      res.status(500).json({ error: config.error || 'Server configuration error' });
+      res.status(400).json({ error: 'Admin authentication is not configured in server environment variables.' });
       return;
     }
 
@@ -327,27 +413,106 @@ async function startServer() {
   // Explicit ads.txt endpoint for Google AdSense crawler verification
   app.get('/ads.txt', (req, res) => {
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.send('google.com, pub-2683919410645700, DIRECT, f08c47fec0942fa0\n');
   });
 
+  // Unknown API routes return proper 404 JSON rather than falling through to HTML SPA
+  app.all('/api/*', (req, res) => {
+    res.status(404).json({ error: 'API endpoint not found' });
+  });
+
   // Vite middleware for development vs static build in production
-  if (process.env.NODE_ENV !== 'production') {
+  if (!isProduction) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
+    const distPath = fs.existsSync(path.join(process.cwd(), 'dist'))
+      ? path.join(process.cwd(), 'dist')
+      : path.resolve(__dirname);
+    const indexHtmlPath = path.join(distPath, 'index.html');
+
+    // Serve static files from dist directory with controlled options
+    app.use(
+      express.static(distPath, {
+        index: false,
+        dotfiles: 'ignore',
+        fallthrough: true,
+        maxAge: '1d'
+      })
+    );
+
+    // Missing assets under /assets return 404 rather than serving index.html
+    app.use('/assets', (req, res) => {
+      res.status(404).send('Asset Not Found');
+    });
+
+    // Any missing static file with an extension returns 404 rather than serving index.html
+    app.use((req, res, next) => {
+      if (path.extname(req.path)) {
+        res.status(404).send('Not Found');
+        return;
+      }
+      next();
+    });
+
+    // SPA HTML Fallback for GET and HEAD requests only
     app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+      res.sendFile(indexHtmlPath, (err) => {
+        if (err && !res.headersSent) {
+          res.status(404).send('Not Found');
+        }
+      });
+    });
+
+    // Catch all other HTTP methods on non-API routes
+    app.all('*', (req, res) => {
+      res.status(404).send('Not Found');
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  // Global Express error handler to guarantee no unhandled error produces an unexpected 5xx crash
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
+    const status = err?.status || err?.statusCode;
+
+    // Handle bad request / parsing / URI errors
+    if (err instanceof URIError || status === 400 || err?.type === 'entity.parse.failed') {
+      res.status(400).json({ error: 'Bad Request' });
+      return;
+    }
+
+    // Handle not found errors
+    if (err?.code === 'ENOENT' || status === 404) {
+      res.status(404).send('Not Found');
+      return;
+    }
+
+    // Preserve valid 4xx client errors from any middleware
+    if (typeof status === 'number' && status >= 400 && status < 500) {
+      res.status(status).json({ error: err.message || 'Client Error' });
+      return;
+    }
+
+    console.error('[ServerError]', err?.message || err);
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+  const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`✓ AIToolNest Server running securely on http://0.0.0.0:${PORT}`);
   });
+
+  // Cloudflare reverse proxy keep-alive and timeout configuration
+  // Cloudflare default idle keep-alive timeout is ~60 seconds.
+  // The origin keepAliveTimeout MUST exceed Cloudflare's 60s timeout to prevent Cloudflare 520 (abrupt TCP close race).
+  server.keepAliveTimeout = 65000; // 65 seconds
+  server.headersTimeout = 66000; // 66 seconds (must be > keepAliveTimeout)
+  server.requestTimeout = 120000; // 120 seconds
 }
 
 startServer();

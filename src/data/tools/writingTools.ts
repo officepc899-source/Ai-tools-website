@@ -5,98 +5,185 @@ export const writingTools: AITool[] = [
     id: 'tool-chatgpt',
     slug: 'chatgpt',
     name: 'ChatGPT',
-    tagline: 'Versatile conversational AI for drafting, coding, brainstorming, and research',
-    description: 'OpenAI’s conversational system trained to assist with drafting content, answering complex questions, coding, and workflow automation.',
-    fullDescription: 'ChatGPT is a state-of-the-art conversational AI developed by OpenAI. Operating across GPT-4o and advanced reasoning architectures, it powers multimodal inputs including text, voice, vision, and document analysis. It serves millions of solopreneurs, writers, and developers as an all-purpose intellectual assistant.',
+    tagline: 'General-purpose conversational AI assistant for writing, coding, brainstorming, and data analysis',
+    description: 'OpenAI’s conversational AI assistant designed to support drafting, technical debugging, research assistance, and workflow productivity.',
+    fullDescription: 'ChatGPT is an all-purpose conversational AI assistant developed by OpenAI. Designed to interpret and generate natural language and computer code, it assists users across drafting, editing, programming, data analysis, brainstorming, and research synthesis. It supports multiple interaction modes, including text dialogue, document uploads, conversational voice interactions, and image examination. The assistant’s practical usefulness depends on the user’s workflow, prompt specificity, applied constraints, and selected subscription tier.',
     category: 'ai-writing-tools',
     categoryLabel: 'AI Writing Tools',
-    categories: ['ai-writing-tools', 'ai-productivity-tools', 'free-ai-tools', 'ai-tools-for-students'],
+    categories: ['ai-writing-tools', 'ai-productivity-tools', 'free-ai-tools', 'ai-tools-for-students', 'ai-coding-tools'],
     pricingType: 'freemium',
-    pricingSummary: 'Free tier with GPT-4o mini; Plus plan at $20/month for priority access & advanced voice.',
+    pricingSummary: 'Offers a free tier with core conversational capabilities; paid options include Plus (approx. $20/month) for higher usage limits and tools, Business plans for organizations, and Pro for heavy computational workloads. Plans, model availability, usage limits, and features may change over time. Check OpenAI’s official pricing and product documentation for the latest details.',
     pricingPlans: [
       {
         name: 'Free',
         price: '$0',
         billing: 'forever free',
-        features: ['Access to GPT-4o mini & limited GPT-4o', 'Web browsing & data analysis', 'Standard memory & custom instructions', 'Community custom GPTs access']
+        features: [
+          'Everyday conversational AI chat and writing support',
+          'Web search and factual lookups where available',
+          'Limited file uploads and data analysis access',
+          'Voice input and image analysis capabilities',
+          'Access to community custom GPTs (subject to usage caps)'
+        ]
       },
       {
         name: 'Plus',
         price: '$20',
         billing: 'per month',
         popular: true,
-        features: ['Up to 5x higher message caps on GPT-4o', 'Advanced Data Analysis & Python code execution', 'DALL-E 3 image generation', 'Advanced Voice Mode', 'Custom GPT builder']
+        features: [
+          'Priority access and faster response speeds',
+          'Significantly higher message limits than the Free tier',
+          'Advanced data analysis with sandbox code execution',
+          'Image generation with DALL-E',
+          'Advanced Voice mode and custom GPT creation'
+        ]
       },
       {
-        name: 'Team',
-        price: '$25',
-        billing: 'per user / month (annual)',
-        features: ['Higher message limits', 'Admin console & shared workspace', 'Zero data training on business chats', 'Consolidated billing']
+        name: 'Business',
+        price: 'Contact / Workspace pricing',
+        billing: 'per user / workspace',
+        features: [
+          'Higher message allowances on current models',
+          'Workspace administration and member management console',
+          'Data privacy controls (business conversations excluded from model training by default)',
+          'Shared workspace custom GPTs and collaborative tooling'
+        ]
+      },
+      {
+        name: 'Pro',
+        price: '$200',
+        billing: 'per month (availability subject to OpenAI status)',
+        features: [
+          'Highest usage limits for intensive computational tasks',
+          'Extended access to advanced reasoning and research modes',
+          'Priority access to upcoming previews and agentic tools',
+          'Tailored for researchers, engineers, and heavy daily users'
+        ]
       }
     ],
-    bestFor: 'General content writing, brainstorming, complex reasoning, coding support, and document summaries.',
+    pricingDetailsNotes: 'Pricing structures and model availability should be checked directly on OpenAI’s official pricing documentation because plans, limits, and tiers can change over time. Certain reasoning modes have separate usage quotas.',
+    bestFor: 'General writing support, brainstorming, coding explanations, drafting emails, summarizing documents, and exploratory research.',
     targetUsers: ['Writers & Authors', 'Software Engineers', 'Students & Academics', 'Business Strategists', 'Solopreneurs'],
-    supportedPlatforms: ['Web App', 'iOS & Android', 'macOS & Windows Desktop', 'REST API'],
+    supportedPlatforms: ['Web Browser (chatgpt.com)', 'iOS & Android Mobile Apps', 'macOS & Windows Desktop Apps', 'OpenAI Platform API'],
     keyFeatures: [
-      'Multimodal input supporting documents, spreadsheets, images, and voice',
-      'Advanced data analysis with sandbox Python code execution',
-      'Custom GPT directory with tailored workflows and system instructions',
-      'Long-term context memory retaining personalized user preferences'
+      'Multimodal Input & Vision: Upload images, documents, and spreadsheets alongside text prompts to ask questions, extract text, or analyze visual diagrams.',
+      'File & Document Analysis: Inspect PDFs, text documents, and research notes to extract key findings, generate summaries, or cross-examine long text.',
+      'Data Analysis & Python Execution: Run Python code in a secure sandbox to analyze tabular datasets (CSV/Excel), compute statistics, and render charts.',
+      'Coding & Technical Assistance: Explain syntax, diagnose compiler errors, write boilerplate functions, refactor code, and translate across programming languages.',
+      'Custom GPTs & Tailored Instructions: Build or use customized versions of ChatGPT configured with specialized instructions, uploaded reference files, and targeted capabilities.',
+      'Memory & Personalization: Optionally remembers user preferences, formatting requirements, and ongoing background context across conversations.',
+      'Voice & Audio Conversations: Speak directly to the model on supported mobile and desktop apps with natural, conversational voice turn-taking.',
+      'Web Search & Real-Time Lookups: Queries the web to answer timely questions with linked external reference sources when enabled.'
     ],
     pros: [
-      'Extremely versatile across writing, coding, and logic problems',
-      'Generous free tier with zero initial barrier to entry',
-      'Fast response times and high natural language fluency',
-      'Vast library of specialized custom GPTs'
+      'Broad range of general-purpose knowledge-work use cases across writing, coding, and brainstorming',
+      'Strong assistance with drafting, outlining, rewriting, and translating across languages',
+      'Capable coding support for explaining syntax, debugging errors, and drafting boilerplate code',
+      'Multiple input and output modes, including text, document uploads, voice, and image analysis',
+      'Customization features like custom instructions, memory settings, and custom GPTs where available',
+      'Accessible free tier allowing users to evaluate core capabilities without upfront payment'
     ],
     cons: [
-      'Can occasionally hallucinate niche citations or facts',
-      'Free tier subject to peak-hour rate limits',
-      'Requires prompt iteration for nuanced brand voices'
+      'AI-generated answers can contain factual errors, mathematical slips, or plausible-sounding hallucinations',
+      'Important academic, legal, financial, or medical claims must be independently verified',
+      'Model access, message limits, and feature availability vary significantly by subscription tier',
+      'Advanced capabilities such as larger file analysis quotas and expanded reasoning modes require paid plans',
+      'Quality of output depends heavily on prompt clarity, provided context, and user constraints'
     ],
     limitations: [
-      'Free tier switches to GPT-4o mini during periods of server congestion',
-      'Web browsing occasionally struggles with behind-paywall sources',
-      'Custom GPT actions require technical understanding of OpenAPI schemas'
+      'Message caps and feature availability adjust periodically based on server demand and subscription tier',
+      'Web search lookups may occasionally encounter paywalled or restricted sources',
+      'Complex reasoning tasks can take longer to process and remain subject to hourly query quotas',
+      'Output style can default to formulaic prose unless specific tone and structure directives are given'
     ],
     verdict: {
-      summary: 'ChatGPT remains the gold standard in conversational AI versatility. For everyday brainstorming, technical code debugging, and iterative drafting, no tool matches its ecosystem breadth and value.',
-      recommendation: 'Must-Have',
-      score: 4.9,
-      bottomLine: 'The essential Swiss Army knife for modern digital knowledge work.'
+      summary: 'ChatGPT is a general-purpose AI assistant that can support writing, coding, brainstorming, research, document analysis, and other knowledge-work tasks. Its usefulness depends on the user’s workflow, available features, usage limits, and selected plan.',
+      recommendation: 'Highly Recommended',
+      score: 4.8,
+      bottomLine: 'A flexible multi-purpose conversational AI assistant suited for drafting, debugging, and iterative exploration when paired with user verification.'
     },
     competitorComparison: [
       {
         competitorName: 'Claude',
-        advantage: 'ChatGPT offers superior voice mode, native Python sandboxing, and custom GPT storefronts.',
-        disadvantage: 'Claude delivers more nuanced human prose and has larger raw context window retention in Artifacts.'
+        advantage: 'Offers integrated voice conversation mode, sandboxed Python code execution for data analysis, and an extensive custom GPT directory.',
+        disadvantage: 'Focuses on nuanced long-form writing style, interactive code and SVG visual Artifacts, and extensive document context processing.'
+      },
+      {
+        competitorName: 'Gemini',
+        advantage: 'Provides custom instructions, persistent memory preferences, and customizable GPT workflows.',
+        disadvantage: 'Provides deep integration across Google Workspace applications (Docs, Gmail, Drive) and expansive multimodal token context windows.'
       },
       {
         competitorName: 'Perplexity',
-        advantage: 'Better for continuous creative dialogue, coding iteration, and complex agentic workflows.',
-        disadvantage: 'Perplexity provides faster cited live web search with transparent footnotes.'
+        advantage: 'Optimized for back-and-forth conversational ideation, code refactoring, and multi-turn drafting sessions.',
+        disadvantage: 'Structured specifically as an AI search engine delivering real-time web summaries accompanied by direct inline citations and sources.'
       }
     ],
     howToUse: [
-      { step: 1, title: 'Create Account & Set Instructions', description: 'Sign up at chatgpt.com and configure custom instructions with your preferred writing tone.' },
-      { step: 2, title: 'Enter Context-Rich Prompt', description: 'Specify persona, objective, target audience, constraints, and desired output format.' },
-      { step: 3, title: 'Iterate & Refine', description: 'Ask follow-up questions to refine drafts, format tables, or generate variations.' }
+      { step: 1, title: 'Create or Sign into Your Account', description: 'Visit chatgpt.com or open the mobile or desktop app. Sign in with your email or SSO provider to access your chat workspace.' },
+      { step: 2, title: 'Define the Goal of Your Task', description: 'Clarify what you want to achieve before prompting—such as drafting an article, debugging a code snippet, or summarizing research.' },
+      { step: 3, title: 'Give Useful Context and Constraints', description: 'State your target audience, tone, length, and format. Explicit constraints dramatically improve output relevance.' },
+      { step: 4, title: 'Review and Verify Important Information', description: 'Carefully examine the output for factual accuracy, logic, and potential hallucinations. Never take critical calculations or citations at face value.' },
+      { step: 5, title: 'Refine the Result with Follow-Up Prompts', description: 'Ask ChatGPT to rewrite specific sections, adjust tone, format as a markdown table, or expand on key arguments.' }
     ],
     alternatives: ['Claude', 'Gemini', 'Perplexity'],
     officialUrl: 'https://chatgpt.com',
     affiliateUrl: 'https://chatgpt.com',
     hasAffiliate: false,
-    rating: 4.9,
-    reviewsCount: 42000,
-    badges: ['Popular', 'Verified Free Plan'],
+    rating: 4.8,
+    reviewsCount: 1,
+    badges: ['Popular', 'Free Tier Available'],
     iconName: 'Bot',
     iconBg: 'bg-emerald-600',
     verifiedDate: 'September 2026',
-    useCases: ['Drafting blog posts', 'Debugging code', 'Summarizing PDFs', 'Customer support drafts'],
+    useCases: [
+      'Writing and Editing: Draft articles, rewrite awkward sentences, format outlines, and generate copy variations tailored to specific tones.',
+      'Coding and Debugging: Explain unfamiliar code syntax, write boilerplate functions, troubleshoot error messages, and suggest refactoring improvements.',
+      'Document Summarization: Condense lengthy reports, meeting transcripts, and articles into executive summaries and bulleted key takeaways.',
+      'Research Assistance: Explore broad topics, synthesize background information, find starting points for projects, and query live web sources.',
+      'Learning and Study Support: Break down complex concepts into step-by-step explanations, generate practice quizzes, and explain technical terminology.',
+      'Brainstorming and Ideation: Develop project angles, headline options, marketing angles, naming ideas, and strategic questions for planning sessions.',
+      'Customer Support Drafts: Prepare polite, empathetic responses to customer inquiries, draft FAQ entries, and translate messages into multiple languages.',
+      'Data and File Analysis: Upload spreadsheets or CSVs to compute summaries, identify trends, inspect columns, and plot visual charts via Python execution.'
+    ],
     faqs: [
-      { question: 'Is ChatGPT free to use?', answer: 'Yes, ChatGPT offers a completely free tier with access to GPT-4o mini and limited daily access to GPT-4o without entering payment details.' },
-      { question: 'What is the price of ChatGPT Plus?', answer: 'ChatGPT Plus costs $20 per month and includes higher message limits, DALL-E 3 image generation, and Advanced Voice Mode.' },
-      { question: 'Does ChatGPT save my chat history?', answer: 'Yes, chat history is saved to your account by default, but you can disable chat history and model training in Data Controls settings.' }
+      {
+        question: 'What is ChatGPT used for?',
+        answer: 'ChatGPT is a general-purpose AI assistant used for writing assistance, content outlining, coding support, language translation, document summarization, brainstorming, and research synthesis. Its utility depends on how users frame their prompts and the specific task requirements.'
+      },
+      {
+        question: 'Is ChatGPT free to use?',
+        answer: 'Yes. OpenAI provides a free tier that gives users access to everyday text chatting, web search lookups, limited file uploads, and voice capabilities without requiring a paid subscription. Usage caps and model availability can change over time.'
+      },
+      {
+        question: 'What is ChatGPT Plus?',
+        answer: 'ChatGPT Plus is an individual paid subscription (approximately $20/month) that offers higher message limits, priority access during peak traffic, faster responses, advanced data analysis via sandbox Python code execution, DALL-E image generation, and access to upcoming features.'
+      },
+      {
+        question: 'Can ChatGPT help with coding?',
+        answer: 'Yes. ChatGPT can explain programming concepts, help debug error logs, generate starter boilerplate code, refactor existing functions, and assist with multiple programming languages. Developers should always review and test generated code before deployment.'
+      },
+      {
+        question: 'Can ChatGPT analyze files and documents?',
+        answer: 'Yes. Users can upload documents such as PDFs, text files, and spreadsheets. ChatGPT can summarize the contents, answer targeted questions about the text, or extract specific data points. Free and paid accounts have different upload allowances.'
+      },
+      {
+        question: 'Can ChatGPT create or analyze images?',
+        answer: 'Yes. ChatGPT supports multimodal vision, allowing users to upload images for description, text extraction, or analysis. Image generation is also supported via integrated DALL-E image tools, with usage allowances varying based on your plan tier.'
+      },
+      {
+        question: 'Is ChatGPT useful for students and academics?',
+        answer: 'ChatGPT can help students brainstorm essay topics, break down complex concepts into simpler terms, study for exams, and practice problem-solving. However, users must verify factual citations independently, as AI models can hallucinate details.'
+      },
+      {
+        question: 'Can ChatGPT make mistakes or hallucinate?',
+        answer: 'Yes. Large language models generate responses based on probabilistic patterns and can produce incorrect facts, misleading explanations, or outdated information. Critical facts, numerical calculations, and citations should always be verified against authoritative sources.'
+      },
+      {
+        question: 'Does ChatGPT save chat history?',
+        answer: 'Yes, ChatGPT saves your conversation history by default so you can resume previous discussions. Users can manage or disable chat history and model training permissions anytime through the Data Controls section in account settings.'
+      }
     ]
   },
   {

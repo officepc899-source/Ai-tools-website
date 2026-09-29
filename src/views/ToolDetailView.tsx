@@ -245,7 +245,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
         return (
           <span className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 text-xs font-bold rounded-lg uppercase tracking-wider shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <span>100% Free</span>
+            <span>Free</span>
           </span>
         );
       case 'freemium':
@@ -283,7 +283,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
     const list: { id: string; label: string }[] = [];
     if (hasInteractiveStudio) list.push({ id: 'interactive-studio', label: 'Interactive Studio' });
     list.push({ id: 'overview', label: 'Overview' });
-    if (tool.verdict) list.push({ id: 'verdict', label: 'Our Verdict' });
+    if (tool.verdict) list.push({ id: 'verdict', label: 'Editorial Assessment' });
     if (tool.targetUsers && tool.targetUsers.length > 0) list.push({ id: 'target-users', label: 'Who Should Use This' });
     if (tool.keyFeatures && tool.keyFeatures.length > 0) list.push({ id: 'features', label: 'Key Features' });
     if (tool.limitations && tool.limitations.length > 0) list.push({ id: 'limitations', label: 'Limitations' });
@@ -303,7 +303,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <SEOHead
         title={`${tool.name} Review, Pricing & Alternatives (2026 Guide) - AIToolNest`}
-        description={`${tool.name} audited review: ${tool.description} Read pros, cons, verified pricing tiers, alternatives, and full feature breakdown.`}
+        description={`${tool.name} review: ${tool.description} Read pros, cons, pricing tiers, alternatives, and full feature breakdown.`}
         canonicalUrl={`https://aitoolnest.com/#/ai-tools/${tool.slug}`}
         ogImage={`https://aitoolnest.com/assets/og-${tool.slug}.png`}
         schemaData={schemaData}
@@ -362,7 +362,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
 
                 <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shadow-2xs">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <span>Audited {tool.verifiedDate || '2026'}</span>
+                  <span>Last Reviewed: {tool.verifiedDate || 'September 2026'}</span>
                 </span>
 
                 {tool.badges?.includes('Staff Pick') && (
@@ -381,13 +381,12 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                 {tool.tagline || tool.description}
               </p>
 
-              {/* Rating & Review volume bar */}
+              {/* Review status bar */}
               <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 pt-1 flex-wrap">
                 <div className="flex items-center gap-1.5 font-semibold text-slate-800 dark:text-slate-200">
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  <span className="text-sm font-bold">{tool.rating.toFixed(1)}</span>
-                  <span className="text-slate-400 dark:text-slate-500 font-normal">
-                    ({tool.reviewsCount.toLocaleString()} verified ratings)
+                  <ShieldCheck className="w-4 h-4 text-indigo-500" />
+                  <span className="font-semibold text-slate-700 dark:text-slate-300">
+                    Editorial Assessment
                   </span>
                 </div>
                 <span>•</span>
@@ -521,12 +520,12 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
 
           {/* SECTION: Overview & Best For */}
           <section id="overview" className="space-y-6">
-            {/* "Best For" Hero Section */}
+            {/* "Suitable For" Hero Section */}
             {tool.bestFor && (
               <div className="bg-gradient-to-r from-indigo-50/90 via-purple-50/70 to-sky-50/90 dark:from-indigo-950/40 dark:via-purple-950/30 dark:to-sky-950/40 border border-indigo-200/80 dark:border-indigo-800/60 rounded-2xl p-6 shadow-2xs">
                 <div className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 font-mono mb-1.5 flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                  <span>Best For</span>
+                  <span>Suitable For</span>
                 </div>
                 <p className="text-slate-800 dark:text-slate-200 text-base sm:text-lg font-semibold leading-relaxed">
                   {tool.bestFor}
@@ -621,18 +620,16 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                         Editorial Assessment
                       </span>
                       <h2 className="text-xl sm:text-2xl font-black text-white font-['Space_Grotesk']">
-                        Our Verdict on {tool.name}
+                        Editorial Assessment of {tool.name}
                       </h2>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 bg-indigo-800/60 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-indigo-600/50">
-                    <span className="text-xs text-indigo-200 font-medium">Verdict:</span>
+                    <span className="text-xs text-indigo-200 font-medium">Assessment:</span>
                     <span className="text-xs font-extrabold text-emerald-300 uppercase tracking-wider">
                       {tool.verdict.recommendation}
                     </span>
-                    <span className="text-slate-400">•</span>
-                    <span className="text-sm font-black text-white">{tool.verdict.score}/5.0</span>
                   </div>
                 </div>
 
@@ -676,7 +673,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                   <Target className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                   <div>
                     <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 font-mono block mb-0.5">
-                      Best Suited For
+                      Suitable For
                     </span>
                     <p className="text-sm font-semibold text-slate-900 dark:text-white">
                       {tool.bestFor}
@@ -686,24 +683,41 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                {tool.targetUsers.map((user, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-center gap-3.5"
-                  >
-                    <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold text-xs flex items-center justify-center shrink-0">
-                      <Check className="w-4 h-4" />
+                {tool.targetUsers.map((user, idx) => {
+                  const getPersonaExplanation = (persona: string): string => {
+                    const explanations: Record<string, string> = {
+                      'Writers & Authors': 'Useful for brainstorming topics, creating outlines, rewriting drafts, summarizing material, and generating content variations.',
+                      'Software Engineers': 'Useful for explaining code, debugging errors, generating examples, refactoring code, and working through technical problems.',
+                      'Students & Academics': 'Useful for explanations, study planning, summarization, brainstorming, and creating practice questions. Important academic facts should still be verified.',
+                      'Business Strategists': 'Useful for brainstorming, drafting documents, analyzing information, creating plans, and exploring business scenarios.',
+                      'Solopreneurs': 'Useful for content planning, customer-support drafts, research assistance, workflow ideas, and everyday business tasks.',
+                      'Marketers & Copywriters': 'Useful for generating ad headlines, drafting social media captions, email campaigns, and testing audience messaging.',
+                      'Product Managers': 'Useful for drafting user stories, scoping PRDs, summarizing customer feedback, and preparing feature roadmaps.',
+                      'Researchers & Analysts': 'Useful for exploratory literature reviews, summarizing long PDF reports, synthesizing notes, and data prep.',
+                      'Educators & Teachers': 'Useful for formulating lesson plans, drafting quiz items, simplifying complex concepts, and instructional design.'
+                    };
+                    return explanations[persona] || `Tailored workflows and productivity tools structured for ${persona.toLowerCase()}.`;
+                  };
+
+                  return (
+                    <div
+                      key={idx}
+                      className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-start gap-3.5"
+                    >
+                      <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                        <Check className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">
+                          {user}
+                        </h3>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                          {getPersonaExplanation(user)}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">
-                        {user}
-                      </h3>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                        Tailored workflows specifically designed for this profile.
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
           )}
@@ -729,21 +743,32 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {tool.keyFeatures.map((feat, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-start gap-3"
-                  >
-                    <div className="p-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
-                      <Check className="w-3.5 h-3.5" />
+                {tool.keyFeatures.map((feat, idx) => {
+                  const hasSeparator = feat.includes(':');
+                  const title = hasSeparator ? feat.split(':')[0].trim() : feat;
+                  const description = hasSeparator ? feat.split(':').slice(1).join(':').trim() : null;
+
+                  return (
+                    <div
+                      key={idx}
+                      className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-start gap-3"
+                    >
+                      <div className="p-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5">
+                        <Check className="w-3.5 h-3.5" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-snug">
+                          {title}
+                        </h3>
+                        {description && (
+                          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                            {description}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-snug">
-                        {feat}
-                      </h3>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
           )}
@@ -760,7 +785,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                 </div>
                 <div>
                   <div className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 font-mono">
-                    User Trust & Transparency
+                    User Considerations & Transparency
                   </div>
                   <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
                     Limitations & What to Consider
@@ -769,7 +794,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
               </div>
 
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-                To help you make an informed decision, our editorial audit flags these specific constraints before you invest time or money:
+                To help you make an informed decision, our editorial review notes these specific constraints before you invest time or money:
               </p>
 
               <div className="space-y-2.5">
@@ -958,15 +983,15 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                       </span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                      <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50">
-                        <span className="font-bold text-emerald-800 dark:text-emerald-300 block mb-1">
-                          {tool.name} Advantage:
+                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80">
+                        <span className="font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                          {tool.name}
                         </span>
-                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{comp.advantage}</p>
+                        <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{comp.advantage}</p>
                       </div>
-                      <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-750 border border-slate-200 dark:border-slate-700">
-                        <span className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
-                          {comp.competitorName} Advantage:
+                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80">
+                        <span className="font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                          {comp.competitorName}
                         </span>
                         <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{comp.disadvantage}</p>
                       </div>
@@ -977,25 +1002,20 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
             </section>
           )}
 
-          {/* SECTION: Audited Performance Benchmarks */}
+          {/* SECTION: Evaluation Criteria */}
           <section className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
               <div>
                 <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono mb-0.5">
-                  Editorial Audit
+                  Editorial Assessment
                 </div>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
-                  AIToolNest Score Breakdown
+                  Editorial Evaluation Criteria
                 </h2>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="text-3xl font-black text-indigo-600 dark:text-indigo-400">
-                  {tool.rating.toFixed(1)}
-                </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 leading-tight">
-                  <span className="font-bold text-slate-800 dark:text-slate-200 block">Out of 5.0</span>
-                  <span>Overall Rating</span>
-                </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-xl text-xs font-bold border border-indigo-200 dark:border-indigo-800">
+                <ShieldCheck className="w-4 h-4" />
+                <span>Qualitative Review</span>
               </div>
             </div>
 
@@ -1007,15 +1027,9 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900 dark:text-white text-sm">{rating.label}</span>
-                    <span className="font-mono font-bold text-indigo-600 dark:text-indigo-400 text-sm">
-                      {rating.score} / 5.0
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300">
+                      Editorial Focus
                     </span>
-                  </div>
-                  <div className="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
-                    <div
-                      className="bg-indigo-600 h-full rounded-full"
-                      style={{ width: `${(Number(rating.score) / 5) * 100}%` }}
-                    />
                   </div>
                   <p className="text-xs text-slate-500 dark:text-slate-400">{rating.desc}</p>
                 </div>
@@ -1036,7 +1050,9 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                 {tool.name} Pricing Plans (2026)
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Audited directly from official pricing documentation.
+                {tool.slug === 'chatgpt'
+                  ? "Pricing information should be checked against OpenAI's official pricing documentation because plans and limits can change."
+                  : "Pricing information should be checked against official documentation because plans and limits can change."}
               </p>
             </div>
 
@@ -1130,16 +1146,16 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
               </div>
               <div>
                 <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono">
-                  Competitors
+                  Alternatives
                 </div>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
-                  Top Alternatives to {tool.name}
+                  Alternatives to {tool.name}
                 </h2>
               </div>
             </div>
 
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              Comparing other AI software? Explore these audited alternatives with similar workflow capabilities:
+              Comparing other AI software? Explore these alternatives with similar workflow capabilities:
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
@@ -1199,7 +1215,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
             >
               <div>
                 <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono mb-1">
-                  Verified FAQs
+                  Frequently Asked Questions
                 </div>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-['Space_Grotesk']">
                   Frequently Asked Questions About {tool.name}
@@ -1244,7 +1260,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                 AIToolNest Editorial Review Standards
               </div>
               <p className="leading-relaxed">
-                Every AI tool in our directory undergoes hands-on prompt testing, feature verification, and pricing audit by our team. We do not accept payment to artificially boost ratings or alter cons. If you notice an outdated pricing tier, please notify our editorial desk.
+                AI tools in our directory are reviewed using available product information, feature checks, pricing/access information, and editorial research. We aim to keep listings accurate and update them when important information changes.
               </p>
             </div>
           </div>
@@ -1280,11 +1296,11 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
 
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800">
                 <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                  <Star className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Rating</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Review Type</span>
                 </span>
-                <span className="font-bold text-slate-800 dark:text-slate-200">
-                  {tool.rating.toFixed(1)} / 5.0 ({tool.reviewsCount.toLocaleString()})
+                <span className="font-semibold text-slate-800 dark:text-slate-200">
+                  Editorial Assessment
                 </span>
               </div>
 
@@ -1303,9 +1319,9 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
               <div className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800">
                 <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Audited Date</span>
+                  <span>Last Reviewed</span>
                 </span>
-                <span className="font-semibold text-slate-800 dark:text-slate-200">{tool.verifiedDate || '2026'}</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">{tool.verifiedDate || 'September 2026'}</span>
               </div>
 
               <div className="flex items-center justify-between py-1">
@@ -1422,7 +1438,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
                 Related AI Tools in {tool.categoryLabel}
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                Other audited software tools in this category evaluated by our lab
+                Other software tools in this category evaluated by our editorial team
               </p>
             </div>
             <button
