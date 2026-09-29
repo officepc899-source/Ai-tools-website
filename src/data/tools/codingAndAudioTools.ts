@@ -556,5 +556,240 @@ export const codingAndAudioTools: AITool[] = [
       { question: 'Does Replit offer a free plan?', answer: 'Yes, Replit offers a free Starter plan with standard cloud compute for public projects and interactive coding.' },
       { question: 'Can you deploy web applications on Replit?', answer: 'Yes, Replit includes one-click deployments with built-in SSL certificates and custom domain support.' }
     ]
+  },
+  {
+    id: 'tool-lovable',
+    slug: 'lovable',
+    name: 'Lovable',
+    tagline: 'AI full-stack software engineer and web application builder from natural language',
+    description: 'Transform natural language prompts into production-grade full-stack web applications with visual editing, Supabase database integration, and two-way GitHub sync.',
+    fullDescription: 'Lovable (lovable.dev) is an autonomous AI software development platform designed to enable developers, product teams, and creators to build production-grade web applications through conversation. By translating natural language specifications into modern TypeScript, React, Tailwind CSS, and Node.js code, Lovable constructs complete frontend layouts, state management, backend APIs, and database schemas in real time. It features two-way GitHub repository synchronization, instant Supabase authentication and database integration, and customizable subdomains or custom domain publishing.',
+    category: 'ai-coding',
+    categoryLabel: 'AI Coding',
+    categories: ['ai-coding', 'ai-business', 'ai-productivity', 'free-ai-tools'],
+    pricingType: 'freemium',
+    pricingSummary: 'Free plan with 5 daily credits (up to 30/month); Pro plan starts at $25/month for 100 monthly credits; Business plan at $50/month.',
+    pricingPlans: [
+      {
+        name: 'Free',
+        price: '$0',
+        billing: 'forever free',
+        features: [
+          '5 daily credits (max 30/month)',
+          'Public project creation',
+          'Hosting on lovable.app subdomain',
+          'GitHub version control integration',
+          'Community support'
+        ]
+      },
+      {
+        name: 'Pro',
+        price: '$25',
+        billing: 'per month',
+        popular: true,
+        features: [
+          '100 monthly credits + daily credits',
+          'Private web projects',
+          'Custom domain hosting',
+          'Remove Lovable badge',
+          'Role-based access permissions'
+        ]
+      },
+      {
+        name: 'Business',
+        price: '$50',
+        billing: 'per month',
+        features: [
+          '100 monthly credits included',
+          'Team shared workspaces',
+          'Single Sign-On (SSO)',
+          'Data privacy training opt-out',
+          'Priority customer support'
+        ]
+      }
+    ],
+    bestFor: 'Engineers, startup founders, product managers, and entrepreneurs looking to prototype and launch full-stack web applications rapidly.',
+    targetUsers: ['Full-Stack Web Developers', 'Startup Founders & Solopreneurs', 'Product Managers', 'UI/UX Designers'],
+    supportedPlatforms: ['Web Browser (Cloud)'],
+    keyFeatures: [
+      'Natural language to full-stack web application generation (React, TypeScript, Tailwind)',
+      'Visual inline component editing and real-time live preview rendering',
+      'Native Supabase backend integration for authentication, PostgreSQL storage, and edge functions',
+      'Two-way GitHub repository synchronization with clean, human-readable code',
+      'One-click web deployment with custom domains and SSL'
+    ],
+    pros: [
+      'Generates responsive, production-quality React and Tailwind code rather than rigid proprietary blocks',
+      'Full two-way synchronization with GitHub allows developers to take code and edit locally anytime',
+      'Built-in database and authentication via Supabase eliminates manual backend infrastructure scaffolding',
+      'Active visual inspector lets users select and re-prompt specific UI elements'
+    ],
+    cons: [
+      'Complex workflows and heavy multi-file refactoring consume monthly credits quickly',
+      'Free tier projects are public and limited by daily credit quotas'
+    ],
+    limitations: [
+      'Credits apply to both creation and iterative updates; complex builds may require higher subscription tiers',
+      'Requires a Supabase project connection for persistent data storage and authentication'
+    ],
+    verdict: {
+      summary: 'Lovable represents the leading edge of AI web application builders. By generating standard React and Tailwind code connected to real cloud databases and Git repositories, it avoids vendor lock-in while drastically reducing development time from weeks to hours.',
+      recommendation: 'Highly Recommended',
+      score: 4.9,
+      bottomLine: 'A standout full-stack AI builder that creates clean codebases you can export, customize, and deploy to production.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'v0 by Vercel',
+        advantage: 'Builds full-stack applications with databases, authentication, and routing rather than isolated frontend UI components.',
+        disadvantage: 'v0 excels at quick, zero-config component generation with deep Vercel ecosystem alignment.'
+      },
+      {
+        competitorName: 'Cursor',
+        advantage: 'Operates in the browser with instant visual previews and no local terminal or Node.js environment needed.',
+        disadvantage: 'Cursor runs as a full local desktop IDE with direct access to local enterprise Git codebases and debugging tools.'
+      }
+    ],
+    howToUse: [
+      { step: 1, title: 'Describe Your Web Application', description: 'Log in at lovable.dev and enter a prompt detailing your app concept, layout requirements, and desired features.' },
+      { step: 2, title: 'Review and Refine Visually', description: 'Watch Lovable build the app in real time, test the live preview, and click UI elements to request specific revisions.' },
+      { step: 3, title: 'Connect Backend and Deploy', description: 'Link your Supabase account for database storage and auth, sync to GitHub, and deploy with a custom domain.' }
+    ],
+    alternatives: ['Bolt.new', 'v0 by Vercel', 'Replit', 'Cursor'],
+    officialUrl: 'https://lovable.dev',
+    affiliateUrl: 'https://lovable.dev',
+    hasAffiliate: false,
+    rating: 4.8,
+    reviewsCount: 9200,
+    badges: ['AI App Builder', 'Full-Stack', 'Verified Free Tier'],
+    iconName: 'Code',
+    iconBg: 'bg-violet-600',
+    verifiedDate: 'September 2026',
+    useCases: ['Full-stack SaaS MVPs', 'Internal business dashboards', 'Customer client portals', 'Interactive web tools and calculators'],
+    tags: ['AI Coding', 'App Builder', 'Full Stack', 'Web Development', 'React', 'Supabase', 'No-Code/Low-Code'],
+    seoTitle: 'Lovable: AI Full-Stack App Builder & Software Engineer',
+    seoDescription: 'Explore Lovable (lovable.dev), the conversational AI platform that builds production-grade full-stack web applications with React, Supabase, and GitHub sync.',
+    faqs: [
+      { question: 'Is Lovable free to use?', answer: 'Yes, Lovable offers a free plan providing 5 daily credits up to 30 credits per month for testing and public projects.' },
+      { question: 'Can I export the code created in Lovable?', answer: 'Yes, Lovable supports bidirectional GitHub synchronization, allowing you to clone, download, and host the standard TypeScript/React code on any server.' },
+      { question: 'Does Lovable support databases and user authentication?', answer: 'Yes, Lovable features native 1-click integration with Supabase for PostgreSQL databases, user authentication, and storage.' }
+    ]
+  },
+  {
+    id: 'tool-bolt-new',
+    slug: 'bolt-new',
+    name: 'Bolt.new',
+    tagline: 'In-browser AI full-stack development workspace powered by WebContainers',
+    description: 'Prompt, run, edit, and deploy full-stack Node.js and React applications directly inside your browser without any local setup.',
+    fullDescription: 'Bolt.new is an in-browser full-stack development environment developed by StackBlitz. Powered by WebContainers technology, Bolt.new runs a complete Node.js operating runtime entirely within the browser sandbox via WebAssembly. Users can prompt an AI engineer to architect, code, test, and run full-stack web applications, install real npm packages, start dev servers, inspect terminal logs, and deploy directly to Netlify or cloud providers without installing Node.js, Git, or Docker locally.',
+    category: 'ai-coding',
+    categoryLabel: 'AI Coding',
+    categories: ['ai-coding', 'ai-business', 'ai-productivity', 'free-ai-tools'],
+    pricingType: 'freemium',
+    pricingSummary: 'Free plan includes 1M tokens/month (300k daily cap); Pro tier at $25/month provides 10M tokens/month with rollover; Teams at $30/user/month.',
+    pricingPlans: [
+      {
+        name: 'Free',
+        price: '$0',
+        billing: 'forever free',
+        features: [
+          '1 million AI tokens per month (300k daily cap)',
+          'In-browser Node.js WebContainers runtime',
+          'Real npm package installation',
+          'Public & private browser projects',
+          'Hosting deployment with Bolt branding'
+        ]
+      },
+      {
+        name: 'Pro',
+        price: '$25',
+        billing: 'per month',
+        popular: true,
+        features: [
+          '10 million tokens/month with rollover',
+          'No daily token cap',
+          'Remove Bolt branding on deployed sites',
+          'Custom domain support & SSL',
+          '100MB file uploads & larger web request limits'
+        ]
+      },
+      {
+        name: 'Teams',
+        price: '$30',
+        billing: 'per user / month',
+        features: [
+          'Centralized team workspace & administration',
+          'Collaboration on private collections',
+          'Private GitHub repository sync',
+          'Dedicated priority support'
+        ]
+      }
+    ],
+    bestFor: 'Web developers, full-stack engineers, and learners seeking a complete browser-based dev environment that installs npm packages and runs live Node.js servers from natural language.',
+    targetUsers: ['Full-Stack Developers', 'Frontend Engineers', 'Product Prototypers', 'Coding Students & Bootcamp Learners'],
+    supportedPlatforms: ['Web Browser (Desktop Chrome, Firefox, Safari, Edge)'],
+    keyFeatures: [
+      'WebContainers in-browser Node.js runtime executing npm tools and dev servers entirely client-side',
+      'Prompt-to-full-stack app generation across Next.js, Vite, Remix, Svelte, and Node backends',
+      'Live terminal execution, real-time code editor with syntax highlighting, and instant hot-reload preview',
+      'One-click deployment to Netlify and Bolt Cloud with custom domain support',
+      'Download projects as clean ZIP files or push directly to GitHub repositories'
+    ],
+    pros: [
+      'Zero environment friction: installs npm packages and executes real Node.js servers in seconds without local tooling',
+      'Interactive terminal lets you see npm build errors and watch the AI debug issues automatically',
+      'Outputs standard frameworks (Vite, React, Tailwind, Next.js) with no proprietary runtime lock-in',
+      'Generous free plan with 1M tokens/month to build and test prototypes'
+    ],
+    cons: [
+      'Token limits on the free plan can be reached quickly during lengthy multi-step prompt conversations',
+      'Runs entirely client-side via WebAssembly, requiring a modern browser and reasonable local memory'
+    ],
+    limitations: [
+      'Browser-based WebContainers are optimized for modern desktop browsers with WebAssembly support',
+      'Token allowance covers prompt generation; extensive automated debugging iterations deduct from monthly quota'
+    ],
+    verdict: {
+      summary: 'Bolt.new is a transformative development tool by StackBlitz that merges generative AI prompting with a true in-browser operating environment. Being able to run npm install, start an Express or Vite server, and deploy live in minutes sets a new standard for rapid prototyping.',
+      recommendation: 'Must-Have',
+      score: 4.9,
+      bottomLine: 'A revolutionary browser-based development platform that turns ideas into working full-stack apps in minutes.'
+    },
+    competitorComparison: [
+      {
+        competitorName: 'Lovable',
+        advantage: 'Executes a real local-like Node.js environment with full terminal and npm package access directly inside the browser sandbox.',
+        disadvantage: 'Lovable has deeper native Supabase database orchestration and visual UI element selection tools.'
+      },
+      {
+        competitorName: 'v0 by Vercel',
+        advantage: 'Handles complete multi-file full-stack backends with Express, Vite, and database clients rather than focused UI snippets.',
+        disadvantage: 'v0 excels at pixel-perfect initial design tokens and shadcn component consistency.'
+      }
+    ],
+    howToUse: [
+      { step: 1, title: 'Open Bolt.new and State Your Goal', description: 'Visit bolt.new in your browser and enter a prompt specifying what kind of application you want to build and which tech stack to use.' },
+      { step: 2, title: 'Watch WebContainers Install and Build', description: 'Watch the AI generate files, install npm packages in WebContainers, start the dev server, and display the live preview.' },
+      { step: 3, title: 'Inspect Code, Iterate, and Deploy', description: 'Review the source code in the built-in editor, ask the AI for enhancements or bug fixes, and click Deploy to launch on Netlify or export to GitHub.' }
+    ],
+    alternatives: ['Lovable', 'v0 by Vercel', 'Replit', 'Cursor'],
+    officialUrl: 'https://bolt.new',
+    affiliateUrl: 'https://bolt.new',
+    hasAffiliate: false,
+    rating: 4.8,
+    reviewsCount: 11500,
+    badges: ['AI App Builder', 'WebContainers', 'Verified Free Tier'],
+    iconName: 'Zap',
+    iconBg: 'bg-blue-600',
+    verifiedDate: 'September 2026',
+    useCases: ['Rapid MVP and prototype development', 'Full-stack Node.js and React web apps', 'Debugging and testing npm packages in sandbox', 'Educational coding experiments'],
+    tags: ['AI Coding', 'App Builder', 'StackBlitz', 'WebContainers', 'Full Stack', 'Node.js', 'React'],
+    seoTitle: 'Bolt.new: In-Browser AI Full-Stack App Builder & IDE',
+    seoDescription: 'Discover Bolt.new by StackBlitz. Build, run, edit, and deploy full-stack Node.js and React applications in your browser powered by WebContainers.',
+    faqs: [
+      { question: 'What is Bolt.new?', answer: 'Bolt.new is an AI-powered development platform by StackBlitz that creates, runs, and deploys full-stack web applications directly in the browser using WebContainers.' },
+      { question: 'Is Bolt.new free?', answer: 'Yes, Bolt.new provides a free tier offering 1 million AI tokens per month (with a 300,000 daily limit) and full access to browser-based development.' },
+      { question: 'Can I export or download my code from Bolt.new?', answer: 'Yes, you can download your entire application as a ZIP archive or connect your GitHub account to commit and push changes directly.' }
+    ]
   }
 ];

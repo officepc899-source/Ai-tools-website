@@ -1,8 +1,9 @@
 import { Article } from '../types';
+import { NEW_RELEASE_ARTICLES_2026 } from './articles/newReleaseArticles2026';
+import { NEW_EDITORIAL_ARTICLES_2026 } from './articles/newEditorialArticles2026';
 import { NEW_PUBLICATION_ARTICLES } from './articles/newPublicationArticles';
 import { NEW_ESSENTIAL_ARTICLES } from './articles/newEssentialArticles';
 import { NEW_TECH_AND_CREATIVE_ARTICLES } from './articles/newTechnicalAndCreativeArticles';
-import { NEW_EDITORIAL_ARTICLES_2026 } from './articles/newEditorialArticles2026';
 import { CORE_ARTICLES } from './articles/coreArticles';
 import { DEV_AND_MEDIA_ARTICLES } from './articles/devAndMediaArticles';
 import { MARKETING_AND_BUSINESS_ARTICLES } from './articles/marketingAndBusinessArticles';
@@ -10,6 +11,7 @@ import { ADVANCED_TECH_ARTICLES } from './articles/advancedTechArticles';
 
 // Aggregate all unique, production-grade SEO articles
 export const INITIAL_ARTICLES: Article[] = [
+  ...NEW_RELEASE_ARTICLES_2026,
   ...NEW_EDITORIAL_ARTICLES_2026,
   ...NEW_PUBLICATION_ARTICLES,
   ...NEW_ESSENTIAL_ARTICLES,

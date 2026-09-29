@@ -1251,13 +1251,20 @@ export const SitemapView: React.FC = () => {
         { label: 'AI Tools for Students', path: '/ai-tools-for-students' },
         { label: 'AI Image Generators', path: '/ai-image-generators' },
         { label: 'ChatGPT Alternatives', path: '/chatgpt-alternatives' },
-        { label: 'AI Prompts Vault', path: '/ai-prompts' }
+        { label: 'AI Prompts Vault', path: '/ai-prompts' },
+        { label: 'Lovable (AI App Builder)', path: '/tool/lovable' },
+        { label: 'Bolt.new (In-Browser IDE)', path: '/tool/bolt-new' }
       ]
     },
     {
       title: 'Guides & Articles',
       links: [
         { label: 'Blog Index', path: '/blog' },
+        { label: 'AI Coding Agents in 2026: What They Can Actually Do', path: '/blog/ai-coding-agents-in-2026-what-they-can-actually-do' },
+        { label: 'How to Build a Website Faster With AI App Builders', path: '/blog/how-to-build-a-website-faster-with-ai-app-builders' },
+        { label: 'AI Music Generators: Practical Uses for Creators', path: '/blog/ai-music-generators-practical-uses-for-creators' },
+        { label: 'AI Presentation Tools for Business, Students, and Creators', path: '/blog/ai-presentation-tools-for-business-students-and-creators' },
+        { label: 'How to Use AI Research Tools Without Losing Accuracy', path: '/blog/how-to-use-ai-research-tools-without-losing-accuracy' },
         { label: 'Best AI Writing Tools (2026)', path: '/blog/best-ai-writing-tools-2026' },
         { label: 'Midjourney v6 Master Prompting', path: '/blog/midjourney-v6-prompt-guide' },
         { label: 'AI Code Assistants Compared', path: '/blog/ai-code-assistants-cursor-copilot-claude' },

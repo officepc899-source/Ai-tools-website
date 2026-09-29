@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import crypto from 'crypto';
 import cookieParser from 'cookie-parser';
@@ -11,25 +12,38 @@ dotenv.config();
 const PORT = 3000;
 const SESSION_COOKIE_NAME = 'admin_session';
 
-// Admin configuration from environment variables - NO hardcoded fallback credentials
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const SESSION_SECRET = process.env.SESSION_SECRET;
+// Helper to retrieve and validate admin environment variables dynamically on each request
+function getAdminConfig(): {
+  configured: boolean;
+  error?: string;
+  email?: string;
+  password?: string;
+  sessionSecret?: string;
+} {
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const password = process.env.ADMIN_PASSWORD;
+  const sessionSecret = process.env.SESSION_SECRET;
 
-function checkAdminConfig(): { configured: boolean; error?: string } {
-  if (!ADMIN_EMAIL || !ADMIN_PASSWORD || !SESSION_SECRET) {
-    const missing: string[] = [];
-    if (!ADMIN_EMAIL) missing.push('ADMIN_EMAIL');
-    if (!ADMIN_PASSWORD) missing.push('ADMIN_PASSWORD');
-    if (!SESSION_SECRET) missing.push('SESSION_SECRET');
+  const missing: string[] = [];
+  if (!email) missing.push('ADMIN_EMAIL');
+  if (!password) missing.push('ADMIN_PASSWORD');
+  if (!sessionSecret) missing.push('SESSION_SECRET');
+
+  if (missing.length > 0) {
     return {
       configured: false,
       error: `Server Configuration Error: Missing required admin environment variables (${missing.join(
         ', '
-      )}). For production on Cloudflare Pages, configure these in Cloudflare Pages Settings > Environment Variables. For local development, set them in .env.`
+      )}). Please set ADMIN_EMAIL, ADMIN_PASSWORD, and SESSION_SECRET in your environment variables or .env file.`
     };
   }
-  return { configured: true };
+
+  return {
+    configured: true,
+    email: email!,
+    password: password!,
+    sessionSecret: sessionSecret!
+  };
 }
 
 // Rate-limiting tracker for local dev login attempts (IP -> { attempts, lockedUntil })
@@ -138,14 +152,14 @@ function verifyPassword(candidate: string, expected: string): boolean {
 
 // Authentication middleware
 function requireAdminAuth(req: Request, res: Response, next: NextFunction): void {
-  const config = checkAdminConfig();
-  if (!config.configured || !SESSION_SECRET) {
+  const config = getAdminConfig();
+  if (!config.configured || !config.sessionSecret) {
     res.status(500).json({ error: config.error || 'Server configuration error' });
     return;
   }
 
   const token = req.cookies?.[SESSION_COOKIE_NAME];
-  const auth = verifySessionToken(token, SESSION_SECRET);
+  const auth = verifySessionToken(token, config.sessionSecret);
 
   if (!auth.valid || auth.role !== 'admin') {
     res.status(401).json({ error: 'Unauthorized: Admin authentication required', authenticated: false });
@@ -180,7 +194,7 @@ async function startServer() {
   // Body and cookie parsers
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-  app.use(cookieParser(SESSION_SECRET));
+  app.use(cookieParser());
 
   // Health check endpoint
   app.get('/api/health', (req, res) => {
@@ -191,14 +205,14 @@ async function startServer() {
 
   // Check current session
   app.get('/api/admin/session', (req, res) => {
-    const config = checkAdminConfig();
-    if (!config.configured || !SESSION_SECRET) {
+    const config = getAdminConfig();
+    if (!config.configured || !config.sessionSecret) {
       res.status(500).json({ error: config.error || 'Server configuration error', authenticated: false });
       return;
     }
 
     const token = req.cookies?.[SESSION_COOKIE_NAME];
-    const auth = verifySessionToken(token, SESSION_SECRET);
+    const auth = verifySessionToken(token, config.sessionSecret);
 
     if (auth.valid && auth.role === 'admin') {
       res.json({
@@ -216,8 +230,8 @@ async function startServer() {
 
   // Admin Login
   app.post('/api/admin/login', (req, res) => {
-    const config = checkAdminConfig();
-    if (!config.configured || !ADMIN_EMAIL || !ADMIN_PASSWORD || !SESSION_SECRET) {
+    const config = getAdminConfig();
+    if (!config.configured || !config.email || !config.password || !config.sessionSecret) {
       res.status(500).json({ error: config.error || 'Server configuration error' });
       return;
     }
@@ -243,8 +257,8 @@ async function startServer() {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-    const isEmailValid = normalizedEmail === ADMIN_EMAIL;
-    const isPasswordValid = verifyPassword(password, ADMIN_PASSWORD);
+    const isEmailValid = normalizedEmail === config.email;
+    const isPasswordValid = verifyPassword(password, config.password);
 
     if (!isEmailValid || !isPasswordValid) {
       // Record failed attempt
@@ -269,7 +283,7 @@ async function startServer() {
     loginAttempts.delete(clientIp);
 
     // Create stateless session
-    const { token, csrfToken } = createSessionToken(normalizedEmail, 'admin', SESSION_SECRET);
+    const { token, csrfToken } = createSessionToken(normalizedEmail, 'admin', config.sessionSecret);
 
     // Set secure HttpOnly cookie
     const isProduction = process.env.NODE_ENV === 'production';

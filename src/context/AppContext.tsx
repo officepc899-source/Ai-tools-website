@@ -152,7 +152,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   // Tools data with admin persistence and version migration
-  const TOOLS_VERSION = 'v6_63_tools_replit_2026_verified';
+  const TOOLS_VERSION = 'v8_65_tools_lovable_bolt_2026';
   const [tools, setTools] = useState<AITool[]>(() => {
     try {
       const savedVersion = localStorage.getItem('nexus_tools_version');
@@ -191,7 +191,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [businessIdeas] = useState<BusinessIdea[]>(INITIAL_BUSINESS_IDEAS);
-  const ARTICLES_VERSION = 'v7_43_articles_2026_verified';
+  const ARTICLES_VERSION = 'v8_48_articles_2026';
   const [articles, setArticles] = useState<Article[]>(() => {
     try {
       const savedVersion = localStorage.getItem('nexus_articles_version');
