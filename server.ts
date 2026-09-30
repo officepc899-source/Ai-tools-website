@@ -10,21 +10,17 @@ import { createServer as createViteServer } from 'vite';
 
 dotenv.config();
 
-// Robust production environment detection (Cloud Run, Render, Railway, or dist bundle)
+// Production is determined strictly by NODE_ENV === 'production' or running the compiled production bundle
 const isProduction =
   process.env.NODE_ENV === 'production' ||
-  Boolean(process.env.K_SERVICE) ||
-  Boolean(process.env.RENDER) ||
-  Boolean(process.env.RAILWAY_STATIC_URL) ||
-  (typeof __filename !== 'undefined' && (__filename.endsWith('.cjs') || __filename.endsWith('.js'))) ||
-  (!process.env.NODE_ENV && fs.existsSync(path.join(process.cwd(), 'dist', 'index.html')));
+  (process.env.NODE_ENV !== 'development' &&
+    typeof __filename !== 'undefined' &&
+    (__filename.endsWith('.cjs') || __filename.endsWith('.js')));
 
-if (isProduction && process.env.NODE_ENV !== 'production') {
-  process.env.NODE_ENV = 'production';
-}
-
-// Respect hosting environment port (e.g. Cloud Run, container, behind Cloudflare) with 3000 default
-const PORT = parseInt(process.env.PORT || '3000', 10);
+// The dev server and Nginx reverse proxy communicate over port 3000.
+// Cloud Run injects PORT=8080 where Nginx listens, so app server must listen on port 3000.
+const rawPort = parseInt(process.env.PORT || '3000', 10);
+const PORT = rawPort === 8080 || !isProduction ? 3000 : rawPort;
 const SESSION_COOKIE_NAME = 'admin_session';
 
 // Process-level crash prevention to ensure connections are never dropped unexpectedly (Cloudflare 520/521)
