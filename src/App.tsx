@@ -167,6 +167,11 @@ const AppContent: React.FC = () => {
       return <BusinessIdeasView />;
     }
 
+    if (cleanPath.startsWith('/business-ideas/')) {
+      const slug = cleanPath.replace('/business-ideas/', '');
+      return <BusinessIdeaDetailView slug={slug} />;
+    }
+
     if (cleanPath.startsWith('/business-idea/')) {
       const slug = cleanPath.replace('/business-idea/', '');
       return <BusinessIdeaDetailView slug={slug} />;
@@ -226,7 +231,12 @@ const AppContent: React.FC = () => {
       return <DisclaimerView />;
     }
 
-    if (cleanPath === '/cookie-policy' || cleanPath === '/cookies') {
+    if (
+      cleanPath === '/cookie-policy' ||
+      cleanPath === '/cookies' ||
+      cleanPath === '/cookie-preferences' ||
+      cleanPath === '/cookies-preferences'
+    ) {
       return <CookiePolicyView />;
     }
 

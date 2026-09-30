@@ -63,7 +63,7 @@ export const BusinessIdeaDetailView: React.FC<BusinessIdeaDetailViewProps> = ({ 
       <SEOHead
         title={`${idea.title} - Complete Launch Blueprint & Financials`}
         description={idea.summary}
-        canonicalUrl={`https://aitoolnest.com/#/business-idea/${idea.slug}`}
+        canonicalUrl={`https://aitoolnest.com/business-ideas/${idea.slug}`}
       />
 
       <Breadcrumbs

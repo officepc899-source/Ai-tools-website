@@ -179,17 +179,11 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
           priceCurrency: 'USD',
           availability: 'https://schema.org/InStock',
           category: tool.pricingType
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: tool.rating,
-          bestRating: '5',
-          ratingCount: tool.reviewsCount
         }
       },
       {
         '@type': 'FAQPage',
-        '@id': `https://aitoolnest.com/#/ai-tools/${tool.slug}#faq`,
+        '@id': `https://aitoolnest.com/ai-tools/${tool.slug}#faq`,
         mainEntity: (tool.faqs || []).map((faq) => ({
           '@type': 'Question',
           name: faq.question,
@@ -212,19 +206,19 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
             '@type': 'ListItem',
             position: 2,
             name: 'AI Tools',
-            item: 'https://aitoolnest.com/#/tools'
+            item: 'https://aitoolnest.com/tools'
           },
           {
             '@type': 'ListItem',
             position: 3,
             name: tool.categoryLabel,
-            item: `https://aitoolnest.com/#/ai-tools/category/${tool.category}`
+            item: `https://aitoolnest.com/category/${tool.category}`
           },
           {
             '@type': 'ListItem',
             position: 4,
             name: tool.name,
-            item: currentUrl
+            item: `https://aitoolnest.com/ai-tools/${tool.slug}`
           }
         ]
       }
@@ -304,7 +298,7 @@ export const ToolDetailView: React.FC<ToolDetailViewProps> = ({ slug }) => {
       <SEOHead
         title={`${tool.name} Review, Pricing & Alternatives (2026 Guide) - AIToolNest`}
         description={`${tool.name} review: ${tool.description} Read pros, cons, pricing tiers, alternatives, and full feature breakdown.`}
-        canonicalUrl={`https://aitoolnest.com/#/ai-tools/${tool.slug}`}
+        canonicalUrl={`https://aitoolnest.com/ai-tools/${tool.slug}`}
         ogImage={`https://aitoolnest.com/assets/og-${tool.slug}.png`}
         schemaData={schemaData}
       />

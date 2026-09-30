@@ -52,7 +52,7 @@ export const AIToolsForBusinessView: React.FC = () => {
       <SEOHead
         title="Best AI Tools for Business & Enterprise (2026 ROI Guide)"
         description="Scale business revenue and cut operational costs with top-rated AI tools for sales, marketing, automated customer support, and meeting productivity."
-        canonicalUrl="https://aitoolnest.com/#/ai-tools-for-business"
+        canonicalUrl="https://aitoolnest.com/ai-tools-for-business"
         schemaData={faqSchema}
       />
 

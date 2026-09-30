@@ -30,7 +30,7 @@ export const AboutView: React.FC = () => {
       <SEOHead
         title="About Us - Our Mission & AI Evaluation Standards | AIToolNest"
         description="Learn how AIToolNest helps users discover, evaluate, and benchmark the best AI tools, software, automation platforms, and productivity solutions."
-        canonicalUrl="https://aitoolnest.com/#/about"
+        canonicalUrl="https://aitoolnest.com/about"
         schemaData={{
           '@context': 'https://schema.org',
           '@type': 'AboutPage',

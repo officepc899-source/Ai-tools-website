@@ -66,8 +66,20 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       updateOrCreateMetaName('keywords', kwString);
     }
 
-    const currentUrl =
-      canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://aitoolnest.com/');
+    // Normalize to standard canonical URL without hash fragments or preview/tracking query params
+    let cleanCanonical = canonicalUrl;
+    if (!cleanCanonical && typeof window !== 'undefined') {
+      const origin = window.location.origin;
+      const pathname = window.location.pathname;
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      const path = (hash && hash !== '/' ? `/${hash}` : pathname).replace(/\/+$/, '') || '/';
+      cleanCanonical = `${origin}${path}`;
+    }
+    if (cleanCanonical) {
+      // Remove any /#/ or # fragments in canonical URL
+      cleanCanonical = cleanCanonical.replace('/#/', '/').replace(/#.*$/, '');
+    }
+    const currentUrl = cleanCanonical || 'https://aitoolnest.com/';
 
     // Open Graph tags
     updateOrCreateMetaProperty('og:site_name', 'AIToolNest');

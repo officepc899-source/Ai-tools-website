@@ -89,7 +89,7 @@ export const ContactView: React.FC = () => {
       <SEOHead
         title="Contact Us - Official Support & Inquiries | AIToolNest"
         description="Get in touch with AIToolNest at aitoolnest1@gmail.com. Contact us for general support, AI tool suggestions, partnerships, business collaborations, or bug reports."
-        canonicalUrl="https://aitoolnest.com/#/contact"
+        canonicalUrl="https://aitoolnest.com/contact"
         schemaData={{
           '@context': 'https://schema.org',
           '@type': 'ContactPage',

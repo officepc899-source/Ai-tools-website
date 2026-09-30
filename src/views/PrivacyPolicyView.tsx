@@ -12,7 +12,7 @@ export const PrivacyPolicyView: React.FC = () => {
       <SEOHead
         title="Privacy Policy - Google AdSense & GDPR Compliant | AIToolNest"
         description="Comprehensive Privacy Policy for AIToolNest covering data collection, cookies, Google AdSense compliance, third-party advertising partners, and GDPR/CCPA user rights."
-        canonicalUrl="https://aitoolnest.com/#/privacy"
+        canonicalUrl="https://aitoolnest.com/privacy-policy"
       />
 
       <Breadcrumbs items={[{ label: 'Privacy Policy' }]} />

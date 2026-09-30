@@ -67,7 +67,7 @@ export const AIPromptsView: React.FC = () => {
       <SEOHead
         title="Curated AI Prompt Library (ChatGPT, Claude & Midjourney)"
         description="Browse battle-tested AI prompts for SaaS copy, code refactoring, image generation, business audits, and SEO authority clusters. 1-click copy to clipboard."
-        canonicalUrl="https://aitoolnest.com/#/ai-prompts"
+        canonicalUrl="https://aitoolnest.com/ai-prompts"
         schemaData={faqSchema}
       />
 

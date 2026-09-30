@@ -57,9 +57,9 @@ export const FreeAIToolsView: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       <SEOHead
-        title="Best Free AI Tools (2026 Directory) - No Credit Card Required"
-        description="Discover 30+ verified 100% free and generous freemium AI tools for writing, image creation, video, coding, and productivity. Zero paywalls for core features."
-        canonicalUrl="https://aitoolnest.com/#/free-ai-tools"
+        title="Free AI Tools Directory (2026) - No Credit Card Required"
+        description="Discover 30+ curated 100% free and generous freemium AI tools for writing, image creation, video, coding, and productivity. Zero paywalls for core features."
+        canonicalUrl="https://aitoolnest.com/free-ai-tools"
         schemaData={faqSchema}
       />
 
@@ -75,10 +75,10 @@ export const FreeAIToolsView: React.FC = () => {
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider border border-emerald-500/30">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Audit Complete &bull; 100% Zero-Cost Access</span>
+            <span>Curated Catalog &bull; 100% Zero-Cost Access</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black font-['Space_Grotesk'] tracking-tight">
-            Best Free AI Tools in 2026
+            Free AI Tools Directory (2026)
           </h1>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
             Stop overpaying for monthly subscriptions. Explore hand-tested AI tools offering robust free tiers, generous zero-cost quotas, and no mandatory credit card signups.

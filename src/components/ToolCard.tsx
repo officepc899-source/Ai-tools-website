@@ -261,11 +261,14 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, featured = false }) =>
           </div>
 
           {/* Rating Badge */}
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-700/80 shadow-xs text-xs font-bold text-slate-800 dark:text-slate-200">
+          <div
+            title={`Editorial evaluation: ${tool.rating.toFixed(1)} / 5.0`}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/80 dark:border-slate-700/80 shadow-xs text-xs font-bold text-slate-800 dark:text-slate-200"
+          >
             <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 shrink-0" />
             <span>{tool.rating.toFixed(1)}</span>
             <span className="text-[10px] text-slate-400 font-normal hidden sm:inline">
-              ({(tool.reviewsCount / 1000).toFixed(0)}k)
+              / 5.0
             </span>
           </div>
         </div>
@@ -277,13 +280,13 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, featured = false }) =>
           {/* Tool Title & Badges Bar */}
           <div>
             <div className="flex items-center gap-1.5 flex-wrap mb-1">
-              {/* Verified Badge */}
+              {/* Curated Listing Badge */}
               <span
-                title="Audited and verified by AIToolNest"
+                title="Curated in AIToolNest catalog"
                 className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.5 rounded-md border border-emerald-200/60 dark:border-emerald-800/60 shadow-2xs"
               >
                 <ShieldCheck className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Verified</span>
+                <span>Curated</span>
               </span>
 
               {isStaffPick && (

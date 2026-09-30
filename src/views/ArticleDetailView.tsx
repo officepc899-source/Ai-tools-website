@@ -116,7 +116,8 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
     );
   }
 
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : `https://aitoolnest.com/#/blog/${article.slug}`;
+  const canonicalArticleUrl = `https://aitoolnest.com/blog/${article.slug}`;
+  const currentUrl = typeof window !== 'undefined' ? window.location.href.replace('/#/', '/').split('?')[0] : canonicalArticleUrl;
 
   const handleCopyLink = async () => {
     const success = await copyToClipboard(currentUrl);
@@ -315,7 +316,7 @@ export const ArticleDetailView: React.FC<ArticleDetailViewProps> = ({ slug }) =>
       <SEOHead
         title={`${article.metaTitle || article.title} | AIToolNest Publication`}
         description={article.metaDescription || article.excerpt}
-        canonicalUrl={currentUrl}
+        canonicalUrl={canonicalArticleUrl}
         ogImage={article.featuredImage}
         ogType="article"
         schemaData={combinedSchema}

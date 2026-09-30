@@ -50,7 +50,7 @@ export const AIImageGeneratorsView: React.FC = () => {
       <SEOHead
         title="Best AI Image Generators (2026 Rankings & Benchmarks)"
         description="Compare the top AI image generation tools including Midjourney, Adobe Firefly, Ideogram, and Leonardo AI. Photorealism, text rendering, and commercial licensing compared."
-        canonicalUrl="https://aitoolnest.com/#/ai-image-generators"
+        canonicalUrl="https://aitoolnest.com/ai-image-generators"
         schemaData={faqSchema}
       />
 

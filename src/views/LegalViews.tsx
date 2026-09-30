@@ -41,7 +41,7 @@ export const TermsView: React.FC = () => {
       <SEOHead
         title="Terms and Conditions of Use | AIToolNest"
         description="Review the terms, conditions, intellectual property guidelines, and user rules governing the use of AIToolNest."
-        canonicalUrl="https://aitoolnest.com/#/terms"
+        canonicalUrl="https://aitoolnest.com/terms"
       />
       <Breadcrumbs items={[{ label: 'Terms and Conditions' }]} />
 
@@ -124,7 +124,7 @@ export const DisclaimerView: React.FC = () => {
       <SEOHead
         title="Disclaimer & Earnings Disclosure | AIToolNest"
         description="Affiliate disclosures, earnings transparency, and investment disclaimers in accordance with FTC guidelines."
-        canonicalUrl="https://aitoolnest.com/#/disclaimer"
+        canonicalUrl="https://aitoolnest.com/disclaimer"
       />
       <Breadcrumbs items={[{ label: 'Disclaimer' }]} />
 
@@ -249,7 +249,7 @@ export const CookiePolicyView: React.FC = () => {
       <SEOHead
         title="Cookie Policy - How We Use Cookies & Tracking Technologies | AIToolNest"
         description="Comprehensive Cookie Policy for AIToolNest. Learn how we utilize cookies, Google AdSense, analytics, and how to control your personal privacy preferences."
-        canonicalUrl="https://aitoolnest.com/#/cookie-policy"
+        canonicalUrl="https://aitoolnest.com/cookie-policy"
       />
       <Breadcrumbs items={[{ label: 'Cookie Policy' }]} />
 
@@ -717,7 +717,7 @@ export const EditorialPolicyView: React.FC = () => {
       <SEOHead
         title="Editorial Policy & Testing Standards | AIToolNest"
         description="Our independent review process, testing criteria, rating methodology, and strict separation between ads and editorial opinions."
-        canonicalUrl="https://aitoolnest.com/#/editorial-policy"
+        canonicalUrl="https://aitoolnest.com/editorial-policy"
       />
       <Breadcrumbs items={[{ label: 'Editorial Policy' }]} />
 
@@ -785,7 +785,7 @@ export const DMCAPolicyView: React.FC = () => {
       <SEOHead
         title="DMCA Copyright & Takedown Policy | AIToolNest"
         description="Procedures and designated agent information for reporting copyright infringement under the Digital Millennium Copyright Act."
-        canonicalUrl="https://aitoolnest.com/#/dmca-policy"
+        canonicalUrl="https://aitoolnest.com/dmca-policy"
       />
       <Breadcrumbs items={[{ label: 'DMCA Policy' }]} />
 
@@ -861,7 +861,7 @@ export const WriteForUsView: React.FC = () => {
       <SEOHead
         title="Write For Us - Guest Post & AI Contributor Guidelines | AIToolNest"
         description="Become a guest author on AIToolNest. Share in-depth AI tool comparisons, developer workflows, and prompt engineering tutorials."
-        canonicalUrl="https://aitoolnest.com/#/write-for-us"
+        canonicalUrl="https://aitoolnest.com/write-for-us"
       />
       <Breadcrumbs items={[{ label: 'Write For Us' }]} />
 
@@ -988,7 +988,7 @@ export const AdvertiseView: React.FC = () => {
       <SEOHead
         title="Advertise With Us - Reach 500,000+ AI Builders | AIToolNest"
         description="Promote your AI software product, SaaS, or newsletter to an engaged audience of tech founders, software developers, and creators on AIToolNest."
-        canonicalUrl="https://aitoolnest.com/#/advertise"
+        canonicalUrl="https://aitoolnest.com/advertise"
       />
       <Breadcrumbs items={[{ label: 'Advertise With Us' }]} />
 
@@ -1125,7 +1125,7 @@ export const AffiliateDisclosureView: React.FC = () => {
       <SEOHead
         title="Affiliate Disclosure & Transparency Statement | AIToolNest"
         description="Read the complete FTC 16 CFR Part 255 compliant affiliate disclosure for AIToolNest."
-        canonicalUrl="https://aitoolnest.com/#/affiliate-disclosure"
+        canonicalUrl="https://aitoolnest.com/affiliate-disclosure"
       />
       <Breadcrumbs items={[{ label: 'Affiliate Disclosure' }]} />
 
@@ -1180,7 +1180,7 @@ export const AIEthicsView: React.FC = () => {
       <SEOHead
         title="AI Ethics Statement & Responsible Use Framework | AIToolNest"
         description="Our principles on artificial intelligence transparency, model safety, algorithmic bias prevention, and creator copyright protection."
-        canonicalUrl="https://aitoolnest.com/#/ai-ethics"
+        canonicalUrl="https://aitoolnest.com/ai-ethics"
       />
       <Breadcrumbs items={[{ label: 'AI Ethics Statement' }]} />
 
@@ -1297,7 +1297,7 @@ export const SitemapView: React.FC = () => {
       <SEOHead
         title="HTML Sitemap & Navigation Index | AIToolNest"
         description="Comprehensive index of all tools, directories, articles, and legal pages on AIToolNest."
-        canonicalUrl="https://aitoolnest.com/#/sitemap"
+        canonicalUrl="https://aitoolnest.com/sitemap"
       />
       <Breadcrumbs items={[{ label: 'Sitemap' }]} />
 

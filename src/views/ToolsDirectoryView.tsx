@@ -169,7 +169,8 @@ export const ToolsDirectoryView: React.FC = () => {
 
       // Quick filter matching
       if (quickFilter === 'popular') {
-        if (tool.reviewsCount < 300 && tool.rating < 4.8) return false;
+        const isCuratedPopular = tool.badges.includes('Popular') || tool.badges.includes('Featured') || tool.rating >= 4.7;
+        if (!isCuratedPopular) return false;
       } else if (quickFilter === 'top-rated') {
         if (tool.rating < 4.8) return false;
       } else if (quickFilter === 'free') {
@@ -190,8 +191,11 @@ export const ToolsDirectoryView: React.FC = () => {
       }
       if (sortBy === 'name-asc') return a.name.localeCompare(b.name);
       if (sortBy === 'name-desc') return b.name.localeCompare(a.name);
-      // Default: Popular (reviewsCount)
-      return b.reviewsCount - a.reviewsCount;
+      // Default: Popular & Featured tools first, then highest rating
+      const aScore = (a.badges.includes('Featured') ? 2 : 0) + (a.badges.includes('Popular') ? 1 : 0);
+      const bScore = (b.badges.includes('Featured') ? 2 : 0) + (b.badges.includes('Popular') ? 1 : 0);
+      if (aScore !== bScore) return bScore - aScore;
+      return b.rating - a.rating;
     });
   }, [tools, selectedCategory, selectedPricing, selectedUseCase, searchTerm, sortBy, showSavedOnly, bookmarks, quickFilter]);
 
@@ -244,7 +248,7 @@ export const ToolsDirectoryView: React.FC = () => {
       <SEOHead
         title={`${currentCategoryTitle} (2026 Directory) - Vetted & Rated`}
         description={currentCategoryDesc}
-        canonicalUrl="https://aitoolnest.com/#/tools"
+        canonicalUrl="https://aitoolnest.com/tools"
       />
 
       <Breadcrumbs

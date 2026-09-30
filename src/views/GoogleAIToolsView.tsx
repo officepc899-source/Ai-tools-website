@@ -275,7 +275,7 @@ export const GoogleAIToolsView: React.FC = () => {
       <SEOHead
         title="Google AI Tools - Gemini, AI Studio & More | AI Tool Nest"
         description="Explore Google AI tools for artificial intelligence, research, productivity, image generation, video generation, and AI development."
-        canonicalUrl="https://aitoolnest.com/#/google-ai-tools"
+        canonicalUrl="https://aitoolnest.com/google-ai-tools"
         schemaData={collectionSchema}
       />
 

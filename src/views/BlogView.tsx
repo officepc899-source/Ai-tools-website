@@ -142,7 +142,7 @@ export const BlogView: React.FC = () => {
       <SEOHead
         title="AI Publication: News, Tool Reviews, Tutorials & Prompt Engineering | AIToolNest"
         description="Independent AI journal featuring breaking artificial intelligence news, verified software reviews, step-by-step tutorials, prompt engineering guides, and deep comparisons."
-        canonicalUrl="https://aitoolnest.com/#/blog"
+        canonicalUrl="https://aitoolnest.com/blog"
         schemaData={blogListSchema}
       />
 

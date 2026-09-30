@@ -50,7 +50,7 @@ export const AIToolsForStudentsView: React.FC = () => {
       <SEOHead
         title="Best AI Tools for Students & Researchers (2026 Academic Guide)"
         description="Study faster and write stronger research papers with vetted AI tools for citation discovery, literature reviews, proofreading, math solving, and note synthesis."
-        canonicalUrl="https://aitoolnest.com/#/ai-tools-for-students"
+        canonicalUrl="https://aitoolnest.com/ai-tools-for-students"
         schemaData={faqSchema}
       />
 

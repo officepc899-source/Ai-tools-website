@@ -51,7 +51,7 @@ export const ChatGPTAlternativesView: React.FC = () => {
       <SEOHead
         title="Best ChatGPT Alternatives (2026 Comprehensive Comparison)"
         description="Looking for the best ChatGPT alternatives? Compare Claude 3.7, Google Gemini 2.0, Perplexity AI, and NotebookLM for coding, writing, research, and pricing."
-        canonicalUrl="https://aitoolnest.com/#/chatgpt-alternatives"
+        canonicalUrl="https://aitoolnest.com/chatgpt-alternatives"
         schemaData={faqSchema}
       />
 

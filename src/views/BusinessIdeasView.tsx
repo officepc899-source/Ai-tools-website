@@ -51,7 +51,7 @@ export const BusinessIdeasView: React.FC = () => {
       <SEOHead
         title="High-Margin Online & AI Business Ideas (2026 Blueprints)"
         description="Actionable online business ideas, AI automation models, and side hustles with step-by-step roadmaps, startup cost analysis, and monetization strategies."
-        canonicalUrl="https://aitoolnest.com/#/business-ideas"
+        canonicalUrl="https://aitoolnest.com/business-ideas"
       />
 
       <Breadcrumbs items={[{ label: 'Business Ideas & Blueprints' }]} />
