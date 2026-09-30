@@ -415,7 +415,69 @@ async function startServer() {
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=3600');
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
     res.send('google.com, pub-2683919410645700, DIRECT, f08c47fec0942fa0\n');
+  });
+
+  // Explicit robots.txt endpoint for Googlebot, Mediapartners-Google, and Bingbot
+  app.get('/robots.txt', (req, res) => {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+
+    const robotsPath = fs.existsSync(path.join(process.cwd(), 'dist', 'robots.txt'))
+      ? path.join(process.cwd(), 'dist', 'robots.txt')
+      : path.join(process.cwd(), 'public', 'robots.txt');
+
+    if (fs.existsSync(robotsPath)) {
+      res.send(fs.readFileSync(robotsPath, 'utf8'));
+    } else {
+      res.status(404).send('robots.txt not found');
+    }
+  });
+
+  // Explicit sitemap.xml endpoint for Google Search Console and web crawlers (no redirects, valid XML)
+  app.get('/sitemap.xml', (req, res) => {
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+
+    const sitemapPath = fs.existsSync(path.join(process.cwd(), 'dist', 'sitemap.xml'))
+      ? path.join(process.cwd(), 'dist', 'sitemap.xml')
+      : path.join(process.cwd(), 'public', 'sitemap.xml');
+
+    if (fs.existsSync(sitemapPath)) {
+      let xml = fs.readFileSync(sitemapPath, 'utf8');
+      const host = (req.headers['x-forwarded-host'] || req.headers.host || '').toString().toLowerCase();
+      // If requested from custom domain aitoolnest.com, dynamically rewrite the URLs to match the domain
+      if (host.includes('aitoolnest.com')) {
+        xml = xml.replace(/https:\/\/aitoolnest-web\.pages\.dev/g, 'https://aitoolnest.com');
+      }
+      res.send(xml);
+    } else {
+      res.status(404).send('sitemap.xml not found');
+    }
+  });
+
+  // Explicit feed.xml and rss.xml endpoints
+  app.get(['/feed.xml', '/rss.xml'], (req, res) => {
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+
+    const fileName = req.path.includes('rss') ? 'rss.xml' : 'feed.xml';
+    const filePath = fs.existsSync(path.join(process.cwd(), 'dist', fileName))
+      ? path.join(process.cwd(), 'dist', fileName)
+      : path.join(process.cwd(), 'public', fileName);
+
+    if (fs.existsSync(filePath)) {
+      res.send(fs.readFileSync(filePath, 'utf8'));
+    } else {
+      res.status(404).send('Feed not found');
+    }
   });
 
   // Unknown API routes return proper 404 JSON rather than falling through to HTML SPA
